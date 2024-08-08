@@ -21,8 +21,12 @@ return new class extends Migration
         $table->unsignedBigInteger('manager_id');
         $table->timestamps();
 
-        $table->foreign('employee_id')->references('employee_id')->on('employees')->onDelete('cascade');
-            $table->foreign('manager_id')->references('employee_id')->on('employees')->onDelete('cascade');
+
+        $table->foreign('employee_id', 'custom_foreign_key_name')
+        ->references('employee_id')
+        ->on('employees')
+        ->onDelete('cascade');
+        $table->foreign('manager_id')->references('employee_id')->on('employees')->onDelete('cascade');
     });
 }
 
