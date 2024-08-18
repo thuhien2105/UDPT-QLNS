@@ -70,4 +70,13 @@ class EmployeeController extends Controller
 
         return response()->json(['message' => 'Employee deleted successfully']);
     }
+
+    public function getFormPage()
+    {
+    	return view('page.employees.form.index');
+    }
+    public function getListPage()
+    {
+    	return view('page.employees.list.index');
+    }
 }
