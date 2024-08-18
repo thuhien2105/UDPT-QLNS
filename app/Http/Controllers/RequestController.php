@@ -3,42 +3,57 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Request as HttpRequest;
+use App\Models\RequestModel; 
 
 class RequestController extends Controller
 {
-    public function index()
+    public function store(Request $request)
     {
-        return Request::with(['employee', 'manager'])->get();
+        $request->validate([
+            'employee_id' => 'required|exists:employees,employee_id',
+            'request_type' => 'required|string',
+            'request_date' => 'required|date',
+            'manager_id' => 'required|exists:employees,employee_id'
+        ]);
+
+        $newRequest = RequestModel::create($request->all());
+        return response()->json($newRequest, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $requestModel = RequestModel::find($id);
+
+        if (!$requestModel) {
+            return response()->json(['error' => 'Request not found'], 404);
+        }
+
+        $requestModel->update($request->all());
+
+        return response()->json($requestModel);
     }
 
     public function show($id)
     {
-        return Request::with(['employee', 'manager'])->findOrFail($id);
+        $requestModel = RequestModel::findOrFail($id);
+        return response()->json($requestModel);
     }
 
-    public function store(HttpRequest $request)
+    public function index()
     {
-        $request->validate([
-            'employee_id' => 'required|exists:employees,employee_id',
-            'request_type' => 'required|in:leave,update_time_sheet,check_in,check_out,wfh',
-            'request_date' => 'required|date',
-            'manager_id' => 'required|exists:employees,employee_id',
-        ]);
-
-        return Request::create($request->all());
+        $requests = RequestModel::all();
+        return response()->json($requests);
     }
-
-    public function update(HttpRequest $request, $id)
-    {
-        $request = Request::findOrFail($id);
-        $request->update($request->all());
-        return $request;
-    }
-
     public function destroy($id)
     {
-        Request::destroy($id);
-        return response()->noContent();
+        $requestModel = RequestModel::find($id);
+
+        if (!$requestModel) {
+            return response()->json(['error' => 'Request not found'], 404);
+        }
+
+        $requestModel->delete();
+
+        return response()->json(['message' => 'Request deleted successfully']);
     }
 }

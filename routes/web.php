@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ApprovalsController;
+use App\Http\Controllers\RequestController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -24,3 +25,11 @@ Route::get('/approvals/list',[ApprovalsController::class, 'getListPage'])->name(
 
 Route::get('/employees/form',[EmployeeController::class, 'getFormPage'])->name('employees-form');
 Route::get('/employees',[EmployeeController::class, 'getListPage'])->name('employees-list');
+
+
+Route::get('/requests', [RequestController::class, 'index']);
+Route::get('/requests/{id}', [RequestController::class, 'show']);
+Route::post('/requests', [RequestController::class, 'store']);
+Route::put('/requests/{id}', [RequestController::class, 'update']);
+Route::delete('/requests/{id}', [RequestController::class, 'destroy']);
+
