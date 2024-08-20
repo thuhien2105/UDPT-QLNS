@@ -18,6 +18,7 @@ Route::prefix('api')->group(function () {
     Route::delete('employees/{id}', [EmployeeController::class, 'destroy']);
 });
 
+
 Route::get('/',[PageController::class, 'getHomePage'])->name('trang-chu');
 Route::get('/approvals',[ApprovalsController::class, 'getCategoryPage'])->name('approvals-category');
 Route::get('/approvals/form',[ApprovalsController::class, 'getFormPage'])->name('approvals-form');
@@ -32,4 +33,3 @@ Route::get('/requests/{id}', [RequestController::class, 'show']);
 Route::post('/requests', [RequestController::class, 'store']);
 Route::put('/requests/{id}', [RequestController::class, 'update']);
 Route::delete('/requests/{id}', [RequestController::class, 'destroy']);
-
