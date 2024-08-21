@@ -1,7 +1,6 @@
 @extends('layout.master')
 @section('content')
-    @include('page.employees.header')
-
+    @include('page.checkinout.header', ['title' => 'Check IN / OUT Manager'])
     <div class="o_action_manager">
         <div class="o_list_view o_view_controller o_action">
             <div class="o_control_panel d-flex flex-column gap-3 gap-lg-1 px-3 pt-2 pb-3" data-command-category="actions">
@@ -27,7 +26,7 @@
                         </div>
                         <div class="o_breadcrumb d-flex gap-1 text-truncate">
                             <div class="o_last_breadcrumb_item active d-flex fs-4 min-w-0 align-items-center">
-                                <span class="min-w-0 text-truncate">Employees</span>
+                                <span class="min-w-0 text-truncate">Check IN / OUT</span>
                             </div>
                             <div class="o_control_panel_breadcrumbs_actions d-inline-flex">
                                 <div class="o_cp_action_menus d-flex align-items-center pe-2 gap-1">
@@ -67,6 +66,8 @@
                         </div>
                     </div>
                     <div class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-3 gap-lg-1 gap-xl-3 order-1 order-lg-2 flex-grow-1"><div class="o_cp_pager text-nowrap " role="search"><nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span class="o_pager_counter align-self-center"><span class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1-80</span><span> / </span><span class="o_pager_limit">1356</span></span><span class="btn-group d-print-none" aria-atomic="true"><button type="button" class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start" aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p" title=""></button><button type="button" class="fa fa-chevron-right btn btn-secondary o_pager_next px-2 rounded-end" aria-label="Next" data-tooltip="Next" tabindex="-1" data-hotkey="n"></button></span></nav></div></div>
+
+
                 </div>
             </div>
             <div class="o_content">
@@ -155,8 +156,7 @@
                             </tr>
                         </thead>
                         <tbody class="ui-sortable">
-                            <tr onclick="window.location.href = '/employees/form';" class="o_data_row text-info"
-                                data-id="datapoint_35">
+                            <tr class=" " data-id="datapoint_35">
                                 <td class="o_list_record_selector user-select-none" tabindex="-1">
                                     <div class="o-checkbox form-check">
                                         <input type="checkbox" class="form-check-input" id="checkbox-comp-2" /><label
@@ -228,13 +228,5 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="o-main-components-container">
-        <div class="o-discuss-CallInvitations position-absolute top-0 end-0 d-flex flex-column p-2"></div>
-        <div class="o-mail-ChatWindowContainer"></div>
-        <div class="o-overlay-container"></div>
-        <div></div>
-        <div class="o_notification_manager o_upload_progress_toast"></div>
-        <div class="o_notification_manager"></div>
     </div>
 @endsection

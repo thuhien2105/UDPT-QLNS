@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    @include('page.employees.header')
+    @include('page.gifts.header')
 
     <div class="o_action_manager">
         <div class="o_list_view o_view_controller o_action">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="o_breadcrumb d-flex gap-1 text-truncate">
                             <div class="o_last_breadcrumb_item active d-flex fs-4 min-w-0 align-items-center">
-                                <span class="min-w-0 text-truncate">Employees</span>
+                                <span class="min-w-0 text-truncate">Gifts</span>
                             </div>
                             <div class="o_control_panel_breadcrumbs_actions d-inline-flex">
                                 <div class="o_cp_action_menus d-flex align-items-center pe-2 gap-1">
@@ -155,7 +155,7 @@
                             </tr>
                         </thead>
                         <tbody class="ui-sortable">
-                            <tr onclick="window.location.href = '/employees/form';" class="o_data_row text-info"
+                            <tr onclick="window.location.href = '/gifts/form';" class="o_data_row text-info"
                                 data-id="datapoint_35">
                                 <td class="o_list_record_selector user-select-none" tabindex="-1">
                                     <div class="o-checkbox form-check">

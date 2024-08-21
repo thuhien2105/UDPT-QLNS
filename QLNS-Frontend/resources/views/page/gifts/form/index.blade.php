@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    @include('page.employees.header')
+    @include('page.gifts.header')
 
     <div class="o_action_manager">
         <div class="o_form_view o_view_controller o_action">
