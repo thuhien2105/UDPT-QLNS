@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  php-webserver:
+    build:
+      context: ./php-webserver
+    ports:
+      - "8080:80"
+
+  java-microservice:
+    build:
+      context: ./java-microservice
+    ports:
+      - "8081:8080"

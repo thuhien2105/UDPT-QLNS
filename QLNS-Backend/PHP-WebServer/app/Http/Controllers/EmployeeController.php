@@ -36,42 +36,37 @@ class EmployeeController extends Controller
             'dob' => 'required|date',
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
-        ]);
-
-        $employee = Employee::create($validatedData);
-        $message = json_encode(['action' => 'create', 'employee' => $employee]);
+        ]); 
+    
+        $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
+    
+    
         $response = $this->rabbitMQService->send($message);
         return response()->json($response, 201);
     }
+    
 
-    public function update(Request $request, $id)
+    
+    public function update(Request $request)
     {
-        $employee = Employee::find($id);
-        if (!$employee) {
-            return response()->json(['message' => 'Employee not found'], 404);
-        }
+    
 
         $validatedData = $request->validate([
+            'id' => 'required|integer',
             'name' => 'required|string|max:255',
             'dob' => 'required|date',
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
         ]);
 
-        $employee->update($validatedData);
-        $message = json_encode(['action' => 'update', 'id' => $id, 'employee' => $employee]);
+        $message = json_encode(['action' => 'update',  'employee' => $validatedData]);
         $response = $this->rabbitMQService->send($message);
         return response()->json($response);
     }
 
     public function destroy($id)
     {
-        $employee = Employee::find($id);
-        if (!$employee) {
-            return response()->json(['message' => 'Employee not found'], 404);
-        }
 
-        $employee->delete();
         $message = json_encode(['action' => 'delete', 'id' => $id]);
         $response = $this->rabbitMQService->send($message);
         return response()->json($response);

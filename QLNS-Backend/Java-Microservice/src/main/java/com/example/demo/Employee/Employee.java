@@ -1,38 +1,38 @@
 package com.example.demo.Employee;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.persistence.Column;
+import jakarta.persistence.Table;
 
-import java.time.LocalDate;
-
-@Entity
 @Table(name = "employees")
+@Entity
 public class Employee {
 
     @Id
-    @Column(name = "employee_id", nullable = false)
-    private long employeeId;  
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "dob", nullable = false)
-    private LocalDate dob;
+    @Column(name = "dob")
+    private String dob;
 
-    @Column(name = "address", nullable = false)
+    @Column(name = "address")
     private String address;
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
+    @Column(name = "phone_number")
+    private String phone_number;
 
-    public long getEmployeeId() {
-        return employeeId;
+    public Long getId() {
+        return id;
     }
 
-    public void setEmployeeId(long employeeId) {
-        this.employeeId = employeeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -43,11 +43,11 @@ public class Employee {
         this.name = name;
     }
 
-    public LocalDate getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(LocalDate dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 
@@ -59,11 +59,11 @@ public class Employee {
         this.address = address;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getphone_number() {
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setphone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 }

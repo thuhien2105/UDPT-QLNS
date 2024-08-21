@@ -3,6 +3,8 @@ package com.example.demo.Employee;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -15,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+
 
 @RestController
 @RequestMapping("/employees")
@@ -29,12 +36,23 @@ public class EmployeeController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    
+    private Map<String, Object> extractMessageMap(Message message) {
+        try {
+            return objectMapper.readValue(new String(message.getBody()), Map.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse message", e);
+        }
+    }
+    
+    
     @RabbitListener(queues = "topic-employees")
     public void handleResponse(Message message, @Header(AmqpHeaders.CORRELATION_ID) String correlationId,
                                @Header(AmqpHeaders.REPLY_TO) String replyTo) {
         try {
             Map<String, Object> messageMap = extractMessageMap(message);
             String action = (String) messageMap.get("action");
+            System.out.println( action);
 
             JsonNode responseNode = handleAction(action, messageMap);
             sendResponse(responseNode, correlationId, replyTo);
@@ -44,6 +62,7 @@ public class EmployeeController {
     }
 
     private JsonNode handleAction(String action, Map<String, Object> messageMap) {
+
         switch (action) {
             case "get_all":
                 return toJson(employeeService.getAllEmployees());
@@ -59,50 +78,101 @@ public class EmployeeController {
                 return objectMapper.createObjectNode().put("status", "Unknown action: " + action);
         }
     }
+    
+    
     private JsonNode getEmployeeById(Map<String, Object> messageMap) {
-        Long id = ((Integer) messageMap.get("id")).longValue();
-        
-        Optional<Employee> employee = employeeService.getEmployeeById(id);
-        
-        return objectMapper.createObjectNode()
-                .put("status", "Employee retrieved")
-                .set("employee", toJson(employee));
-    }
+        Object idValue = messageMap.get("id");
 
+        Long id;
+        if (idValue instanceof Integer) {
+            id = ((Integer) idValue).longValue();
+        } else if (idValue instanceof String) {
+            id = Long.parseLong((String) idValue);
+        } else {
+            throw new IllegalArgumentException("Invalid type for id: " + idValue.getClass().getName());
+        }
+
+        Optional<Employee> employee = employeeService.getEmployeeById(id);
+
+        ObjectNode responseNode = objectMapper.createObjectNode();
+        responseNode.put("status", "Employee retrieved");
+        
+        if (employee.isPresent()) {
+            JsonNode employeeNode = objectMapper.valueToTree(employee.get());
+            responseNode.set("employee", employeeNode);
+        } else {
+            responseNode.put("status", "Employee not found");
+        }
+        
+        return responseNode;
+    }
+    
+    
+    
+    
     private JsonNode createEmployeeResponse(Map<String, Object> messageMap) {
-        Employee employee = fromJson((Map<String, Object>) messageMap.get("employee"), Employee.class);
+        System.out.println("Message map: " + messageMap);
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> employeeMap = (Map<String, Object>) messageMap.get("employee");
+
+        System.out.println("Employee map: " + employeeMap);
+
+        Employee employee = fromJson(employeeMap, Employee.class);
+
+        System.out.println("Employee before save: " + employee);
+
+        employee.setId(null);
+
         Employee createdEmployee = employeeService.createEmployee(employee);
+        System.out.println("Created employee after save: " + createdEmployee);
+
         return objectMapper.createObjectNode()
                 .put("status", "Employee created")
                 .set("employee", toJson(createdEmployee));
     }
 
+    
+    
     private JsonNode updateEmployeeResponse(Map<String, Object> messageMap) {
-        Long id = ((Integer) messageMap.get("id")).longValue();
-        Employee employee = fromJson((Map<String, Object>) messageMap.get("employee"), Employee.class);
-        employee.setEmployeeId(id);
-        Employee updatedEmployee = employeeService.updateEmployee(id, employee);
+        System.out.println("Message map: " + messageMap);
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> employeeMap = (Map<String, Object>) messageMap.get("employee");
+
+        System.out.println("Employee map: " + employeeMap);
+
+        Employee employee = fromJson(employeeMap, Employee.class);
+
+        System.out.println("Employee before update: " + employee);
+
+        Employee updatedEmployee = employeeService.updateEmployee(employee);
+
         return objectMapper.createObjectNode()
                 .put("status", "Employee updated")
                 .set("employee", toJson(updatedEmployee));
     }
 
-    private JsonNode deleteEmployeeResponse(Map<String, Object> messageMap) {
-        Long id = ((Integer) messageMap.get("id")).longValue();
 
+    private JsonNode deleteEmployeeResponse(Map<String, Object> messageMap) {
+    	 Object idValue = messageMap.get("id");
+
+         Long id;
+         if (idValue instanceof Integer) {
+             id = ((Integer) idValue).longValue();
+         } else if (idValue instanceof String) {
+             id = Long.parseLong((String) idValue);
+         } else {
+             throw new IllegalArgumentException("Invalid type for id: " + idValue.getClass().getName());
+         }
+         
         employeeService.deleteEmployee(id);
         return objectMapper.createObjectNode().put("status", "Employee deleted");
     }
 
     
     
-    private Map<String, Object> extractMessageMap(Message message) {
-        try {
-            return objectMapper.readValue(new String(message.getBody()), Map.class);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to parse message", e);
-        }
-    }
+
 
     private void sendResponse(JsonNode responseNode, String correlationId, String replyTo) throws JsonProcessingException {
         MessageProperties properties = new MessageProperties();

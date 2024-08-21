@@ -52,8 +52,11 @@ class RabbitMQConnection
         );
 
         try {
-    
-            $this->channel->basic_publish($message, 'exchange');
+            Log::info('Publishing message to exchange', [
+                'exchange' => 'employee_exchange',
+                'message_body' => $messageBody
+            ]);
+            $this->channel->basic_publish($message, 'employee_exchange');
         } catch (\Exception $e) {
             Log::error('Error publishing message', ['exception' => $e->getMessage()]);
             throw $e;
@@ -61,7 +64,10 @@ class RabbitMQConnection
 
         $response = null;
         $callback = function ($msg) use ($correlationId, &$response) {
-    
+            Log::info('Received message', [
+                'correlation_id' => $msg->get('correlation_id'),
+                'body' => $msg->body
+            ]);
             if ($msg->get('correlation_id') === $correlationId) {
                 $response = json_decode($msg->body, true);
             }
@@ -69,12 +75,15 @@ class RabbitMQConnection
 
         $this->channel->basic_consume($callbackQueue, '', false, true, false, false, $callback);
 
+        $startTime = time();
+        while (!$response && (time() - $startTime) < 60) {
             try {
-                $this->channel->wait(null, false, 60); 
+                $this->channel->wait(null, false, 10); 
             } catch (\Exception $e) {
                 Log::error('Error while waiting for response', ['exception' => $e->getMessage()]);
+                break;
             }
-        
+        }
 
         $this->channel->basic_cancel($callbackQueue);
 
@@ -84,7 +93,6 @@ class RabbitMQConnection
 
         return $response;
     }
-
     public function __destruct()
     {
         if ($this->channel) {

@@ -27,13 +27,14 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee updateEmployee(Long id, Employee employee) {
-        if (employeeRepository.existsById(id)) {
-            employee.setEmployeeId(id);
-            return employeeRepository.save(employee);
+    public Employee updateEmployee(Employee employee) {
+        if (employee.getId() == null || !employeeRepository.existsById(employee.getId())) {
+            throw new IllegalArgumentException("Employee with ID " + employee.getId() + " does not exist.");
         }
-        return null;
+
+        return employeeRepository.save(employee);
     }
+
 
     public boolean deleteEmployee(Long id) {
         if (employeeRepository.existsById(id)) {
