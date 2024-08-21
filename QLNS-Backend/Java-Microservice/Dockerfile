@@ -2,12 +2,13 @@ FROM openjdk:17-jdk-alpine
 
 RUN apk add --no-cache maven
 
-COPY . /usr/src/myapp
+WORKDIR /usr/src/Java-Microservice
 
-WORKDIR /usr/src/myapp
+COPY Java-Microservice/pom.xml /usr/src/Java-Microservice/
+COPY Java-Microservice/src /usr/src/Java-Microservice/src
 
 RUN mvn clean install
 
-CMD ["java", "-jar", "target/myapp.jar"]
+CMD ["java", "-jar", "target/Java-Microservice-0.0.1-SNAPSHOT.jar"]
 
 EXPOSE 8080
