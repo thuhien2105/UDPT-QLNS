@@ -1,5 +1,5 @@
-com\example\demo\Employee\Employee.class
 com\example\demo\Employee\EmployeeService.class
-com\example\demo\JavaMicroserviceApplication.class
 com\example\demo\Employee\EmployeeController.class
 com\example\demo\Employee\EmployeeRepository.class
+com\example\demo\Employee\Employee.class
+com\example\demo\JavaMicroserviceApplication.class

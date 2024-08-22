@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package com.example.demo.Employee;
+
+option java_package = "com.example.demo.Employee";
+option java_outer_classname = "EmployeeProto";
+
+message EmployeeProfile {
+    int32 id = 1;
+    string name = 2;
+    string id_card = 3;
+    string tax_code = 4;
+    string address = 5;
+    string phone_number = 6;
+}
+
+message EmployeeProfileRequest {
+    int32 id = 1;
+}
+
+message EmployeeProfileResponse {
+    EmployeeProfile profile = 1;
+}
+
+message UpdateProfileRequest {
+    EmployeeProfile profile = 1;
+}
+
+message UpdateProfileResponse {
+    bool success = 1;
+}
+
+service EmployeeProfileService {
+    rpc GetProfile (EmployeeProfileRequest) returns (EmployeeProfileResponse);
+    rpc UpdateProfile (UpdateProfileRequest) returns (UpdateProfileResponse);
+}
