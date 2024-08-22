@@ -51656,3 +51656,7 @@ button.o-sidePanelButton.o-version-history-load-more:hover {
 	pointer-events: none;
 	user-select: none;
 }
+.no-outline {
+    /* outline: none; */
+    border: none; /* Optional: adjust border style */
+}

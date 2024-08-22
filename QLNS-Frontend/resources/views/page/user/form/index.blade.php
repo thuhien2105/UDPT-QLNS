@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    @include('page.employees.header')
+    @include('page.user.header')
 
     <div class="o_action_manager">
         <div class="o_form_view o_view_controller o_action">
@@ -55,22 +55,7 @@
                             class="o_control_panel_actions d-empty-none d-flex align-items-center justify-content-start justify-content-lg-around order-2 order-lg-1 w-100 w-lg-auto">
                             <div class="o-form-buttonbox position-relative d-flex w-md-auto o_not_full"></div>
                         </div>
-                        <div
-                            class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-3 gap-lg-1 gap-xl-3 order-1 order-lg-2 flex-grow-1">
-                            <div class="o_cp_pager text-nowrap " role="search">
-                                <nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span
-                                        class="o_pager_counter align-self-center"><span
-                                            class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1-80</span><span>
-                                            / </span><span class="o_pager_limit">1356</span></span><span
-                                        class="btn-group d-print-none" aria-atomic="true"><button type="button"
-                                            class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start"
-                                            aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p"
-                                            title=""></button><button type="button"
-                                            class="fa fa-chevron-right btn btn-secondary o_pager_next px-2 rounded-end"
-                                            aria-label="Next" data-tooltip="Next" tabindex="-1"
-                                            data-hotkey="n"></button></span></nav>
-                            </div>
-                        </div>
+                        <div class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-3 gap-lg-1 gap-xl-3 order-1 order-lg-2 flex-grow-1"><div class="o_cp_pager text-nowrap " role="search"><nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span class="o_pager_counter align-self-center"><span class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1-80</span><span> / </span><span class="o_pager_limit">1356</span></span><span class="btn-group d-print-none" aria-atomic="true"><button type="button" class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start" aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p" title=""></button><button type="button" class="fa fa-chevron-right btn btn-secondary o_pager_next px-2 rounded-end" aria-label="Next" data-tooltip="Next" tabindex="-1" data-hotkey="n"></button></span></nav></div></div>
                     </div>
                 </div>
                 <div class="o_content">
@@ -261,181 +246,18 @@
                                                     name="description">Description</div>
                                             </li>
                                             <li class="nav-item flex-nowrap cursor-pointer">
-                                                <div class="nav-link" role="tab" tabindex="0" name="description">
-                                                    Description</div>
+                                                <div class="nav-link" role="tab" tabindex="0"
+                                                    name="description">Description</div>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="o_notebook_content tab-content">
                                         <div class="tab-pane active">
-                                            <div name="order_line"
-                                                class="o_field_widget o_field_section_and_note_one2many o_field_one2many">
-                                                <div class="o_list_view o_field_x2many o_field_x2many_list">
-                                                    <div class="o_x2m_control_panel d-empty-none mb-4"></div>
-                                                    <div class="o_list_renderer o_renderer table-responsive o_list_renderer_8"
-                                                        tabindex="-1">
-                                                        <table
-                                                            class="o_section_and_note_list_view o_list_table table table-sm table-hover position-relative mb-0 o_list_table_ungrouped table-striped"
-                                                            style="table-layout: fixed;">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th data-tooltip-delay="1000" tabindex="-1"
-                                                                        data-name="sequence"
-                                                                        class="align-middle o_column_sortable position-relative cursor-pointer o_list_number_th o_handle_cell opacity-trigger-hover"
-                                                                        style="min-width: 33px; width: 33px;"></th>
-                                                                    <th data-tooltip-delay="1000" tabindex="-1"
-                                                                        data-name="product_template_id"
-                                                                        class="align-middle cursor-default o_sol_product_many2one_cell opacity-trigger-hover"
-                                                                        style="width: 180px;">
-                                                                        <div class="d-flex"><span
-                                                                                class="d-block min-w-0 text-truncate flex-grow-1">Product</span><i
-                                                                                class="d-none fa-angle-down opacity-0 opacity-75-hover"></i>
-                                                                        </div><span
-                                                                            class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                                                                    </th>
-                                                                    <th data-tooltip-delay="1000" tabindex="-1"
-                                                                        data-name="name"
-                                                                        class="align-middle o_column_sortable position-relative cursor-pointer o_section_and_note_text_cell opacity-trigger-hover"
-                                                                        style="width: 176px;">
-                                                                        <div class="d-flex"><span
-                                                                                class="d-block min-w-0 text-truncate flex-grow-1">Description</span><i
-                                                                                class="fa fa-lg fa-angle-down opacity-0 opacity-75-hover"></i>
-                                                                        </div><span
-                                                                            class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                                                                    </th>
-                                                                    <th data-tooltip-delay="1000" tabindex="-1"
-                                                                        data-name="product_uom_qty"
-                                                                        class="align-middle o_column_sortable position-relative cursor-pointer o_list_number_th opacity-trigger-hover"
-                                                                        style="min-width: 92px; width: 131px;">
-                                                                        <div class="d-flex flex-row-reverse"><span
-                                                                                class="d-block min-w-0 text-truncate flex-grow-1 o_list_number_th">Quantity</span><i
-                                                                                class="fa fa-lg fa-angle-down opacity-0 opacity-75-hover"></i>
-                                                                        </div><span
-                                                                            class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                                                                    </th>
-                                                                    <th data-tooltip-delay="1000" tabindex="-1"
-                                                                        data-name="price_unit"
-                                                                        class="align-middle o_column_sortable position-relative cursor-pointer o_list_number_th opacity-trigger-hover"
-                                                                        style="min-width: 92px; width: 131px;">
-                                                                        <div class="d-flex flex-row-reverse"><span
-                                                                                class="d-block min-w-0 text-truncate flex-grow-1 o_list_number_th">Unit
-                                                                                Price</span><i
-                                                                                class="fa fa-lg fa-angle-down opacity-0 opacity-75-hover"></i>
-                                                                        </div><span
-                                                                            class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                                                                    </th>
-                                                                    <th data-tooltip-delay="1000" tabindex="-1"
-                                                                        data-name="tax_id"
-                                                                        class="align-middle cursor-default o_many2many_tags_cell opacity-trigger-hover"
-                                                                        style="width: 213px;">
-                                                                        <div class="d-flex"><span
-                                                                                class="d-block min-w-0 text-truncate flex-grow-1">Taxes</span><i
-                                                                                class="d-none fa-angle-down opacity-0 opacity-75-hover"></i>
-                                                                        </div><span
-                                                                            class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                                                                    </th>
-                                                                    <th data-tooltip-delay="1000" tabindex="-1"
-                                                                        data-name="price_subtotal"
-                                                                        class="align-middle o_column_sortable position-relative cursor-pointer o_list_number_th opacity-trigger-hover"
-                                                                        style="min-width: 104px; width: 148px;">
-                                                                        <div class="d-flex flex-row-reverse"><span
-                                                                                class="d-block min-w-0 text-truncate flex-grow-1 o_list_number_th">Tax
-                                                                                excl.</span><i
-                                                                                class="fa fa-lg fa-angle-down opacity-0 opacity-75-hover"></i>
-                                                                        </div><span
-                                                                            class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                                                                    </th>
-                                                                    <th
-                                                                        class="o_list_controller o_list_actions_header position-sticky end-0">
-                                                                        <div
-                                                                            class="o-dropdown dropdown o_optional_columns_dropdown text-center border-top-0 o-dropdown--no-caret">
-                                                                            <button type="button"
-                                                                                class="dropdown-toggle btn p-0"
-                                                                                tabindex="-1" aria-expanded="false"><i
-                                                                                    class="o_optional_columns_dropdown_toggle oi oi-fw oi-settings-adjust"></i></button>
-                                                                        </div>
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody class="ui-sortable">
-                                                                <tr class="o_data_row o_row_draggable o_is_false"
-                                                                    data-id="datapoint_616">
-                                                                    <td class="o_data_cell cursor-pointer o_field_cell o_list_number o_handle_cell"
-                                                                        data-tooltip-delay="1000" tabindex="-1"
-                                                                        name="sequence">
-                                                                        <div name="sequence"
-                                                                            class="o_field_widget o_field_handle"><span
-                                                                                class="o_row_handle oi oi-draggable ui-sortable-handle"></span>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell o_required_modifier"
-                                                                        data-tooltip-delay="1000" tabindex="-1"
-                                                                        name="product_template_id"
-                                                                        data-tooltip="Customizable Desk">
-                                                                        <div name="product_template_id"
-                                                                            class="o_field_widget o_required_modifier o_field_sol_product_many2one">
-                                                                            <span><span>Customizable Desk</span></span>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell o_required_modifier"
-                                                                        data-tooltip-delay="1000" tabindex="-1"
-                                                                        name="product_template_id"
-                                                                        data-tooltip="Customizable Desk">
-                                                                        <div name="product_template_id"
-                                                                            class="o_field_widget o_required_modifier o_field_sol_product_many2one">
-                                                                            <span><span>Customizable Desk</span></span>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="o_data_cell cursor-pointer o_field_cell o_list_number o_required_modifier"
-                                                                        data-tooltip-delay="1000" tabindex="-1"
-                                                                        name="product_uom_qty">10.00</td>
-                                                                    <td class="o_data_cell cursor-pointer o_field_cell o_list_number o_required_modifier"
-                                                                        data-tooltip-delay="1000" tabindex="-1"
-                                                                        name="price_unit">123.00</td>
-                                                                    <td class="o_data_cell cursor-pointer o_field_cell o_many2many_tags_cell"
-                                                                        data-tooltip-delay="1000" tabindex="-1"
-                                                                        name="tax_id">
-                                                                        <div name="tax_id"
-                                                                            class="o_field_widget o_field_many2many_tags">
-                                                                            <div
-                                                                                class="o_field_tags d-inline-flex flex-wrap gap-1">
-                                                                                <span
-                                                                                    class="o_tag position-relative d-inline-flex align-items-center user-select-none mw-100 o_badge badge rounded-pill lh-1 o_tag_color_0"
-                                                                                    tabindex="-1" title="15%">
-                                                                                    <div
-                                                                                        class="o_tag_badge_text text-truncate">
-                                                                                        15%</div>
-                                                                                </span></div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="o_data_cell cursor-pointer o_field_cell o_list_number o_readonly_modifier"
-                                                                        data-tooltip-delay="1000" tabindex="-1"
-                                                                        name="price_subtotal">$&nbsp;1,230.00</td>
-                                                                    <td class="o_list_record_remove text-center"
-                                                                        tabindex="-1"><button class="fa fa-trash-o"
-                                                                            name="delete" aria-label="Delete row"
-                                                                            tabindex="-1"></button></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="8">​</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="8">​</td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <tfoot class="o_list_footer cursor-default">
-                                                                <tr>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                </tr>
-                                                            </tfoot>
-                                                        </table>
+                                            <div name="reason" class="o_field_widget o_field_html">
+                                                <div class="h-100">
+                                                    <div class="note-editable odoo-editor-editable odoo-editor-qweb"
+                                                        id="reason_0" contenteditable="true" dir="ltr">
+                                                        <p>Meeting with a potential customer.</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -897,15 +719,15 @@
                                                 <span class="d-flex">
                                                     <span class="me-2">X</span>
                                                     <span class="o_custom_gradient_input bg-black-50 px-1 d-flex">
-                                                        <input data-name="positionX" type="text"
-                                                            style="width: 3ch;" value="25"
+                                                        <input data-name="positionX" type="text" style="width: 3ch;"
+                                                            value="25"
                                                             class="p-0 border-0 text-center font-monospace bg-transparent text-white">
                                                         <span class="flex-grow-0 ms-1 text-white-50">%</span>
                                                     </span>
                                                     <span class="me-2 ms-3">Y</span>
                                                     <span class="o_custom_gradient_input bg-black-50 px-1 d-flex">
-                                                        <input data-name="positionY" type="text"
-                                                            style="width: 3ch;" value="25"
+                                                        <input data-name="positionY" type="text" style="width: 3ch;"
+                                                            value="25"
                                                             class="p-0 border-0 text-center font-monospace bg-transparent text-white">
                                                         <span class="flex-grow-0 ms-1 text-white-50">%</span>
                                                     </span>
@@ -1559,9 +1381,9 @@
         </div>
         <div id="link" class="btn-group">
             <div id="create-link" title="Insert or edit link" class="fa fa-link fa-fw btn editor-ignore"></div>
-            <div id="unlink" data-call="unlink" title="Remove link" class="fa fa-unlink fa-fw btn"></div>
-            <div id="media-description" title="Edit media description" class="btn editor-ignore d-none">Description
-            </div>
+            <div id="unlink" data-call="unlink" title="Remove link" class="fa fa-unlink fa-fw btn"></div><a
+                id="media-description" href="#" title="Edit media description"
+                class="btn editor-ignore d-none">Description</a>
         </div>
         <div id="chatgpt" class="btn-group">
             <div id="open-chatgpt" title="Generate or transform content with AI" class="btn editor-ignore"><span

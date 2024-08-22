@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    @include('page.employees.header')
+    @include('page.campaign.header')
 
     <div class="o_action_manager">
         <div class="o_form_view o_view_controller o_action">
@@ -150,9 +150,7 @@
                                                 <div name="request_owner_id"
                                                     class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
                                                     <div class="d-flex align-items-center gap-1"
-                                                        data-tooltip="Mitchell Admin"><span
-                                                            class="o_avatar o_m2o_avatar"><img class="rounded"
-                                                                src="/web/image/res.users/2/avatar_128"></span>
+                                                        data-tooltip="Mitchell Admin">
                                                         <div class="o_field_many2one_selection">
                                                             <div class="o_input_dropdown">
                                                                 <div class="o-autocomplete dropdown"><input type="text"
@@ -172,29 +170,21 @@
                                             </div>
                                         </div>
                                         <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                            <div
-                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                            <div class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
                                                 <label class="o_form_label" for="category_id_0">Category</label>
                                             </div>
-                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                style="width: 100%;">
-                                                <div name="category_id"
-                                                    class="o_field_widget o_required_modifier o_field_many2one">
-                                                    <div class="o_field_many2one_selection">
-                                                        <div class="o_input_dropdown">
-                                                            <div class="o-autocomplete dropdown"><input type="text"
-                                                                    class="o-autocomplete--input o_input"
-                                                                    autocomplete="off" id="category_id_0" placeholder="">
-                                                            </div><span class="o_dropdown_button"></span>
-                                                        </div><button type="button"
-                                                            class="btn btn-link text-action fa o_external_button fa-arrow-right"
-                                                            tabindex="-1" draggable="false" aria-label="Internal link"
-                                                            data-tooltip="Internal link"></button>
-                                                    </div>
-                                                    <div class="o_field_many2one_extra"></div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break" style="width: 100%;">
+                                                <div class="o_field_widget o_required_modifier o_field_many2one">
+                                                    <select id="category_id_0" name="category_id" class="form-control no-outline">
+                                                        <!-- Add <option> elements here -->
+                                                        <option value="1">Category 1</option>
+                                                        <option value="2">Category 2</option>
+                                                        <!-- Example options -->
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
                                             <div
                                                 class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
@@ -220,7 +210,7 @@
                                                         <div name="date_start"
                                                             class="o_field_widget o_required_modifier o_field_datetime oe_inline">
                                                             <div class="d-flex gap-2 align-items-center"><input
-                                                                    type="text" class="o_input cursor-pointer"
+                                                                    type="date" class="o_input cursor-pointer"
                                                                     autocomplete="off" id="date_start_0"
                                                                     data-field="date_start"></div>
                                                         </div>
@@ -229,7 +219,7 @@
                                                         <div name="date_end"
                                                             class="o_field_widget o_required_modifier o_field_datetime oe_inline ms-4">
                                                             <div class="d-flex gap-2 align-items-center"><input
-                                                                    type="text" class="o_input cursor-pointer"
+                                                                    type="date" class="o_input cursor-pointer"
                                                                     autocomplete="off" id="date_end_0"
                                                                     data-field="date_end"></div>
                                                         </div>
@@ -258,7 +248,7 @@
                                         <ul class="nav nav-tabs flex-row flex-nowrap">
                                             <li class="nav-item flex-nowrap cursor-pointer">
                                                 <div class="nav-link active" role="tab" tabindex="0"
-                                                    name="description">Description</div>
+                                                    name="description">Tham gia</div>
                                             </li>
                                             <li class="nav-item flex-nowrap cursor-pointer">
                                                 <div class="nav-link" role="tab" tabindex="0" name="description">

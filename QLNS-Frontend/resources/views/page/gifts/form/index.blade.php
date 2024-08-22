@@ -242,8 +242,12 @@
                                     <div class="o_notebook_headers">
                                         <ul class="nav nav-tabs flex-row flex-nowrap">
                                             <li class="nav-item flex-nowrap cursor-pointer">
-                                                <a class="nav-link active" href="#" role="tab" tabindex="0"
-                                                    name="description">Description</a>
+                                                <div class="nav-link active" role="tab" tabindex="0"
+                                                    name="description">Description</div>
+                                            </li>
+                                            <li class="nav-item flex-nowrap cursor-pointer">
+                                                <div class="nav-link" role="tab" tabindex="0"
+                                                    name="description">Description</div>
                                             </li>
                                         </ul>
                                     </div>
@@ -254,6 +258,16 @@
                                                     <div class="note-editable odoo-editor-editable odoo-editor-qweb"
                                                         id="reason_0" contenteditable="true" dir="ltr">
                                                         <p>Meeting with a potential customer.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane">
+                                            <div name="reason" class="o_field_widget o_field_html">
+                                                <div class="h-100">
+                                                    <div class="note-editable odoo-editor-editable odoo-editor-qweb"
+                                                        id="reason_1" contenteditable="true" dir="ltr">
+                                                        <p>Meeting aaawith a potential customer.</p>
                                                     </div>
                                                 </div>
                                             </div>

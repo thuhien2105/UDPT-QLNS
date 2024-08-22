@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GiftsController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApprovalsController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\CampaignController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -32,6 +34,11 @@ Route::get('/check-in-out/manager',[EmployeeController::class, 'getCheckinoutMan
 
 Route::get('/gifts/form',[GiftsController::class, 'getFormPage'])->name('gifts-form');
 Route::get('/gifts',[GiftsController::class, 'getListPage'])->name('gifts-list');
+
+Route::get('/user',[UserController::class, 'getFormPage'])->name('user-form');
+
+Route::get('/campaign/form',[CampaignController::class, 'getFormPage'])->name('campaign-form');
+Route::get('/campaign',[CampaignController::class, 'getListPage'])->name('campaign-list');
 
 Route::get('/login',[PageController::class, 'getLoginPage'])->name('login');
 Route::get('/signup',[PageController::class, 'getSignupPage'])->name('signup');
