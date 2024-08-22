@@ -1,7 +1,6 @@
 package com.example.demo.request;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface RequestRepository extends JpaRepository<RequestEntity, Long> {
-	
+public interface RequestRepository extends CrudRepository<RequestEntity, Integer> {
 }
