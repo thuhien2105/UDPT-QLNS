@@ -7,9 +7,11 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Illuminate\Support\Facades\Log;
 
 class RabbitMQConnection
-{private $connection;
+{
+    private $connection;
     private $channel;
-    private $queueName;
+    private $employeeQueue;
+    private $requestQueue;
 
     public function __construct()
     {
@@ -21,24 +23,51 @@ class RabbitMQConnection
         );
         $this->channel = $this->connection->channel();
 
-        $this->queueName = 'topic-employees';
-        $this->channel->queue_declare($this->queueName, false, true, false, false);
-        $this->channel->exchange_declare('employee_exchange', 'fanout', false, true, false);
+        $this->employeeQueue = 'topic-employees';
+        $this->requestQueue = 'topic-requests';
+
+        $this->channel->queue_declare($this->employeeQueue, false, true, false, false);
+        $this->channel->queue_declare($this->requestQueue, false, true, false, false);
+
+        $this->channel->exchange_declare('exchange', 'fanout', false, true, false);
+        $this->channel->exchange_declare('exchange', 'fanout', false, true, false);
     }
 
-    public function sendMessageToQueue($messageBody)
+    public function sendMessageToEmployeeQueue($messageBody)
     {
         $message = new AMQPMessage($messageBody);
         try {
-            $this->channel->basic_publish($message, 'employee_exchange', $this->queueName);
-            Log::info('Message published to queue', ['message_body' => $messageBody]);
+            $this->channel->basic_publish($message, 'exchange', $this->employeeQueue);
+            Log::info('Message published to employee queue', ['message_body' => $messageBody]);
         } catch (\Exception $e) {
-            Log::error('Error publishing message', ['exception' => $e->getMessage()]);
+            Log::error('Error publishing message to employee queue', ['exception' => $e->getMessage()]);
             throw $e;
         }
     }
 
-    public function send($messageBody)
+    public function sendMessageToRequestQueue($messageBody)
+    {
+        $message = new AMQPMessage($messageBody);
+        try {
+            $this->channel->basic_publish($message, 'exchange', $this->requestQueue);
+            Log::info('Message published to request queue', ['message_body' => $messageBody]);
+        } catch (\Exception $e) {
+            Log::error('Error publishing message to request queue', ['exception' => $e->getMessage()]);
+            throw $e;
+        }
+    }
+
+    public function sendToEmployeeQueue($messageBody)
+    {
+        return $this->send($messageBody, 'exchange', $this->employeeQueue);
+    }
+
+    public function sendToRequestQueue($messageBody)
+    {
+        return $this->send($messageBody, 'exchange', $this->requestQueue);
+    }
+
+    private function send($messageBody, $exchange, $queueName)
     {
         $correlationId = uniqid();
         list($callbackQueue,,) = $this->channel->queue_declare("", false, true, true, false);
@@ -53,10 +82,10 @@ class RabbitMQConnection
 
         try {
             Log::info('Publishing message to exchange', [
-                'exchange' => 'employee_exchange',
+                'exchange' => $exchange,
                 'message_body' => $messageBody
             ]);
-            $this->channel->basic_publish($message, 'employee_exchange');
+            $this->channel->basic_publish($message, $exchange);
         } catch (\Exception $e) {
             Log::error('Error publishing message', ['exception' => $e->getMessage()]);
             throw $e;
@@ -93,6 +122,7 @@ class RabbitMQConnection
 
         return $response;
     }
+
     public function __destruct()
     {
         if ($this->channel) {

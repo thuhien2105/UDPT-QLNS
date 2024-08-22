@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\RabbitMQConnection;
 use Illuminate\Support\Facades\Log;
 
-class EmployeeController extends Controller
+class RequestController extends Controller
 {
     private $rabbitMQService;
 
@@ -19,28 +18,27 @@ class EmployeeController extends Controller
     public function index()
     {
         $message = json_encode(['action' => 'get_all']);
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+        $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);
     }
 
     public function show($id)
     {
         $message = json_encode(['action' => 'get', 'id' => $id]);
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+        $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'address' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
+            'type' => 'required|string',
+            'employee_id' => 'required|integer',
+            'details' => 'required|string',
         ]); 
     
-        $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+        $message = json_encode(['action' => 'create', 'request' => $validatedData]);
+        $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response, 201);
     }
 
@@ -48,21 +46,19 @@ class EmployeeController extends Controller
     {
         $validatedData = $request->validate([
             'id' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'address' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
+            'type' => 'required|string',
+            'details' => 'required|string',
         ]);
 
-        $message = json_encode(['action' => 'update', 'employee' => $validatedData]);
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+        $message = json_encode(['action' => 'update', 'request' => $validatedData]);
+        $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);
     }
 
     public function destroy($id)
     {
         $message = json_encode(['action' => 'delete', 'id' => $id]);
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+        $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);
     }
 }
