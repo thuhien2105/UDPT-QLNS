@@ -1,6 +1,7 @@
 package com.example.demo.GRPC;
 
 import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,7 @@ public class EmployeeGrpcClient {
     public EmployeeGrpcClient(ManagedChannel channel) {
         this.blockingStub = EmployeeServiceGrpc.newBlockingStub(channel);
     }
-
-    public Employee getEmployeeById(long id) {
+    public Employee getEmployeeById(int id) {
         EmployeeRequest request = EmployeeRequest.newBuilder().setId(id).build();
         try {
             EmployeeResponse response = blockingStub.getEmployeeById(request);

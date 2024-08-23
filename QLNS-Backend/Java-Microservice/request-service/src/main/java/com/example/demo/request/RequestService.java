@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class RequestService {
+
     private final RequestRepository requestRepository;
     private final ObjectMapper objectMapper;
     private final EmployeeGrpcClient employeeGrpcClient;
 
-    @Autowired
     public RequestService(RequestRepository requestRepository,
                           ObjectMapper objectMapper,
                           EmployeeGrpcClient employeeGrpcClient) {
