@@ -90,8 +90,7 @@
                                     data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"name","type":"char","widget":null,"context":"{}","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false}}'
                                     style="width: 356px">
                                     <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Approval Subject</span><i
-                                            class="fa fa-lg fa-angle-down opacity-0 opacity-75-hover"></i>
+                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Approval Subject</span>
                                     </div>
                                     <span
                                         class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
@@ -102,8 +101,7 @@
                                     data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_owner_id","type":"many2one","widget":"many2one_avatar_user","widgetDescription":"Many2one","context":"{}","domain":"(company_id and [(&apos;company_ids&apos;, &apos;in&apos;, [company_id])] or []) + ([(&apos;company_ids&apos;, &apos;in&apos;, company_id)])","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false,"relation":"res.users"}}'
                                     style="width: 302px">
                                     <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Request Owner</span><i
-                                            class="fa fa-lg fa-angle-down opacity-0 opacity-75-hover"></i>
+                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Request Owner</span>
                                     </div>
                                     <span
                                         class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
@@ -114,8 +112,7 @@
                                     data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
                                     style="width: 203px">
                                     <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Category</span><i
-                                            class="fa fa-lg fa-angle-down opacity-0 opacity-75-hover"></i>
+                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Category</span>
                                     </div>
                                     <span
                                         class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
@@ -138,8 +135,7 @@
                                     data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_status","type":"selection","widget":"badge","widgetDescription":"Badge","context":"{}","invisible":null,"column_invisible":null,"readonly":"True","required":null,"changeDefault":false,"selection":[["new","To Submit"],["pending","Submitted"],["approved","Approved"],["refused","Refused"],["cancel","Cancel"]]}}'
                                     style="width: 265px">
                                     <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Request Status</span><i
-                                            class="fa fa-lg fa-angle-down opacity-0 opacity-75-hover"></i>
+                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Request Status</span>
                                     </div>
                                     <span
                                         class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>

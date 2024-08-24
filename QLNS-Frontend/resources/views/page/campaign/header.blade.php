@@ -23,7 +23,7 @@
                 class="o_menu_brand d-none d-md-flex ms-3 pe-0">Campaign</span></a>
         <div class="o_menu_sections d-none d-md-flex flex-grow-1 flex-shrink-1 w-0" role="menu">
             <div class="o-dropdown dropdown o-dropdown--no-caret">
-                <a href="/employees" type="button" class="dropdown-toggle fw-normal" data-hotkey="1" tabindex="0"
+                <a href="/campaign" type="button" class="dropdown-toggle fw-normal" data-hotkey="1" tabindex="0"
                     aria-expanded="false" data-menu-xmlid="approvals.approvals_approval_menu">
                     <span data-section="301">Campaign</span>
                 </a>
