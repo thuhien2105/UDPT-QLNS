@@ -15,7 +15,53 @@ class EmployeeController extends Controller
     {
         $this->rabbitMQService = $rabbitMQService;
     }
+    public function register(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
 
+        $message = [
+            'action' => 'register',
+            'user' => $validatedData
+        ];
+
+        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+        return response()->json(['message' => 'Registration request sent to RabbitMQ', 'response' => $response]);
+    }
+
+    public function login(Request $request)
+    {
+        $validatedData = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $message = [
+            'action' => 'login',
+            'user' => $validatedData
+        ];
+
+        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+        return response()->json(['message' => 'Login request sent to RabbitMQ', 'response' => $response]);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->validate([
+            'token' => 'required|string',
+        ]);
+
+        $message = [
+            'action' => 'logout',
+            'token' => $request->token,
+        ];
+
+        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+        return response()->json(['message' => 'Logout request sent to RabbitMQ', 'response' => $response]);
+    }
     public function index()
     {
         $message = json_encode(['action' => 'get_all']);
@@ -37,8 +83,8 @@ class EmployeeController extends Controller
             'dob' => 'required|date',
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
-        ]); 
-    
+        ]);
+
         $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
         return response()->json($response, 201);

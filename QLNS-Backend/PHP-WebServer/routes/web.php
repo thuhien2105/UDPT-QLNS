@@ -21,6 +21,9 @@ use App\Http\Controllers\RequestController;
 // });
 
 Route::prefix('api')->group(function () {
+
+    Route::get('employees/{id}', [EmployeeController::class, 'show']);
+
     Route::get('employees', [EmployeeController::class, 'index']);
     Route::get('employees/{id}', [EmployeeController::class, 'show']);
     Route::post('employees', [EmployeeController::class, 'store']);
@@ -33,5 +36,4 @@ Route::prefix('api')->group(function () {
     Route::post('request', [RequestController::class, 'store']);
     Route::put('request/{id}', [RequestController::class, 'update']);
     Route::delete('request/{id}', [RequestController::class, 'destroy']);
-
 });
