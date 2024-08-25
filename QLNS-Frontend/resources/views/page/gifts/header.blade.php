@@ -29,6 +29,10 @@
 
     </nav>
 </header>
+@section('script')
+    <script src="{{ asset('js/gifts.js') }}"></script>
+@endsection
+
 @section('title')
     Gifts
 @endsection

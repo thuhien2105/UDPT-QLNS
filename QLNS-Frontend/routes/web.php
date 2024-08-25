@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApprovalsController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\NotificationController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -28,9 +29,10 @@ Route::get('/approvals/list',[ApprovalsController::class, 'getListPage'])->name(
 
 Route::get('/employees/form',[EmployeeController::class, 'getFormPage'])->name('employees-form');
 Route::get('/employees',[EmployeeController::class, 'getListPage'])->name('employees-list');
-Route::get('/check-in',[EmployeeController::class, 'getCheckinPage'])->name('check-in');
-Route::get('/check-out',[EmployeeController::class, 'getCheckoutPage'])->name('check-out');
+Route::get('/check-in-out',[EmployeeController::class, 'getCheckinoutPage'])->name('check-in-out');
 Route::get('/check-in-out/manager',[EmployeeController::class, 'getCheckinoutManagerPage'])->name('check-in-out-manager');
+Route::post('/check-in', [EmployeeController::class, 'checkIn'])->name('check.in');
+Route::post('/check-out', [EmployeeController::class, 'checkOut'])->name('check.out');
 
 Route::get('/gifts/form',[GiftsController::class, 'getFormPage'])->name('gifts-form');
 Route::get('/gifts',[GiftsController::class, 'getListPage'])->name('gifts-list');
@@ -42,6 +44,8 @@ Route::get('/campaign',[CampaignController::class, 'getListPage'])->name('campai
 
 Route::get('/login',[PageController::class, 'getLoginPage'])->name('login');
 Route::get('/signup',[PageController::class, 'getSignupPage'])->name('signup');
+Route::post('/login',[PageController::class, 'checkLogin'])->name('login.check');
+Route::post('/signup',[PageController::class, 'checkSignup'])->name('signup.check');
 
 Route::get('/requests', [RequestController::class, 'index']);
 Route::get('/requests/{id}', [RequestController::class, 'show']);
@@ -49,3 +53,4 @@ Route::post('/requests', [RequestController::class, 'store']);
 Route::put('/requests/{id}', [RequestController::class, 'update']);
 Route::delete('/requests/{id}', [RequestController::class, 'destroy']);
 
+Route::post('/clear-notifications', [NotificationController::class, 'clearNotifications']);

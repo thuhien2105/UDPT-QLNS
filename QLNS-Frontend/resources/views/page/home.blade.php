@@ -66,7 +66,7 @@
                         </a>
                     </div>
                     <div class="col-3 col-md-2 o_draggable mb-3 px-0">
-                        <a href="/check-in" role="option"
+                        <a href="/check-in-out?type=check-in-out" role="option"
                             class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"
                             id="result_app_10" aria-selected="false"
                             data-menu-xmlid="hr_attendance.menu_hr_attendance_root"><img class="o_app_icon rounded-3"

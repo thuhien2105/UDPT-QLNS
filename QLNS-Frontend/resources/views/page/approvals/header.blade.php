@@ -41,3 +41,6 @@
 @section('title')
     Approvals
 @endsection
+@section('script')
+    <script src="{{ asset('js/approvals.js') }}"></script>
+@endsection

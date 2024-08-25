@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Notification\Notification;
 
 class EmployeeController extends Controller
 {
+    use Notification;
     public function index()
     {
         $employees = Employee::all();
@@ -73,22 +75,50 @@ class EmployeeController extends Controller
 
     public function getFormPage()
     {
-    	return view('page.employees.form.index');
+        return view('page.employees.form.index');
     }
     public function getListPage()
     {
-    	return view('page.employees.list.index');
+        return view('page.employees.list.index');
     }
-    public function getCheckinPage()
+    public function getCheckinoutPage()
     {
-    	return view('page.checkinout.checkin.index');
+        $is_checkin = false;
+        if ($is_checkin) {
+            return view('page.checkinout.checkout.index');
+        }
+        return view('page.checkinout.checkin.index');
     }
-    public function getCheckoutPage()
+    public function checkIn(Request $request)
     {
-    	return view('page.checkinout.checkout.index');
+        // Xác thực dữ liệu từ form
+        $request->validate([
+            'csrf_token' => 'required|string',
+        ]);
+
+        // Xử lý logic Check In ở đây
+        // Ví dụ: Ghi nhận vào cơ sở dữ liệu hoặc gửi đến API bên ngoài
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Checked in successfully!',
+        ]);
     }
+
+    public function checkOut(Request $request)
+    {
+        $request->validate([
+            'csrf_token' => 'required|string',
+        ]);
+        // Xử lý logic Check Out ở đây
+        return response()->json([
+            'success' => true,
+            'message' => 'Checked Out successfully!',
+        ]);
+    }
+
     public function getCheckinoutManagerPage()
     {
-    	return view('page.checkinout.manager.index');
+        return view('page.checkinout.manager.index');
     }
 }

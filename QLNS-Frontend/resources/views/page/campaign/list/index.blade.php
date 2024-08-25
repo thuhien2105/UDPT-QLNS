@@ -129,55 +129,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="ui-sortable">
-                            <tr onclick="window.location.href = '/campaign/form';" class="o_data_row text-info"
-                                data-id="datapoint_35">
-                                <td class="o_list_record_selector user-select-none" tabindex="-1">
-                                    <div class="o-checkbox form-check">
-                                        <input type="checkbox" class="form-check-input" id="checkbox-comp-2" /><label
-                                            class="form-check-label" for="checkbox-comp-2"></label>
-                                    </div>
-                                </td>
-                                <td class="o_data_cell cursor-pointer o_field_cell o_list_char" data-tooltip-delay="1000"
-                                    tabindex="-1" name="name" data-tooltip="Business trip to London">
-                                    Business trip to London
-                                </td>
-                                <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_many2one_avatar_user_cell"
-                                    data-tooltip-delay="1000" tabindex="-1" name="request_owner_id"
-                                    data-tooltip="Mitchell Admin">
-                                    <div name="request_owner_id"
-                                        class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
-                                        <div class="d-flex align-items-center gap-1" data-tooltip="Mitchell Admin">
-                                            <span class="o_avatar o_m2o_avatar"><img class="rounded"
-                                                    src="/web/image/res.users/2/avatar_128" /></span><span><span>Mitchell
-                                                    Admin</span></span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_required_modifier"
-                                    data-tooltip-delay="1000" tabindex="-1" name="category_id"
-                                    data-tooltip="Business Trip">
-                                    Business Trip
-                                </td>
-                                <td class="o_data_cell cursor-pointer o_field_cell o_list_activity_cell"
-                                    data-tooltip-delay="1000" tabindex="-1" name="activity_ids">
-                                    <div name="activity_ids" class="o_field_widget o_field_list_activity">
-                                        <a class="o-mail-ActivityButton" role="button" aria-label="Show activities"
-                                            title="Show activities"><i
-                                                class="fa fa-fw fa-lg text-muted fa-clock-o btn-link text-dark"
-                                                role="img"></i></a><span class="o-mail-ListActivity-summary"></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">​</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">​</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">​</td>
-                            </tr>
+                        <tbody class="ui-sortable" id="data-table">
                         </tbody>
                         <tfoot class="o_list_footer cursor-default">
                             <tr>

@@ -85,29 +85,16 @@
                                     </h1>
                                 </div>
                                 <div class="o_group row align-items-start">
-                                    <div class="o_inner_group grid col-lg-6">
+                                    <div class="o_inner_group grid col-lg-6" id="activity-details">
                                         <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
                                             <div
                                                 class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                <label class="o_form_label" for="location_0">Actity ID</label>
-                                            </div>
-                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                style="width: 100%;">
-                                                <div name="location"
-                                                    class="o_field_widget o_required_modifier o_field_char"><input
-                                                        class="o_input" id="location_0" type="text" autocomplete="off"
-                                                        placeholder="e.g. Brussels"></div>
-                                            </div>
-                                        </div>
-                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                            <div
-                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                <label class="o_form_label" for="category_id_0">Type</label>
+                                                <label class="o_form_label" for="type">Type</label>
                                             </div>
                                             <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
                                                 style="width: 100%;">
                                                 <div class="o_field_widget o_required_modifier o_field_many2one">
-                                                    <select id="category_id_0" name="category_id"
+                                                    <select id="type" name="type"
                                                         class="form-control no-outline">
                                                         <option value="Run">Run</option>
                                                         <option value="Ride">Ride</option>
@@ -118,12 +105,12 @@
                                         <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
                                             <div
                                                 class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                <label class="o_form_label" for="category_id_0">Sport Type</label>
+                                                <label class="o_form_label" for="sport_type">Sport Type</label>
                                             </div>
                                             <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
                                                 style="width: 100%;">
                                                 <div class="o_field_widget o_required_modifier o_field_many2one">
-                                                    <select id="category_id_0" name="category_id"
+                                                    <select id="sport_type" name="sport_type"
                                                         class="form-control no-outline">
                                                         <option value="Run">Run</option>
                                                         <option value="MountainBikeRide">MountainBikeRide</option>
@@ -133,360 +120,82 @@
                                             </div>
                                         </div>
                                         <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                            <div class="o_cell flex-grow-1 flex-sm-grow-0 o_wrap_label w-100 text-break text-900"
-                                                style=""><label class="o_form_label"
-                                                    for="date_start_0">Date</label></div>
+                                            <div
+                                                class="o_cell flex-grow-1 flex-sm-grow-0 o_wrap_label w-100 text-break text-900">
+                                                <label class="o_form_label" for="start_date">Start Date</label>
+                                            </div>
                                             <div class="o_cell flex-grow-1 flex-sm-grow-0" style="width: 100%;">
-                                                <div>Start: </span>
-                                                    <div name="date_start"
-                                                        class="o_field_widget o_required_modifier o_field_datetime oe_inline">
-                                                        <div class="d-flex gap-2 align-items-center"><input type="date"
-                                                                class="o_input cursor-pointer" autocomplete="off"
-                                                                id="date_start_0" data-field="date_start"></div>
-                                                    </div>
-                                                </div>
-                                                <div><span>End: </span>
-                                                    <div name="date_end"
+                                                <div>Start:
+                                                    <div name="start_date"
                                                         class="o_field_widget o_required_modifier o_field_datetime oe_inline ms-4">
-                                                        <div class="d-flex gap-2 align-items-center"><input type="date"
-                                                                class="o_input cursor-pointer" autocomplete="off"
-                                                                id="date_end_0" data-field="date_end"></div>
+                                                        <div class="d-flex gap-2 align-items-center">
+                                                            <input type="date" class="o_input cursor-pointer"
+                                                                id="start_date" data-field="start_date">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label" for="location_0">Elapsed Time</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="location"
-                                                        class="o_field_widget o_required_modifier o_field_char"><input
-                                                            class="o_input" id="location_0" type="text" autocomplete="off"
-                                                            placeholder="e.g. Brussels"></div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label" for="location_0">Description</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="location"
-                                                        class="o_field_widget o_required_modifier o_field_char"><input
-                                                            class="o_input" id="location_0" type="text" autocomplete="off"
-                                                            placeholder="e.g. Brussels"></div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label" for="location_0">Distance</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="location"
-                                                        class="o_field_widget o_required_modifier o_field_char"><input
-                                                            class="o_input" id="location_0" type="text" autocomplete="off"
-                                                            placeholder="e.g. Brussels"></div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Resource State</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Distance (meters)</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Distance (km)</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Moving Time (seconds)</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Moving Time (hours)</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Elapsed Time (seconds)</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Elapsed Time (hours)</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Total Elevation Gain (meters)</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Sport Type</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Start Date (Local)</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Date Confirmed</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Date Confirmed</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Date Confirmed</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Date Confirmed</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Date Confirmed</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Date Confirmed</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Date Confirmed</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Date Confirmed</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                                <div
-                                                    class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                    <label class="o_form_label o_form_label_empty o_form_label_readonly"
-                                                        for="date_confirmed_0">Date Confirmed</label>
-                                                </div>
-                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                    style="width: 100%;">
-                                                    <div name="date_confirmed"
-                                                        class="o_field_widget o_readonly_modifier o_field_empty o_field_datetime">
-                                                        <div class="d-flex gap-2 align-items-center"><span
-                                                                class="text-truncate"></span></div>
+                                                <div>End:
+                                                    <div name="end_date"
+                                                        class="o_field_widget o_required_modifier o_field_datetime oe_inline ms-4">
+                                                        <div class="d-flex gap-2 align-items-center">
+                                                            <input type="date" class="o_input cursor-pointer"
+                                                                id="end_date" data-field="end_date">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                            <div
+                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                <label class="o_form_label" for="elapsed_time">Elapsed Time</label>
+                                            </div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                                style="width: 100%;">
+                                                <div name="elapsed_time"
+                                                    class="o_field_widget o_required_modifier o_field_char">
+                                                    <input class="o_input" id="elapsed_time" type="text"
+                                                        autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                            <div
+                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                <label class="o_form_label" for="description">Description</label>
+                                            </div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                                style="width: 100%;">
+                                                <div name="description"
+                                                    class="o_field_widget o_required_modifier o_field_char">
+                                                    <input class="o_input" id="description" type="text"
+                                                        autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                            <div
+                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                <label class="o_form_label" for="distance">Distance</label>
+                                            </div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                                style="width: 100%;">
+                                                <div name="distance"
+                                                    class="o_field_widget o_required_modifier o_field_char">
+                                                    <input class="o_input" id="distance" type="text"
+                                                        autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="o_inner_group grid col-lg-6"></div>
                                 </div>
+                                <div class="o_inner_group grid col-lg-6"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

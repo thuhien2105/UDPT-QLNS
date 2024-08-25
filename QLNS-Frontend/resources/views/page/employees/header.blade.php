@@ -32,6 +32,9 @@
         @include('page.header')
     </nav>
 </header>
+@section('script')
+    <script src="{{ asset('js/employee.js') }}"></script>
+@endsection
 @section('title')
     Employees
 @endsection
