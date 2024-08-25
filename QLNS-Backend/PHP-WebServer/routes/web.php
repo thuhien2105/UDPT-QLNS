@@ -21,6 +21,7 @@ use App\Http\Controllers\RequestController;
 // });
 
 Route::prefix('api')->group(function () {
+    Route::post('signin', [EmployeeController::class, 'signin']);
 
     Route::get('employees/{id}', [EmployeeController::class, 'show']);
 

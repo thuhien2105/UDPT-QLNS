@@ -32,21 +32,32 @@ class EmployeeController extends Controller
         return response()->json(['message' => 'Registration request sent to RabbitMQ', 'response' => $response]);
     }
 
-    public function login(Request $request)
+    public function signin(Request $request)
     {
-        $validatedData = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string|min:8',
-        ]);
+        Log::info('Signin method called');
+        Log::info('Request data:', $request->all());
 
-        $message = [
-            'action' => 'login',
-            'user' => $validatedData
-        ];
+        try {
+            $validatedData = $request->validate([
+                'username' => 'required|string',
+                'password' => 'required|string|min:8',
+            ]);
 
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
-        return response()->json(['message' => 'Login request sent to RabbitMQ', 'response' => $response]);
+            $message = json_encode([
+                'action' => 'login',
+                'username' => $validatedData['username'],
+                'password' => $validatedData['password'],
+            ]);
+            $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+
+            return response()->json(['response' => $response]);
+        } catch (\Exception $e) {
+            Log::error('Signin method error:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
+
 
     public function logout(Request $request)
     {
@@ -64,6 +75,7 @@ class EmployeeController extends Controller
     }
     public function index()
     {
+
         $message = json_encode(['action' => 'get_all']);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
         return response()->json($response);
