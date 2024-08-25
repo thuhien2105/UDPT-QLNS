@@ -43,7 +43,7 @@
                         </a>
                     </div>
                     <div class="col-3 col-md-2 o_draggable mb-3 px-0">
-                        <a href="/employees" role="option"
+                        <a href="/employees?type=employee" role="option"
                             class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"
                             id="result_app_8" aria-selected="false" data-menu-xmlid="hr.menu_hr_root"><img
                                 class="o_app_icon rounded-3"

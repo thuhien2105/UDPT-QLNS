@@ -11,9 +11,6 @@
                         </div>
 
                         <form id="signupForm" method="post">
-                            @csrf
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
                             <div class="mb-3 field-login">
                                 <label for="login">Your Email</label>
                                 <input type="text" name="login" id="login" class="form-control form-control-sm"

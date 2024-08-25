@@ -8,7 +8,12 @@ $(document).ready(function () {
             data: formData,
             success: function (response) {
                 if (response.success) {
-                    console.log("Login successful:", response.data);
+                    Cookies.set('token', response.data.token, { expires: 7, secure: true });
+                    Cookies.set('id', response.data.id, { expires: 7 });
+                    Cookies.set('name', response.data.name, { expires: 7 });
+                    Cookies.set('dob', response.data.dob, { expires: 7 });
+                    Cookies.set('address', response.data.address, { expires: 7 });
+                    window.location.href = '/'
                 } else {
                     console.error("Login failed:", response.error);
                 }
@@ -18,6 +23,7 @@ $(document).ready(function () {
             },
         });
     });
+
     $("#signupForm").on("submit", function (event) {
         event.preventDefault();
         var formData = $(this).serialize();

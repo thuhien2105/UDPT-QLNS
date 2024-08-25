@@ -28,7 +28,7 @@
             <a class="dropdown-item" role="menuitem" tabindex="0" href="https://www.odoo.com/help" data-menu="support">Support</a>
             <div role="separator" class="dropdown-divider"></div>
             <span class="dropdown-item" role="menuitem" tabindex="0" data-menu="settings">My Profile</span>
-            <a class="dropdown-item" role="menuitem" tabindex="0" href="/logout" data-menu="logout">Log out</a>
+            <a class="dropdown-item" role="menuitem" tabindex="0" href="/logout" data-menu="logout" id="logoutLink">Log out</a>
         </div>
     </div>
 </div>

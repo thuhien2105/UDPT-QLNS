@@ -1,4 +1,11 @@
 $(document).ready(function () {
+    // var currentPath = window.location.pathname;
+    // if (currentPath !== '/login') {
+    //     if (!Cookies.get('token') || !Cookies.get('id') || !Cookies.get('name') || !Cookies.get('dob') || !Cookies.get('address') || !Cookies.get('phone_number')) {
+    //         window.location.href = '/login';
+    //     }
+    // }
+
     $(".nav-link").click(function () {
         $(".nav-link").removeClass("active");
         $(".tab-pane").removeClass("active");
@@ -24,26 +31,37 @@ $(document).ready(function () {
             });
         }
     });
-
     $(document).click(function (event) {
         if (!$(event.target).closest(".o-dropdown").length) {
             $(".o-dropdown--menu").hide();
         }
     });
+    $("#logoutLink").on("click", function (event) {
+        event.preventDefault();
+        Cookies.remove("token");
+        Cookies.remove("id");
+        Cookies.remove("name");
+        Cookies.remove("dob");
+        Cookies.remove("address");
+        Cookies.remove("phone_number");
+        window.location.href = "/login";
+    });
 });
-document.addEventListener('DOMContentLoaded', function() {
-    var notifications = document.querySelectorAll('#notification-container .notification');
+document.addEventListener("DOMContentLoaded", function () {
+    var notifications = document.querySelectorAll(
+        "#notification-container .notification"
+    );
 
     function showNotification(index) {
         if (index >= notifications.length) return; // Nếu đã hiển thị hết thông báo
 
         var notification = notifications[index];
-        notification.style.display = 'block';
+        notification.style.display = "block";
 
         // Ẩn thông báo sau 3 giây
-        setTimeout(function() {
-            notification.style.opacity = '0';
-            setTimeout(function() {
+        setTimeout(function () {
+            notification.style.opacity = "0";
+            setTimeout(function () {
                 notification.remove(); // Xóa thông báo khỏi DOM
                 // Gửi yêu cầu AJAX để xóa thông báo khỏi session
                 if (index === notifications.length - 1) {
@@ -56,22 +74,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function clearNotifications() {
-        fetch('/clear-notifications', {
-            method: 'POST',
+        fetch("/clear-notifications", {
+            method: "POST",
             headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
             },
             body: JSON.stringify({}),
-        }).then(response => response.json())
-          .then(data => {
-              if (data.success) {
-                  console.log('Notifications cleared from session.');
-              } else {
-                  console.error('Failed to clear notifications.');
-              }
-          });
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    console.log("Notifications cleared from session.");
+                } else {
+                    console.error("Failed to clear notifications.");
+                }
+            });
     }
-
-    // Bắt đầu hiển thị thông báo từ đầu
     showNotification(0);
 });
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}

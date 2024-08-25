@@ -10,8 +10,6 @@
                             <img alt="Logo" style="max-height:120px; max-width: 100%; width:auto" src="/image/logo.png">
                         </div>
                         <form id="loginForm" class="oe_login_form" role="form" method="post">
-                            @csrf
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <div class="mb-3 field-login">
                                 <label for="login" class="form-label">Email</label>
                                 <input type="text" placeholder="Email" name="login" id="login" required="required"

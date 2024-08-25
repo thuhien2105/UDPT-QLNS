@@ -91,26 +91,25 @@ class EmployeeController extends Controller
     }
     public function checkIn(Request $request)
     {
-        // Xác thực dữ liệu từ form
-        $request->validate([
-            'csrf_token' => 'required|string',
+        $response = Http::post('https://example.com/api/checkin', [
+            'id' => $validated['id'],
         ]);
 
-        // Xử lý logic Check In ở đây
-        // Ví dụ: Ghi nhận vào cơ sở dữ liệu hoặc gửi đến API bên ngoài
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Checked in successfully!',
-        ]);
+        if ($response->successful()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Checked in successfully!',
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Can not check in!',
+            ]);
+        }
     }
 
     public function checkOut(Request $request)
     {
-        $request->validate([
-            'csrf_token' => 'required|string',
-        ]);
-        // Xử lý logic Check Out ở đây
         return response()->json([
             'success' => true,
             'message' => 'Checked Out successfully!',
