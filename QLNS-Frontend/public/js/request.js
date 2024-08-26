@@ -1,48 +1,106 @@
 $(document).ready(function () {
-    // var currentPath = window.location.pathname;
-    // if (currentPath !== '/login') {
-    //     if (!Cookies.get('token') || !Cookies.get('id') || !Cookies.get('name') || !Cookies.get('dob') || !Cookies.get('address') || !Cookies.get('phone_number')) {
-    //         window.location.href = '/login';
-    //     }
-    // }
-    $(".nav-link").click(function () {
-        $(".nav-link").removeClass("active");
-        $(".tab-pane").removeClass("active");
-        $(this).addClass("active");
-        var index = $(this).parent().index();
-        $(".tab-pane").eq(index).addClass("active");
-    });
-    $(".dropdown-toggle").click(function () {
-        var $dropdownMenu = $(this).siblings(".o-dropdown--menu");
-        var $button = $(this);
+    var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
-        // Toggle the display property
-        if ($dropdownMenu.is(":visible")) {
-            $dropdownMenu.hide();
-        } else {
-            var offset = $button.offset();
-            var buttonHeight = $button.outerHeight();
-            $dropdownMenu.css({
-                display: "block",
-                position: "absolute",
-                top: offset.top + buttonHeight,
-                right: "20px",
-            });
-        }
+    // Get all requests
+    function getAllRequests() {
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/requests`,
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                // Handle the response data
+                console.log(data);
+            },
+            error: function () {
+                console.error("An error occurred while fetching all requests.");
+            },
+        });
+    }
+
+    // Get a specific request by ID
+    function getRequestById(id) {
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/requests/${id}`,
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                // Handle the response data
+                console.log(data);
+            },
+            error: function () {
+                console.error(`An error occurred while fetching request with ID ${id}.`);
+            },
+        });
+    }
+
+    // Create a new request
+    function createRequest(requestData) {
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/requests`,
+            method: "POST",
+            data: requestData,
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            success: function (response) {
+                // Handle the response data
+                console.log(response);
+            },
+            error: function (xhr) {
+                console.error("An error occurred while creating the request:", xhr.responseText);
+            },
+        });
+    }
+
+    // Update an existing request
+    function updateRequest(requestData) {
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/requests`,
+            method: "PUT",
+            data: requestData,
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            success: function (response) {
+                // Handle the response data
+                console.log(response);
+            },
+            error: function (xhr) {
+                console.error("An error occurred while updating the request:", xhr.responseText);
+            },
+        });
+    }
+
+    // Delete a request by ID
+    function deleteRequest(id) {
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/requests/${id}`,
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            success: function (response) {
+                // Handle the response data
+                console.log(response);
+            },
+            error: function () {
+                console.error(`An error occurred while deleting request with ID ${id}.`);
+            },
+        });
+    }
+
+    // Example usage
+    getAllRequests();
+    getRequestById(1);
+    createRequest({
+        type: "example",
+        employee_id: 123,
+        details: "Example details",
     });
-    $(document).click(function (event) {
-        if (!$(event.target).closest(".o-dropdown").length) {
-            $(".o-dropdown--menu").hide();
-        }
+    updateRequest({
+        id: 1,
+        type: "updated example",
+        details: "Updated details",
     });
-    $("#logoutLink").on("click", function (event) {
-        event.preventDefault();
-        Cookies.remove("token");
-        Cookies.remove("id");
-        Cookies.remove("name");
-        Cookies.remove("dob");
-        Cookies.remove("address");
-        Cookies.remove("phone_number");
-        window.location.href = "/login";
-    });
+    deleteRequest(1);
 });
