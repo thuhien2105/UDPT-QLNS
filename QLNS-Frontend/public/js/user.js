@@ -7,9 +7,9 @@ $(document).ready(function () {
         var address = Cookies.get("address");
         var phone_number = Cookies.get("phone_number");
         $("#name_0").val(name || "");
-        $("#location_0").val(dob || "");
-        $("#location_0").val(address || "");
-        $("#location_0").val(phone_number || "");
+        $("#dob_0").val(dob || "");
+        $("#address_0").val(address || "");
+        $("#phone_number_0").val(phone_number || "");
     }
     populateFormFromCookies();
 });

@@ -27,6 +27,9 @@ Route::get('/approvals',[ApprovalsController::class, 'getCategoryPage'])->name('
 Route::get('/approvals/form',[ApprovalsController::class, 'getFormPage'])->name('approvals-form');
 Route::get('/approvals/list',[ApprovalsController::class, 'getListPage'])->name('approvals-list');
 
+Route::get('/employees/add',[EmployeeController::class, 'getCreatePage'])->name('employees-add');
+Route::post('/employees/add',[EmployeeController::class, 'createEmployee'])->name('employees-create');
+Route::put('/employees/edit',[EmployeeController::class, 'editEmployee'])->name('employees-edit');
 Route::get('/employees/form',[EmployeeController::class, 'getFormPage'])->name('employees-form');
 Route::get('/employees',[EmployeeController::class, 'getListPage'])->name('employees-list');
 Route::get('/check-in-out',[EmployeeController::class, 'getCheckinoutPage'])->name('check-in-out');

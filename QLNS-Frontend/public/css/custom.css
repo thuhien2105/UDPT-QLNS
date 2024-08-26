@@ -25,3 +25,8 @@
 .notification.error {
     background-color: #f44336; /* Màu nền của thông báo lỗi */
 }
+input:disabled {
+    cursor: default;
+    background-color: transparent;
+    border: none;
+}

@@ -2,20 +2,19 @@ $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
     const type = urlParams.get("type");
+    var csrfToken = $('meta[name="csrf-token"]').attr("content");
     if (id != null) {
         if (type == "employee")
             $.ajax({
-                url: `http://localhost:5000/employees/${id}`, // Giả sử đây là URL API của bạn
+                url: `http://127.0.0.1:8000/api/employees/${id}`,
                 method: "GET",
                 dataType: "json",
                 success: function (data) {
-                    // Cập nhật thông tin vào các trường trên giao diện
-                    $("#name_0").val(data.name);
-                    $("#location_0").val(data.dob); // Ngày sinh
-                    $("#address_0").val(data.address); // Địa chỉ
-                    $("#phone_number_0").val(data.phone_number); // Số điện thoại
-
-                    // Cập nhật bảng (nếu có) với dữ liệu từ API
+                    $("#employee-id").val(data.employee.id);
+                    $("#name_0").val(data.employee.name);
+                    $("#dob_0").val(data.employee.dob);
+                    $("#address_0").val(data.employee.address);
+                    $("#phone_number_0").val(data.employee.phone_number);
                     let rowsHtml = "";
                     if (data.orders && data.orders.length) {
                         data.orders.forEach((order) => {
@@ -73,7 +72,7 @@ $(document).ready(function () {
                             '<tr><td colspan="8">No orders found</td></tr>';
                     }
 
-                    $("#data-table tbody").html(rowsHtml); // Cập nhật nội dung bảng
+                    $("#data-table tbody").html(rowsHtml);
                 },
                 error: function () {
                     $("#activity-details").html(
@@ -165,9 +164,12 @@ $(document).ready(function () {
             });
         else if (type == "employee")
             $.ajax({
-                url: `http://localhost:5000/employee`,
+                url: `http://127.0.0.1:8000/api/employees`,
                 method: "GET",
                 dataType: "json",
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
                 success: function (data) {
                     const employees = Array.isArray(data) ? data : [data];
                     let rowsHtml = "";
@@ -186,26 +188,24 @@ $(document).ready(function () {
                                 <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_many2one_avatar_user_cell" data-tooltip-delay="1000" tabindex="-1" name="job" data-tooltip="${employee.job}">
                                     <div name="job" class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
                                         <div class="d-flex align-items-center gap-1">
-                                            <span class="o_avatar o_m2o_avatar"><img class="rounded" src="${employee.avatar}" /></span>
-                                            <span><span>${employee.job}</span></span>
+                                            <span><span>${employee.dob}</span></span>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_required_modifier" data-tooltip-delay="1000" tabindex="-1" name="position" data-tooltip="${employee.position}">
-                                    ${employee.position}
+                                    ${employee.address}
                                 </td>
                             </tr>
                         `;
                     });
 
-                    // Thêm các hàng trống vào bảng
                     rowsHtml += `
                         <tr><td colspan="4">​</td></tr>
                         <tr><td colspan="4">​</td></tr>
                         <tr><td colspan="4">​</td></tr>
                     `;
 
-                    $("#data-table").html(rowsHtml); // Thay thế nội dung bảng
+                    $("#data-table").html(rowsHtml);
                 },
                 error: function () {
                     $("#data-table").html(
@@ -214,47 +214,94 @@ $(document).ready(function () {
                 },
             });
     }
-});
-
-$("form#check-in").on("submit", function (event) {
-    event.preventDefault();
-    const userId = getCookie("userId");
-    $.ajax({
-        url: "/check-in",
-        method: "POST",
-        data: JSON.stringify({
-            id: userId,
-        }),
-        success: function (response) {
-            if (response.success) {
-                window.location.href = "/check-in-out";
-            } else {
-                alert("An error occurred: " + response.message);
-            }
-        },
-        error: function (xhr) {
-            alert("An error occurred: " + xhr.responseText);
-        },
+    $("#create-employee").on("submit", function (event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: "/employees/add",
+            method: "POST",
+            data: formData,
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            success: function (response) {
+                window.location.href = "/employees?type=employee";
+            },
+            error: function (xhr) {
+                console.error("Request failed:", xhr.responseText);
+            },
+        });
     });
-});
-$("form#check-out").on("submit", function (event) {
-    event.preventDefault();
-    const userId = getCookie("userId");
-    $.ajax({
-        url: "/check-out",
-        method: "POST",
-        data: JSON.stringify({
-            id: userId,
-        }),
-        success: function (response) {
-            if (response.success) {
-                window.location.href = "/check-in-out";
-            } else {
-                alert("An error occurred: " + response.message);
-            }
-        },
-        error: function (xhr) {
-            alert("An error occurred: " + xhr.responseText);
-        },
+    $("form#check-in").on("submit", function (event) {
+        event.preventDefault();
+        const userId = getCookie("userId");
+        const currentDateTime = new Date().toISOString();
+        $.ajax({
+            url: "/check-in",
+            method: "POST",
+            data: JSON.stringify({
+                employee_id: userId,
+                requestType: "Check In",
+                date: currentDateTime,
+            }),
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = "/check-in-out";
+                } else {
+                    alert("An error occurred: " + response.message);
+                }
+            },
+            error: function (xhr) {
+                alert("An error occurred: " + xhr.responseText);
+            },
+        });
+    });
+    $("form#check-out").on("submit", function (event) {
+        event.preventDefault();
+        const userId = getCookie("userId");
+        const currentDateTime = new Date().toISOString();
+        $.ajax({
+            url: "/check-out",
+            method: "POST",
+            data: JSON.stringify({
+                employee_id: userId,
+                requestType: "Check Out",
+                date: currentDateTime,
+            }),
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = "/check-in-out";
+                } else {
+                    alert("An error occurred: " + response.message);
+                }
+            },
+            error: function (xhr) {
+                alert("An error occurred: " + xhr.responseText);
+            },
+        });
+    });
+    $("form#edit-employee").on("submit", function (event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: "/employees/edit",
+            method: "PUT",
+            data: formData,
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            success: function (response) {
+                if (response.status) alert("Cập nhật thành công !!!");
+            },
+            error: function (xhr) {
+                console.error("Request failed:", xhr.responseText);
+            },
+        });
     });
 });

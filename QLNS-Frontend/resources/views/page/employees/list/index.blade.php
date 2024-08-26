@@ -12,6 +12,24 @@
                             <div class="d-xl-none o_control_panel_collapsed_create">
                                 <button type="button"
                                     class="btn btn-primary dropdown-toggle dropdown-toggle-split o_control_panel_collapsed_create d-none"
+                                    data-bs-toggle="dropdown" aria-expanded="false"><span class="visually-hidden">Toggle
+                                        Dropdown</span></button>
+                                <ul class="dropdown-menu o_control_panel_collapsed_create d-none">
+                                    <div class="o_list_buttons d-flex gap-1 d-empty-none align-items-baseline"
+                                        role="toolbar" aria-label="Main actions"></div>
+                                </ul>
+                            </div>
+                            <div class="d-none d-xl-inline-flex gap-1"> <a href="/employees/add?type=create-employee"
+                                    class="btn btn-primary o_list_button_add">New</a>
+
+                                <div class="o_list_buttons d-flex gap-1 d-empty-none align-items-baseline" role="toolbar"
+                                    aria-label="Main actions"></div>
+                            </div>
+                        </div>
+                        <div class="o_control_panel_main_buttons d-flex gap-1 d-empty-none d-print-none">
+                            <div class="d-xl-none o_control_panel_collapsed_create">
+                                <button type="button"
+                                    class="btn btn-primary dropdown-toggle dropdown-toggle-split o_control_panel_collapsed_create d-none"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
@@ -114,7 +132,7 @@
                                     data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_owner_id","type":"many2one","widget":"many2one_avatar_user","widgetDescription":"Many2one","context":"{}","domain":"(company_id and [(&apos;company_ids&apos;, &apos;in&apos;, [company_id])] or []) + ([(&apos;company_ids&apos;, &apos;in&apos;, company_id)])","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false,"relation":"res.users"}}'
                                     style="width: 302px">
                                     <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Job</span>
+                                        <span class="d-block min-w-0 text-truncate flex-grow-1">DOB</span>
                                     </div>
                                     <span
                                         class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
@@ -125,7 +143,7 @@
                                     data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
                                     style="width: 203px">
                                     <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Position</span>
+                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Address</span>
                                     </div>
                                     <span
                                         class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>

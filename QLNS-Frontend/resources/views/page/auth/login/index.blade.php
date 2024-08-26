@@ -11,8 +11,8 @@
                         </div>
                         <form id="loginForm" class="oe_login_form" role="form" method="post">
                             <div class="mb-3 field-login">
-                                <label for="login" class="form-label">Email</label>
-                                <input type="text" placeholder="Email" name="login" id="login" required="required"
+                                <label for="login" class="form-label">Username</label>
+                                <input type="text" placeholder="Username" name="login" id="login" required="required"
                                     autocomplete="username" autofocus="autofocus" autocapitalize="off" class="form-control">
                             </div>
                             <div class="mb-3">

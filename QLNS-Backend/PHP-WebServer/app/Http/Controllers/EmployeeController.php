@@ -96,7 +96,6 @@ class EmployeeController extends Controller
             'address' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
         ]);
-
         $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
         return response()->json($response, 201);

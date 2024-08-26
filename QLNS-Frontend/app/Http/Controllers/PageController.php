@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use App\Notification\Notification;
 
 class PageController extends Controller
@@ -25,20 +26,31 @@ class PageController extends Controller
     public function checkLogin(Request $request)
     {
         $validated = $request->validate([
-            'login' => 'required|email',
+            'login' => 'required|string',
             'password' => 'required',
         ]);
 
-        $response = Http::post('https://example.com/api/login', [
-            'login' => $validated['login'],
+        $response = Http::post('http://127.0.0.1:8000/api/signin', [
+            'username' => $validated['login'],
             'password' => $validated['password'],
         ]);
 
         if ($response->successful()) {
-            return redirect()->route('home')->with('status', 'Login successful!');
+            $responseData = $response->json();
+            return response()->json([
+                'response' => [
+                    'status' => 'Login successful',
+                    'employee' => [
+                        'employee' => $responseData['response']['employee']['employee'],
+                        'token' => $responseData['response']['employee']['token']
+                    ]
+                ]
+            ], 200);
         } else {
-            $this->addNotification($request, 'Login failed! Please check your credentials.', 'error');
-            return redirect()->back();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Login failed! Please check your credentials.'
+            ], 401);
         }
     }
 

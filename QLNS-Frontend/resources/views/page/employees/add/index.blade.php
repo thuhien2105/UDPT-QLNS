@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    @include('page.auth.header')
+    @include('page.employees.header')
 
     <div class="o_action_manager">
         <div class="o_form_view o_view_controller o_action">
@@ -23,7 +23,7 @@
                                 <ol class="breadcrumb flex-nowrap text-nowrap small lh-sm">
                                     <li class="breadcrumb-item d-inline-flex min-w-0 o_back_button" data-hotkey="b"><a
                                             href="#" class="fw-bold text-truncate"
-                                            data-tooltip="Back to &quot;User&quot;">User</a></li>
+                                            data-tooltip="Back to &quot;My Requests&quot;">My Requests</a></li>
                                 </ol>
                                 <div class="d-flex gap-1 text-truncate">
                                     <div
@@ -41,6 +41,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="o_form_status_indicator d-md-flex align-items-center align-self-md-end me-auto">
+                                <div class="o_form_status_indicator_buttons d-flex invisible"><button type="button"
+                                        class="o_form_button_save btn btn-light px-1 py-0 lh-sm" data-hotkey="s"
+                                        data-tooltip="Save manually" aria-label="Save manually"><i
+                                            class="fa fa-cloud-upload fa-fw"></i></button><button type="button"
+                                        class="o_form_button_cancel btn btn-light px-1 py-0 lh-sm" data-hotkey="j"
+                                        data-tooltip="Discard changes" aria-label="Discard changes"><i
+                                            class="fa fa-undo fa-fw"></i></button></div>
+                            </div><span class="d-none d-xl-block me-auto"></span>
                         </div>
                         <div
                             class="o_control_panel_actions d-empty-none d-flex align-items-center justify-content-start justify-content-lg-around order-2 order-lg-1 w-100 w-lg-auto">
@@ -66,67 +75,75 @@
                 </div>
                 <div class="o_content">
                     <div class="o_form_renderer o_form_editable d-flex flex-column o_form_saved">
-                        <div class="o_form_sheet_bg">
-                            <div class="o_form_sheet position-relative">
-                                <div class="oe_title">
-                                    <h1>
-                                        <div name="name" class="o_field_widget o_required_modifier o_field_char"><input
-                                                id="name_0" type="text" autocomplete="off" disabled
-                                                placeholder="E.g: Expenses Paris business trip"></div>
-                                    </h1>
-                                </div>
-                                <div class="o_group row align-items-start">
-                                    <div class="o_inner_group grid col-lg-6">
-                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                            <div
-                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                <label class="o_form_label" for="dob_0">DOB</label>
-                                            </div>
-                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                style="width: 100%;">
-                                                <div name="dob"
-                                                    class="o_field_widget o_required_modifier o_field_char">
-                                                    <input id="dob_0" type="text" disabled
-                                                        autocomplete="off" placeholder="e.g. Brussels">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                            <div
-                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                <label class="o_form_label" for="address_0">Address</label>
-                                            </div>
-                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                style="width: 100%;">
-                                                <div name="address"
-                                                    class="o_field_widget o_required_modifier o_field_char">
-                                                    <input id="address_0" type="text" disabled
-                                                        autocomplete="off" placeholder="e.g. Brussels">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                            <div
-                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                                <label class="o_form_label" for="phone_number_0">Phone number</label>
-                                            </div>
-                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                                style="width: 100%;">
-                                                <div name="phone_number"
-                                                    class="o_field_widget o_required_modifier o_field_char">
-                                                    <input id="phone_number_0" type="text" disabled
-                                                        autocomplete="off" placeholder="e.g. Brussels">
-                                                </div>
-                                            </div>
-                                        </div>
-
+                        <form id="create-employee" action="/employees/add" method="POST">
+                            @csrf
+                            <div class="o_form_sheet_bg">
+                                <div class="o_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
+                                    <div class="o_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
+                                        <button
+                                            class="btn btn-primary" name="action_confirm" type="submit">
+                                            <span>Save</span>
+                                        </button>
                                     </div>
-                                    <div class="o_inner_group grid col-lg-6"></div>
+                                </div>
+                                <div class="o_form_sheet position-relative">
+                                    <div class="oe_title">
+                                        <h1>
+                                            <div class="o_field_widget o_required_modifier o_field_char">
+                                                <input
+                                                    class="o_input" id="name_0" name="name" type="text" autocomplete="off"
+                                                    placeholder="E.g: Expenses Paris business trip"
+                                                >
+                                            </div>
+                                        </h1>
+                                    </div>
+                                    <div class="o_group row align-items-start">
+                                        <div class="o_inner_group grid col-lg-6">
+                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                                <div class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                    <label class="o_form_label" for="dob_0">DOB</label>
+                                                </div>
+                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break" style="width: 100%;">
+                                                    <div class="o_field_widget o_required_modifier o_field_char">
+                                                        <input
+                                                            class="o_input" id="dob_0" name="dob" type="date"
+                                                            autocomplete="off" placeholder="e.g. Brussels"
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                                <div class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                    <label class="o_form_label" for="address_0">Address</label>
+                                                </div>
+                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break" style="width: 100%;">
+                                                    <div class="o_field_widget o_required_modifier o_field_char">
+                                                        <input
+                                                            class="o_input" id="address_0" name="address" type="text"
+                                                            autocomplete="off" placeholder="e.g. Brussels"
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                                <div class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                    <label class="o_form_label" for="phone_number_0">Phone Number</label>
+                                                </div>
+                                                <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break" style="width: 100%;">
+                                                    <div class="o_field_widget o_required_modifier o_field_char">
+                                                        <input
+                                                            class="o_input" id="phone_number_0" name="phone_number" type="text"
+                                                            autocomplete="off" placeholder="e.g. Brussels"
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="o_inner_group grid col-lg-6"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -138,8 +155,6 @@
         <div class="o-overlay-container"></div>
         <div></div>
         <div class="o_notification_manager o_upload_progress_toast"></div>
+        <div class="o_notification_manager"></div>
     </div>
-@endsection
-@section('script')
-    <script src="{{ asset('js/user.js') }}"></script>
 @endsection
