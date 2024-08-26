@@ -23,7 +23,6 @@ use App\Http\Controllers\RequestController;
 Route::prefix('api')->group(function () {
     Route::post('signin', [EmployeeController::class, 'signin']);
 
-    Route::get('employees/{id}', [EmployeeController::class, 'show']);
 
     Route::get('employees', [EmployeeController::class, 'index']);
     Route::get('employees/{id}', [EmployeeController::class, 'show']);
@@ -33,6 +32,8 @@ Route::prefix('api')->group(function () {
 
 
     Route::get('request', [RequestController::class, 'index']);
+    Route::get('request/{employeeId}', [RequestController::class, 'show']);
+
     Route::get('request/{id}', [RequestController::class, 'show']);
     Route::post('request', [RequestController::class, 'store']);
     Route::put('request/{id}', [RequestController::class, 'update']);

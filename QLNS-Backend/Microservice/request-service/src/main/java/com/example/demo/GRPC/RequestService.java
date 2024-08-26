@@ -12,14 +12,14 @@ public class RequestService {
     public RequestService(EmployeeGrpcClient employeeGrpcClient) {
         this.employeeGrpcClient = employeeGrpcClient;
     }
-
-    public void printEmployeeDetails(int employeeId) {
-        Employee employee = employeeGrpcClient.getEmployeeById(employeeId); 
-        System.out.println("Employee Details: ");
-        System.out.println("ID: " + employee.getEmployeeId());
-        System.out.println("Name: " + employee.getName());
-        System.out.println("Date of Birth: " + employee.getDob());
-        System.out.println("Address: " + employee.getAddress());
-        System.out.println("Phone Number: " + employee.getPhoneNumber());
-    }
+//
+//    public void printEmployeeDetails(String employeeId) {
+//        Employee employee = employeeGrpcClient.getEmployeeById(employeeId); 
+//        System.out.println("Employee Details: ");
+//        System.out.println("ID: " + employee.getEmployeeId());
+//        System.out.println("Name: " + employee.getName());
+//        System.out.println("Date of Birth: " + employee.getDob());
+//        System.out.println("Address: " + employee.getAddress());
+//        System.out.println("Phone Number: " + employee.getPhoneNumber());
+//    }
 }
