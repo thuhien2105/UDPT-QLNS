@@ -11,13 +11,12 @@ public class GrpcClientConfig {
 
     @Bean
     public ManagedChannel managedChannel() {
-        return ManagedChannelBuilder.forAddress("localhost", 9090)
+        return ManagedChannelBuilder.forAddress("localhost", 9091)
             .usePlaintext()
             .build();
     }
 
     @Bean
-    public EmployeeGrpcClient employeeGrpcClient(ManagedChannel managedChannel) {
-        return new EmployeeGrpcClient(managedChannel);
-    }
+    public EmployeeGrpcClient employeeGrpcClient() {
+        return new EmployeeGrpcClient();    }
 }
