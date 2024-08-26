@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify
 from werkzeug.exceptions import BadRequest
-from ..config import Connector
+from ..config import Connector, mysql_db_connection
 from ..DTOs import (
     Activity,
 )
@@ -17,11 +17,20 @@ class MainController:
     def get_activity(id):
         include_all_efforts = request.args.get("include_all_efforts", "")
         params = {"include_all_efforts": include_all_efforts}
+        _logger.info("======================")
+        conn = mysql_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM activities')
+        data = cursor.fetchall()
+        _logger.info("======================")
+        _logger.info(data)
+        _logger.info("======================")
+        cursor.close()
+        conn.close()
         try:
             result, status_code = Connector.call(
                 "GET", f"activities/{id}", params=params
             )
-
             if status_code == 200:
                 _logger.info("Successfully retrieved activity details for ID %d", id)
                 return jsonify(result), 200
