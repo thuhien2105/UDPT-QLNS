@@ -17,4 +17,8 @@ class CampaignController extends Controller
     {
     	return view('page.campaign.list.index');
     }
+    public function getCreatePage()
+    {
+    	return view('page.campaign.add.index');
+    }
 }

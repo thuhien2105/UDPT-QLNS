@@ -19,7 +19,8 @@
                                         role="toolbar" aria-label="Main actions"></div>
                                 </ul>
                             </div>
-                            <div class="d-none d-xl-inline-flex gap-1"> <a href="/employees/add?type=create-employee"
+                            <div class="d-none d-xl-inline-flex gap-1">
+                                <a href="/employees/add?type=create-employee"
                                     class="btn btn-primary o_list_button_add">New</a>
 
                                 <div class="o_list_buttons d-flex gap-1 d-empty-none align-items-baseline" role="toolbar"

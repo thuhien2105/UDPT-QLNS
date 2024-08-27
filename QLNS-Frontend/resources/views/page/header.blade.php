@@ -36,11 +36,9 @@
         </div>
     </div>
 </div>
-@section('script')
+@section('script-main')
 <script src="{{ asset('js/user.js') }}"></script>
 <script>
-    $(document).ready(function() {
-        populateUserName();
-    });
+    
 </script>
 @endsection

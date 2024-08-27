@@ -42,6 +42,8 @@ Route::get('/gifts',[GiftsController::class, 'getListPage'])->name('gifts-list')
 
 Route::get('/user',[UserController::class, 'getFormPage'])->name('user-form');
 
+Route::get('/campaign/add',[CampaignController::class, 'getCreatePage'])->name('campaign-add');
+Route::post('/campaign/add',)->name('campaign-add');
 Route::get('/campaign/form',[CampaignController::class, 'getFormPage'])->name('campaign-form');
 Route::get('/campaign',[CampaignController::class, 'getListPage'])->name('campaign-list');
 
