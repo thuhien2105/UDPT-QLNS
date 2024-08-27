@@ -31,7 +31,6 @@ Route::prefix('api')->group(function () {
     Route::put('employees/{id}', [EmployeeController::class, 'update']);
     Route::delete('employees/{id}', [EmployeeController::class, 'destroy']);
 
-
     Route::get('request', [RequestController::class, 'index']);
     Route::get('request/{id}', [RequestController::class, 'show']);
     Route::post('request', [RequestController::class, 'store']);
