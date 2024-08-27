@@ -3,49 +3,40 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Models\User;
 use App\RabbitMQConnection;
 
 class AuthController extends Controller
 {
     private $rabbitMQService;
-
     public function __construct(RabbitMQConnection $rabbitMQService)
     {
         $this->rabbitMQService = $rabbitMQService;
     }
 
-    public function register(Request $request)
+    public function signin(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
 
-        $message = [
-            'action' => 'register',
-            'user' => $validatedData
-        ];
 
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
-        return response()->json(['message' => 'Registration request sent to RabbitMQ', 'response' => $response]);
-    }
+        try {
+            $validatedData = $request->validate([
+                'username' => 'required|string',
+                'password' => 'required|string|min:8',
+            ]);
 
-    public function login(Request $request)
-    {
-        $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:8',
-        ]);
+            $message = json_encode([
+                'action' => 'login',
+                'username' => $validatedData['username'],
+                'password' => $validatedData['password'],
+            ]);
+            $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
-        $message = [
-            'action' => 'login',
-            'user' => $validatedData
-        ];
-
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
-        return response()->json(['message' => 'Login request sent to RabbitMQ', 'response' => $response]);
+            return response()->json(['response' => $response]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 
     public function logout(Request $request)

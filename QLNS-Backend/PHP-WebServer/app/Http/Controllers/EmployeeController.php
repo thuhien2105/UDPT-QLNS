@@ -6,95 +6,103 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\RabbitMQConnection;
 use Illuminate\Support\Facades\Log;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class EmployeeController extends Controller
 {
     private $rabbitMQService;
+    private $secretKey = 'ungdungphantan_hcmus_20clcbytranthuhien';
 
     public function __construct(RabbitMQConnection $rabbitMQService)
     {
         $this->rabbitMQService = $rabbitMQService;
     }
-    public function register(Request $request)
+
+    private function verifyToken(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        $token = $request->bearerToken();
 
-        $message = [
-            'action' => 'register',
-            'user' => $validatedData
-        ];
-
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
-        return response()->json(['message' => 'Registration request sent to RabbitMQ', 'response' => $response]);
-    }
-
-    public function signin(Request $request)
-    {
-        Log::info('Signin method called');
-        Log::info('Request data:', $request->all());
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 401);
+        }
 
         try {
-            $validatedData = $request->validate([
-                'username' => 'required|string',
-                'password' => 'required|string|min:8',
-            ]);
+            $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
+            $jwtPayload = (array) $decoded;
 
-            $message = json_encode([
-                'action' => 'login',
-                'username' => $validatedData['username'],
-                'password' => $validatedData['password'],
-            ]);
-            $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+            Log::info('Decoded JWT Token:', $jwtPayload);
 
+            if ($jwtPayload['role'] !== 'manager') {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
 
-            return response()->json(['response' => $response]);
+            $request->attributes->set('jwt_payload', $jwtPayload);
+
+            return null;
         } catch (\Exception $e) {
-            Log::error('Signin method error:', ['error' => $e->getMessage()]);
-            return response()->json(['error' => 'An error occurred'], 500);
+            Log::error('Invalid token: ' . $e->getMessage());
+            return response()->json(['error' => 'Invalid token'], 401);
         }
     }
 
-
-    public function logout(Request $request)
+    public function index(Request $request, $keyword = null, $page = 1)
     {
-        $request->validate([
-            'token' => 'required|string',
-        ]);
+        $response = $this->verifyToken($request);
+        if ($response) {
+            return $response;
+        }
 
-        $message = [
-            'action' => 'logout',
-            'token' => $request->token,
-        ];
+        $keyword = $keyword === 'null' ? null : $keyword;
+
+        $message = json_encode(['action' => 'get_all', 'keyword' => $keyword, 'page' => $page]);
 
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
-        return response()->json(['message' => 'Logout request sent to RabbitMQ', 'response' => $response]);
-    }
-    public function index()
-    {
 
-        $message = json_encode(['action' => 'get_all']);
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
         return response()->json($response);
     }
-
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $message = json_encode(['action' => 'get', 'id' => $id]);
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
-        return response()->json($response);
+        $response = $this->verifyToken($request);
+        if ($response) {
+            return $response;
+        }
+
+        $user = $request->attributes->get('jwt_payload');
+
+        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $id)) {
+            $message = json_encode(['action' => 'get', 'employee_id' => $id]);
+            $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+            return response()->json($response);
+        }
+
+        return response()->json(['error' => 'Unauthorized'], 403);
     }
 
     public function store(Request $request)
     {
+        $response = $this->verifyToken($request);
+        if ($response) {
+            return $response;
+        }
+
+        $user = $request->attributes->get('jwt_payload');
+
+        if ($user['role'] !== 'manager') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'address' => 'required|string|max:255',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
+            'tax_code' => 'required|string|max:20',
+            'bank_account' => 'required|string|max:20',
+            'identity_card' => 'required|string|max:20',
+            'role' => 'required|string|in:employee,manager'
         ]);
 
         $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
@@ -104,22 +112,49 @@ class EmployeeController extends Controller
 
     public function update(Request $request)
     {
+        $response = $this->verifyToken($request);
+        if ($response) {
+            return $response;
+        }
+
+        $user = $request->attributes->get('jwt_payload');
+
         $validatedData = $request->validate([
-            'id' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'address' => 'required|string|max:255',
+            'employee_id' => 'required|string',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
+            'tax_code' => 'required|string|max:20',
+            'bank_account' => 'required|string|max:20',
+            'identity_card' => 'required|string|max:20',
+            'role' => 'required|string|in:employee,manager'
         ]);
 
-        $message = json_encode(['action' => 'update', 'employee' => $validatedData]);
-        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
-        return response()->json($response);
+        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $validatedData['employee_id'])) {
+            $message = json_encode(['action' => 'update', 'employee' => $validatedData]);
+            $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+            return response()->json($response);
+        }
+
+        return response()->json(['error' => 'Unauthorized'], 403);
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $message = json_encode(['action' => 'delete', 'id' => $id]);
+        $response = $this->verifyToken($request);
+        if ($response) {
+            return $response;
+        }
+
+        $user = $request->attributes->get('jwt_payload');
+
+        if ($user['role'] !== 'manager') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $message = json_encode(['action' => 'delete', 'employee_id' => $id]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
         return response()->json($response);
     }

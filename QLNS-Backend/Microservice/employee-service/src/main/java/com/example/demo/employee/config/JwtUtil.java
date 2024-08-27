@@ -14,10 +14,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtUtil {
 
     private String secretKey = "ungdungphantan_hcmus_20clcbytranthuhien"; 
-    private long validityInMilliseconds = 3600000;
+    private long validityInMilliseconds = 3600000; 
 
-    public String generateToken(String employee) {
-        Claims claims = Jwts.claims().setSubject(employee);
+    public String generateToken(String idEmployee, String role) {
+        Claims claims = Jwts.claims().setSubject(idEmployee);
+        claims.put("role", role);
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
@@ -37,5 +38,15 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public boolean validateToken(String token) {
+        Claims claims = parseToken(token);
+        return claims.getExpiration().after(new Date());
+    }
+
+    public String getIdEmployeeFromToken(String token) {
+        Claims claims = parseToken(token);
+        return claims.getSubject();
     }
 }
