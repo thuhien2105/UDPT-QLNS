@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
+import java.util.List;
+import org.springframework.data.domain.Page;
 
 
 @RestController
@@ -73,7 +75,7 @@ public class EmployeeController {
             return logoutEmployee(messageMap);
         		
             case "get_all":
-                return toJson(employeeService.getAllEmployees());
+                return getEmployees(messageMap);
             case "get":
                 return getEmployeeById(messageMap);
             case "create":
@@ -87,6 +89,19 @@ public class EmployeeController {
         }
     }
 
+    
+    
+    private JsonNode getEmployees(Map<String, Object> messageMap) {
+        String keyword = (String) messageMap.get("keyword");
+        String pageStr = messageMap.get("page").toString();
+        int page = Integer.parseInt(pageStr);
+
+        List<Employee> employees = employeeService.getAllEmployees(keyword, page);
+        return toJson(employees);
+    }
+    
+    
+    
     private JsonNode loginEmployee(Map<String, Object> messageMap) {
         String username = (String) messageMap.get("username");
         String password = (String) messageMap.get("password");
@@ -109,7 +124,7 @@ public class EmployeeController {
     }
     
     private JsonNode getEmployeeById(Map<String, Object> messageMap) {
-        Object idValue = messageMap.get("id");
+        Object idValue = messageMap.get("employee_id");
 
         String id;
         if (idValue instanceof String) {
@@ -148,7 +163,7 @@ public class EmployeeController {
 
         System.out.println("Employee before save: " + employee);
 
-        employee.setId(null);
+        employee.setEmployeeId(null);
 
         Employee createdEmployee = employeeService.createEmployee(employee);
         System.out.println("Created employee after save: " + createdEmployee);
@@ -180,7 +195,7 @@ public class EmployeeController {
 
 
     private JsonNode deleteEmployeeResponse(Map<String, Object> messageMap) {
-        Object idValue = messageMap.get("id");
+        Object idValue = messageMap.get("employee_id");
 
         String id;
         if (idValue instanceof String) {

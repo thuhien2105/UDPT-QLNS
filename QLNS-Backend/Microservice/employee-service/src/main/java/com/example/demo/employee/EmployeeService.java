@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 import com.example.demo.employee.config.JwtUtil;
 import com.example.demo.employee.config.LoginResponse;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 
 @Service
 public class EmployeeService {
@@ -33,7 +37,7 @@ public class EmployeeService {
         if (employeeOpt.isPresent()) {
             Employee employee = employeeOpt.get();
             if (password.equals(employee.getPassword())) {
-            	 String token = jwtUtil.generateToken(employee.getId(), employee.getRole());
+            	 String token = jwtUtil.generateToken(employee.getEmployeeId(), employee.getRole());
                  LoginResponse loginResponse = new LoginResponse(employee, token);
                  return Optional.of(loginResponse);
             }
@@ -48,10 +52,22 @@ public class EmployeeService {
     
     
     
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<Employee> getAllEmployees(String keyword, int page) {
+        PageRequest pageable = PageRequest.of(page - 1, 20); 
+
+        Page<Employee> employeePage;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            employeePage = employeeRepository.findAll(pageable);
+        } else {
+            employeePage = employeeRepository.findByNameContainingIgnoreCase(keyword, pageable);
+        }
+
+        return employeePage.getContent(); 
     }
 
+
+
+    
     public Optional<Employee> getEmployeeById(String id) {
         return employeeRepository.findById(id);
     }
@@ -61,8 +77,8 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Employee employee) {
-        if (employee.getId() == null || !employeeRepository.existsById(employee.getId())) {
-            throw new IllegalArgumentException("Employee with ID " + employee.getId() + " does not exist.");
+        if (employee.getEmployeeId() == null || !employeeRepository.existsById(employee.getEmployeeId())) {
+            throw new IllegalArgumentException("Employee with ID " + employee.getEmployeeId() + " does not exist.");
         }
 
         return employeeRepository.save(employee);

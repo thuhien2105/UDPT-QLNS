@@ -24,12 +24,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('signin', [AuthController::class, 'signin']);
 
 
-Route::get('employees', [EmployeeController::class, 'index']);
+Route::get('employees/{keyword}/{page}', [EmployeeController::class, 'index']);
 
 Route::get('employees/{id}', [EmployeeController::class, 'show']);
 Route::post('employees', [EmployeeController::class, 'store']);
 Route::put('employees/{id}', [EmployeeController::class, 'update']);
 Route::delete('employees/{id}', [EmployeeController::class, 'destroy']);
+
+
 
 Route::get('request', [RequestController::class, 'index']);
 Route::get('request/{employeeId}', [RequestController::class, 'show']);

@@ -24,7 +24,7 @@ class EmployeeController extends Controller
         $token = $request->bearerToken();
 
         if (!$token) {
-            return response()->json(['error' => 'Token không được cung cấp'], 401);
+            return response()->json(['error' => 'Token not provided'], 401);
         }
 
         try {
@@ -41,26 +41,26 @@ class EmployeeController extends Controller
 
             return null;
         } catch (\Exception $e) {
-            Log::error('Token không hợp lệ: ' . $e->getMessage());
-            return response()->json(['error' => 'Token không hợp lệ'], 401);
+            Log::error('Invalid token: ' . $e->getMessage());
+            return response()->json(['error' => 'Invalid token'], 401);
         }
     }
 
-
-
-    public function index(Request $request)
+    public function index(Request $request, $keyword = null, $page = 1)
     {
         $response = $this->verifyToken($request);
         if ($response) {
             return $response;
         }
 
-        $message = json_encode(['action' => 'get_all']);
+        $keyword = $keyword === 'null' ? null : $keyword;
+
+        $message = json_encode(['action' => 'get_all', 'keyword' => $keyword, 'page' => $page]);
+
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
         return response()->json($response);
     }
-
     public function show($id, Request $request)
     {
         $response = $this->verifyToken($request);
@@ -71,7 +71,7 @@ class EmployeeController extends Controller
         $user = $request->attributes->get('jwt_payload');
 
         if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $id)) {
-            $message = json_encode(['action' => 'get', 'id' => $id]);
+            $message = json_encode(['action' => 'get', 'employee_id' => $id]);
             $response = $this->rabbitMQService->sendToEmployeeQueue($message);
             return response()->json($response);
         }
@@ -94,9 +94,15 @@ class EmployeeController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'address' => 'required|string|max:255',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
+            'tax_code' => 'required|string|max:20',
+            'bank_account' => 'required|string|max:20',
+            'identity_card' => 'required|string|max:20',
+            'role' => 'required|string|in:employee,manager'
         ]);
 
         $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
@@ -114,14 +120,19 @@ class EmployeeController extends Controller
         $user = $request->attributes->get('jwt_payload');
 
         $validatedData = $request->validate([
-            'id' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'address' => 'required|string|max:255',
+            'employee_id' => 'required|string',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
+            'tax_code' => 'required|string|max:20',
+            'bank_account' => 'required|string|max:20',
+            'identity_card' => 'required|string|max:20',
+            'role' => 'required|string|in:employee,manager'
         ]);
 
-        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $validatedData['id'])) {
+        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $validatedData['employee_id'])) {
             $message = json_encode(['action' => 'update', 'employee' => $validatedData]);
             $response = $this->rabbitMQService->sendToEmployeeQueue($message);
             return response()->json($response);
@@ -143,7 +154,7 @@ class EmployeeController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        $message = json_encode(['action' => 'delete', 'id' => $id]);
+        $message = json_encode(['action' => 'delete', 'employee_id' => $id]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
         return response()->json($response);
     }

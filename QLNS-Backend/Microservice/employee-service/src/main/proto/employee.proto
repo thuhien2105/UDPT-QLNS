@@ -14,16 +14,12 @@ message Employee {
 }
 service EmployeeService {
     rpc GetEmployeeById(EmployeeRequest) returns (EmployeeResponse);
-    rpc UpdateEmployee(UpdateEmployeeRequest) returns (EmployeeResponse);
 }
 
 message EmployeeRequest {
     string employee_id = 1;
 }
 
-message UpdateEmployeeRequest {
-    Employee employee = 1;
-}
 
 message EmployeeResponse {
     Employee employee = 1;
