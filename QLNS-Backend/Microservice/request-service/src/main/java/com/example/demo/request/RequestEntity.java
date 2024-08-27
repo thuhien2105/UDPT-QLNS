@@ -2,6 +2,8 @@ package com.example.demo.request;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,23 +11,20 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
-import com.example.demo.GRPC.EmployeeProto.EmployeeResponse;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 @Entity
 @Table(name = "request")
-
 public class RequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;  
-    
+    private Integer id;
+
     @Column(name = "employee_id")
     private String employeeId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "request_type")
-    private String requestType;
+    private RequestType requestType;
 
     @Column(name = "request_date")
     private LocalDateTime requestDate;
@@ -36,35 +35,28 @@ public class RequestEntity {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @Column(name = "approver_id")
-    private Integer approverId;
+    private String approverId;
 
-    @Column(name = "action")
-    private String action;  
-
-    @Column(name = "payload")
-    private String payload;
-
-    @Column(name = "response")
-    private String response;
+    @Column(name = "reason")
+    private String reason;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
 
-    
-    
-    public Integer getId() {  
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) { 
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -76,11 +68,11 @@ public class RequestEntity {
         this.employeeId = employeeId;
     }
 
-    public String getRequestType() {
+    public RequestType getRequestType() {
         return requestType;
     }
 
-    public void setRequestType(String requestType) {
+    public void setRequestType(RequestType requestType) {
         this.requestType = requestType;
     }
 
@@ -108,44 +100,28 @@ public class RequestEntity {
         this.endTime = endTime;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
-    public Integer getApproverId() {
+    public String getApproverId() {
         return approverId;
     }
 
-    public void setApproverId(Integer approverId) {
+    public void setApproverId(String approverId) {
         this.approverId = approverId;
     }
 
-    public String getAction() {
-        return action;
+    public String getReason() {
+        return reason;
     }
 
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getPayload() {
-        return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -162,5 +138,20 @@ public class RequestEntity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+
+    public enum RequestType {
+        LEAVE,            
+        UPDATE_TIME_SHEET, 
+        CHECK_IN,         
+        CHECK_OUT,         
+        WFH                
+    }
+
+    public enum Status {
+        PENDING,
+        APPROVED,
+        REJECTED
     }
 }

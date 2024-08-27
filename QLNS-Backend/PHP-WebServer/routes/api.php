@@ -33,8 +33,13 @@ Route::delete('employees/{id}', [EmployeeController::class, 'destroy']);
 
 
 
-Route::get('request', [RequestController::class, 'index']);
-Route::get('request/{employeeId}', [RequestController::class, 'show']);
+
+Route::get('request/{page}', [RequestController::class, 'index']);
+Route::get('request/{employeeId}/{page}/{month}/{year}', [RequestController::class, 'showRequestByEmployee']);
+Route::get('request/timesheet/{employeeId}/{page}/{month}/{year}', [RequestController::class, 'showTimeSheetByEmployee']);
+Route::get('request/{Id}', [RequestController::class, 'showById']);
+Route::post('request/checkin', [RequestController::class, 'checkin']);
+Route::post('request/checkout', [RequestController::class, 'checkout']);
 Route::post('request', [RequestController::class, 'store']);
 Route::put('request/{id}', [RequestController::class, 'update']);
 Route::delete('request/{id}', [RequestController::class, 'destroy']);
