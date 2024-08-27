@@ -1,6 +1,6 @@
 import mysql.connector
 
-def mysql_db_connection():
+def mysql_db_connection_activities():
     connection = mysql.connector.connect(
         host='ptud-qlns-clc-8983.d.aivencloud.com',
         user='avnadmin',

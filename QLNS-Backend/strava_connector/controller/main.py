@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify
 from werkzeug.exceptions import BadRequest
-from ..config import Connector, mysql_db_connection
+from ..config import Connector, mysql_db_connection_activities
 from ..DTOs import (
     Activity,
 )
@@ -13,27 +13,89 @@ routes = Blueprint("main", __name__)
 
 class MainController:
     @staticmethod
+    @routes.route("/activities", methods=["GET"])
+    def get_activities():
+        conn = mysql_db_connection_activities()
+        try:
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM activities")
+            data = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return jsonify(data), 200
+        except Exception as e:
+            _logger.error("An error occurred while retrieving activities")
+            return jsonify({"error": e}), 500
+
+    @staticmethod
+    @routes.route("/activities", methods=["POST"])
+    def post_activities():
+        conn = mysql_db_connection_activities()
+        try:
+            cursor = conn.cursor(dictionary=True)
+            activity_data = request.get_json()
+            if not activity_data or 'name' not in activity_data or 'id' not in activity_data:
+                return jsonify({"error": "Invalid data. Both 'id' and 'name' are required."}), 400
+            cursor.execute("SELECT COUNT(*) FROM activities WHERE id = %s", (activity_data['id'],))
+            if cursor.fetchone()['COUNT(*)'] > 0:
+                return jsonify({"error": "ID already exists."}), 400
+            sql = "INSERT INTO activities (id, name) VALUES (%s, %s)"
+            cursor.execute(sql, (activity_data['id'], activity_data['name']))
+            conn.commit()
+            response_data = {
+                'id': activity_data['id'],
+                'name': activity_data['name']
+            }
+            cursor.close()
+            conn.close()
+            return jsonify(response_data), 201
+        except Exception as e:
+            _logger.error(f"An error occurred while adding activity: {e}")
+            return jsonify({"error": str(e)}), 500
+
+    @staticmethod
+    @routes.route("/activities/<int:id>", methods=["PUT"])
+    def update_activity(id):
+        conn = mysql_db_connection_activities()
+        try:
+            cursor = conn.cursor(dictionary=True)
+            activity_data = request.get_json()
+            if not activity_data or 'name' not in activity_data:
+                return jsonify({"error": "Invalid data. 'name' is required."}), 400
+            cursor.execute("SELECT COUNT(*) FROM activities WHERE id = %s", (id,))
+            if cursor.fetchone()['COUNT(*)'] == 0:
+                return jsonify({"error": "ID does not exist."}), 404
+            sql = "UPDATE activities SET name = %s WHERE id = %s"
+            cursor.execute(sql, (activity_data['name'], id))
+            conn.commit()
+            response_data = {
+                'id': id,
+                'name': activity_data['name']
+            }
+            cursor.close()
+            conn.close()
+            return jsonify(response_data), 200
+        except Exception as e:
+            _logger.error(f"An error occurred while updating activity: {e}")
+            return jsonify({"error": str(e)}), 500
+
+    @staticmethod
     @routes.route("/activities/<int:id>", methods=["GET"])
     def get_activity(id):
-        include_all_efforts = request.args.get("include_all_efforts", "")
-        params = {"include_all_efforts": include_all_efforts}
-        _logger.info("======================")
-        conn = mysql_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM activities')
-        data = cursor.fetchall()
-        _logger.info("======================")
-        _logger.info(data)
-        _logger.info("======================")
-        cursor.close()
-        conn.close()
+        params = {"page": 1, "per_page": 30}
         try:
+            response = {}
             result, status_code = Connector.call(
-                "GET", f"activities/{id}", params=params
+                "GET", f"clubs/{id}", params=params
             )
+            response = result
+            result, status_code = Connector.call(
+                "GET", f"clubs/{id}/activities", params=params
+            )
+            response.update({"participants": result})
             if status_code == 200:
                 _logger.info("Successfully retrieved activity details for ID %d", id)
-                return jsonify(result), 200
+                return jsonify(response), 200
             else:
                 _logger.error(
                     "Failed to retrieve activity details for ID %d: %s", id, result
@@ -47,53 +109,4 @@ class MainController:
             )
             return jsonify({"error": "An internal error occurred"}), 500
 
-    @staticmethod
-    @routes.route("/activities", methods=["POST"])
-    def post_activity():
-        try:
-            data = request.json
-            required_params = ["name", "sport_type", "start_date_local", "elapsed_time"]
-            missing_params = [param for param in required_params if param not in data]
-
-            if missing_params:
-                _logger.error("Missing required parameters: %s", missing_params)
-                return jsonify(
-                    {
-                        "error": f"Missing required parameters: {', '.join(missing_params)}"
-                    }
-                ), 400
-
-            # Validate and convert inputs
-            elapsed_time = int(data.get("elapsed_time"))
-            distance = float(data.get("distance", 0.0))
-            trainer = int(data.get("trainer", 0))
-            commute = int(data.get("commute", 0))
-
-            activity_data = {
-                "name": data.get("name"),
-                "type": data.get("type"),
-                "sport_type": data.get("sport_type"),
-                "start_date_local": data.get("start_date_local"),
-                "elapsed_time": elapsed_time,
-                "description": data.get("description"),
-                "distance": distance,
-                "trainer": trainer,
-                "commute": commute,
-            }
-
-            result, status_code = Connector.call(
-                "POST", "activities", data=activity_data
-            )
-
-            if status_code == 201:
-                _logger.info("Successfully created activity")
-                return jsonify(result), 201
-            else:
-                _logger.error("Failed to create activity: %s", result)
-                return jsonify({"error": result}), status_code
-        except ValueError as ve:
-            _logger.error("Value error occurred: %s", ve)
-            return jsonify({"error": "Invalid input value"}), 400
-        except Exception as e:
-            _logger.error("An error occurred while creating activity: %s", e)
-            return jsonify({"error": "An internal error occurred"}), 500
+    
