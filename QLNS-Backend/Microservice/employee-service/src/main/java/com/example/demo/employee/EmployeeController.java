@@ -96,7 +96,7 @@ public class EmployeeController {
         String pageStr = messageMap.get("page").toString();
         int page = Integer.parseInt(pageStr);
 
-        List<Employee> employees = employeeService.getAllEmployees(keyword, page);
+        List<EmployeeDTO> employees = employeeService.getAllEmployees(keyword, page);
         return toJson(employees);
     }
     
@@ -133,7 +133,7 @@ public class EmployeeController {
             throw new IllegalArgumentException("Invalid type for id: " + idValue.getClass().getName());
         }
 
-        Optional<Employee> employee = employeeService.getEmployeeById(id);
+        Optional<EmployeeDTO> employee = employeeService.getEmployeeById(id);
 
         ObjectNode responseNode = objectMapper.createObjectNode();
         responseNode.put("status", "Employee retrieved");
