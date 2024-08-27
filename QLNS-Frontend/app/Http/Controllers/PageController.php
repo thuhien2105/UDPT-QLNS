@@ -26,17 +26,22 @@ class PageController extends Controller
     public function checkLogin(Request $request)
     {
         $validated = $request->validate([
-            'login' => 'required|string',
+            'username' => 'required|string',
             'password' => 'required',
         ]);
 
         $response = Http::post('http://127.0.0.1:8000/api/signin', [
-            'username' => $validated['login'],
+            'username' => $validated['username'],
             'password' => $validated['password'],
         ]);
 
         if ($response->successful()) {
             $responseData = $response->json();
+            $employee = $responseData['response']['employee']['employee'];
+            $token = $responseData['response']['employee']['token'];
+            $role = $employee['role'] ?? '';
+            $request->session()->put('token', $token);
+            $request->session()->put('role', $role);
             return response()->json([
                 'response' => [
                     'status' => 'Login successful',

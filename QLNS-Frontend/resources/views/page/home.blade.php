@@ -42,6 +42,7 @@
                             <div class="o_caption w-100 text-center text-truncate mt-2">Personal</div>
                         </a>
                     </div>
+                    @if (session('role') === 'manager')
                     <div class="col-3 col-md-2 o_draggable mb-3 px-0">
                         <a href="/employees?type=employee" role="option"
                             class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"
@@ -53,6 +54,7 @@
                             </div>
                         </a>
                     </div>
+                    @endif
                     <div class="col-3 col-md-2 o_draggable mb-3 px-0">
                         <a href="/gifts" role="option"
                             class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"

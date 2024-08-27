@@ -11,13 +11,21 @@ $(document).ready(function () {
             },
             data: formData,
             success: function (response) {
+                console.log(response.response.employee)
                 if (response.response && response.response.status === 'Login successful') {
+                    const employee = response.response.employee.employee
                     Cookies.set('token', response.response.employee.token, { expires: 7, secure: true });
-                    Cookies.set('id', response.response.employee.employee.id, { expires: 7 });
-                    Cookies.set('name', response.response.employee.employee.name, { expires: 7 });
-                    Cookies.set('dob', response.response.employee.employee.dob, { expires: 7 });
-                    Cookies.set('address', response.response.employee.employee.address, { expires: 7 });
-                    Cookies.set('phone_number', response.response.employee.employee.phone_number, { expires: 7 });
+                    Cookies.set('id', employee.employeeId, { expires: 7 });
+                    Cookies.set('name', employee.name, { expires: 7 });
+                    Cookies.set('dob', employee.dob, { expires: 7 });
+                    Cookies.set('address', employee.address, { expires: 7 });
+                    Cookies.set('phone_number', employee.phoneNumber || '', { expires: 7 });
+                    Cookies.set('email', employee.email || '', { expires: 7 });
+                    Cookies.set('position', employee.position || '', { expires: 7 });
+                    Cookies.set('role', employee.role || '', { expires: 7 });
+                    Cookies.set('tax_code', employee.taxCode || '', { expires: 7 });
+                    Cookies.set('bank_account', employee.bankAccount || '', { expires: 7 });
+                    Cookies.set('identity_card', employee.identityCard || '', { expires: 7 });
                     window.location.href = '/';
                 } else {
                     console.error("Login failed:", response.response.message || 'Unknown error');

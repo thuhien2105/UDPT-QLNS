@@ -2,15 +2,19 @@ $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
     const type = urlParams.get("type");
+    var token = Cookies.get("token");
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
     if (id != null) {
         if (type == "employee")
             $.ajax({
                 url: `http://127.0.0.1:8000/api/employees/${id}`,
                 method: "GET",
+                headers: {
+                    Authorization: "Bearer " + csrfToken,
+                },
                 dataType: "json",
                 success: function (data) {
-                    $("#employee-id").val(data.employee.id);
+                    $("#employee-id").val(data.employee.employeeId);
                     $("#name_0").val(data.employee.name);
                     $("#dob_0").val(data.employee.dob);
                     $("#address_0").val(data.employee.address);
@@ -164,22 +168,22 @@ $(document).ready(function () {
             });
         else if (type == "employee")
             $.ajax({
-                url: `http://127.0.0.1:8000/api/employees`,
+                url: `http://127.0.0.1:8000/api/employees/null/1`,
                 method: "GET",
                 dataType: "json",
                 headers: {
-                    "X-CSRF-TOKEN": csrfToken,
+                    Authorization: "Bearer " + csrfToken,
                 },
                 success: function (data) {
                     const employees = Array.isArray(data) ? data : [data];
                     let rowsHtml = "";
                     employees.forEach((employee) => {
                         rowsHtml += `
-                            <tr onclick="window.location.href = '/employees/form?type=employee&id=${employee.id}';" class="o_data_row text-info" data-id="datapoint_${employee.id}">
+                            <tr onclick="window.location.href = '/employees/form?type=employee&id=${employee.employeeId}';" class="o_data_row text-info" data-id="datapoint_${employee.employeeId}">
                                 <td class="o_list_record_selector user-select-none" tabindex="-1">
                                     <div class="o-checkbox form-check">
-                                        <input type="checkbox" class="form-check-input" id="checkbox-${employee.id}" />
-                                        <label class="form-check-label" for="checkbox-${employee.id}"></label>
+                                        <input type="checkbox" class="form-check-input" name="id" id="checkbox-${employee.employeeId}" value="${employee.employeeId}"/>
+                                        <label class="form-check-label" for="checkbox-${employee.employeeId}"></label>
                                     </div>
                                 </td>
                                 <td class="o_data_cell cursor-pointer o_field_cell o_list_char" data-tooltip-delay="1000" tabindex="-1" name="name" data-tooltip="${employee.name}">
@@ -222,7 +226,7 @@ $(document).ready(function () {
             method: "POST",
             data: formData,
             headers: {
-                "X-CSRF-TOKEN": csrfToken,
+                Authorization: "Bearer " + csrfToken,
             },
             success: function (response) {
                 window.location.href = "/employees?type=employee";
@@ -234,22 +238,20 @@ $(document).ready(function () {
     });
     $("form#check-in").on("submit", function (event) {
         event.preventDefault();
-        const userId = getCookie("userId");
-        const currentDateTime = new Date().toISOString();
+        const userId = getCookie("id");
         $.ajax({
             url: "/check-in",
             method: "POST",
-            data: JSON.stringify({
+            data: {
                 employee_id: userId,
-                requestType: "Check In",
-                date: currentDateTime,
-            }),
+            },
             headers: {
+                Authorization: "Bearer " + token,
                 "X-CSRF-TOKEN": csrfToken,
             },
             success: function (response) {
                 if (response.success) {
-                    window.location.href = "/check-in-out";
+                    // window.location.href = "/check-in-out";
                 } else {
                     alert("An error occurred: " + response.message);
                 }
@@ -272,7 +274,7 @@ $(document).ready(function () {
                 date: currentDateTime,
             }),
             headers: {
-                "X-CSRF-TOKEN": csrfToken,
+                Authorization: "Bearer " + csrfToken,
             },
             success: function (response) {
                 if (response.success) {
@@ -290,11 +292,11 @@ $(document).ready(function () {
         event.preventDefault();
         var formData = $(this).serialize();
         $.ajax({
-            url: "/employees/edit",
+            url: "/employees/edit/1",
             method: "PUT",
             data: formData,
             headers: {
-                "X-CSRF-TOKEN": csrfToken,
+                Authorization: "Bearer " + csrfToken,
             },
             success: function (response) {
                 if (response.status) alert("Cập nhật thành công !!!");

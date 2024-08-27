@@ -91,31 +91,38 @@ class EmployeeController extends Controller
         return view('page.checkinout.checkin.index');
     }
     public function checkIn(Request $request)
-    {
-        $validated = $request->validate([
-            'employee_id' => 'required|integer',
-            'requestType' => 'required|string|max:255',
-            'date' => 'required|string|max:255',
-        ]);
+{
+    // Validate the request
+    $validated = $request->validate([
+        'employee_id' => 'required|string|max:255',
+    ]);
 
-        $response = Http::post('http://127.0.0.1:8000/api/request', [
-            'employee_id' => $validated['employee_id'],
-            'requestType' => $validated['requestType'],
-            'date' => $validated['date'],
-        ]);
+    // Retrieve the employee ID from validated data
+    $employeeId = $validated['employee_id'];
 
+    try {
+        $response = Http::withToken(session('token'))->post('http://127.0.0.1:8000/api/request/checkin', [
+            'employee_id' => $employeeId,
+        ]);
         if ($response->successful()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Checked in successfully!',
+                'message' => $response->body(),
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Can not check in!',
-            ]);
+                'message' => 'Cannot check in! Status code: ' . $response->status() . ', Error: ' . $response->body(),
+            ], $response->status());
         }
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Exception occurred: ' . $e->getMessage(),
+        ], 500);
     }
+}
+
 
     public function checkOut(Request $request)
     {
@@ -162,10 +169,10 @@ class EmployeeController extends Controller
             ]);
         }
     }
-    public function editEmployee(Request $request)
+    public function editEmployee(Request $request,$id)
     {
         $validated = $request->validate([
-            'id' => 'required|integer',
+            'id' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'dob' => 'required|string|max:255',
             'address' => 'required|string|max:255',
@@ -173,7 +180,7 @@ class EmployeeController extends Controller
         ]);
 
         try {
-            $response = Http::put('http://127.0.0.1:8000/api/employees/' . $validated['id'], [
+            $response = Http::withToken(session('token'))->put('http://127.0.0.1:8000/api/employees/' . $validated['id'], [
                 'id' => $validated['id'],
                 'name' => $validated['name'],
                 'dob' => $validated['dob'],

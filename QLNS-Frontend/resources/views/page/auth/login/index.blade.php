@@ -12,7 +12,7 @@
                         <form id="loginForm" class="oe_login_form" role="form" method="post">
                             <div class="mb-3 field-login">
                                 <label for="login" class="form-label">Username</label>
-                                <input type="text" placeholder="Username" name="login" id="login" required="required"
+                                <input type="text" placeholder="Username" name="username" id="login" required="required"
                                     autocomplete="username" autofocus="autofocus" autocapitalize="off" class="form-control">
                             </div>
                             <div class="mb-3">
@@ -29,7 +29,6 @@
                                 </div>
                                 <div class="o_login_auth"></div>
                             </div>
-                            <input type="hidden" name="redirect">
                         </form>
                         <div class="text-center small mt-4 pt-3 border-top">
                             <a href="https://www.odoo.com?utm_source=db&amp;utm_medium=auth" target="_blank">Powered by

@@ -1,7 +1,8 @@
 $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
-    var csrfToken = $('meta[name="csrf-token"]').attr("content");
+    var token = Cookies.get("token");
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
     if (id != null)
         $.ajax({
             url: `http://localhost:5000/activities/${id}`,
@@ -123,7 +124,7 @@ $(document).ready(function () {
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 headers: {
-                    "X-CSRF-TOKEN": csrfToken,
+                    'Authorization': 'Bearer ' + token
                 },
                 success: function (response) {
                     window.location.href = "/campaign";

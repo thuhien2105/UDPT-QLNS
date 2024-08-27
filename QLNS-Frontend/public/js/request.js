@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var csrfToken = $('meta[name="csrf-token"]').attr("content");
+    var csrfToken = Cookies.get("token");
 
     // Get all requests
     function getAllRequests() {
