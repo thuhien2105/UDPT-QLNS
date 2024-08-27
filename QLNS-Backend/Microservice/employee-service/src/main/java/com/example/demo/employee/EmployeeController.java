@@ -140,7 +140,6 @@ public class EmployeeController {
     private JsonNode createEmployeeResponse(Map<String, Object> messageMap) {
         System.out.println("Message map: " + messageMap);
 
-        @SuppressWarnings("unchecked")
         Map<String, Object> employeeMap = (Map<String, Object>) messageMap.get("employee");
 
         System.out.println("Employee map: " + employeeMap);
@@ -164,7 +163,6 @@ public class EmployeeController {
     private JsonNode updateEmployeeResponse(Map<String, Object> messageMap) {
         System.out.println("Message map: " + messageMap);
 
-        @SuppressWarnings("unchecked")
         Map<String, Object> employeeMap = (Map<String, Object>) messageMap.get("employee");
 
         System.out.println("Employee map: " + employeeMap);

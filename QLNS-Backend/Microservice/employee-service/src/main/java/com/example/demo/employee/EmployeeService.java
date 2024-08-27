@@ -33,7 +33,7 @@ public class EmployeeService {
         if (employeeOpt.isPresent()) {
             Employee employee = employeeOpt.get();
             if (password.equals(employee.getPassword())) {
-            	 String token = jwtUtil.generateToken(employee.getId());
+            	 String token = jwtUtil.generateToken(employee.getId(), employee.getRole());
                  LoginResponse loginResponse = new LoginResponse(employee, token);
                  return Optional.of(loginResponse);
             }

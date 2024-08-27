@@ -10,8 +10,8 @@ import jakarta.persistence.Table;
 @Table(name = "employees")
 @Entity
 public class Employee {
-
-    @Id
+	
+	@Id
     @Column(name = "employee_id")
     private String employee_id;
 
@@ -31,7 +31,11 @@ public class Employee {
 
     @Column(name = "phone_number")
     private String phone_number;
+    
+    @Column(name = "role")
+    private String role;
 
+    
     public String getId() {
         return employee_id;
     }
@@ -87,5 +91,11 @@ public class Employee {
     public void setPassword(String password) {
         this.password = password;
     }
+    public String getRole() {
+        return role;
+    }
 
+    public void setRole(String type) {
+        this.role = type;
+    }
 }
