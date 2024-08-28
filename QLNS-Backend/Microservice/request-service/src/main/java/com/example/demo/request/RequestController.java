@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -65,6 +66,8 @@ public class RequestController {
                 return getTimeSheetByEmployee(messageMap);
             case "get_request_by_employee":
                 return getRequestByEmployee(messageMap);
+            case "approve":
+                return approve(messageMap);
 
             case "check-in":
                 return checkInResponse(messageMap);
@@ -81,7 +84,50 @@ public class RequestController {
                 return objectMapper.createObjectNode().put("status", "Unknown action: " + action);
         }
     }
+    private JsonNode approve(Map<String, Object> messageMap) {
+        try {
+            String managerId = (String) messageMap.get("manager_id");
+            Integer id = null;
+            if (messageMap.get("id") instanceof Integer) {
+                id = (Integer) messageMap.get("id");
+            } else if (messageMap.get("id") instanceof String) {
+                try {
+                    id = Integer.valueOf((String) messageMap.get("id"));
+                } catch (NumberFormatException e) {
+                    return createErrorResponse("Invalid ID format");
+                }
+            } else {
+                return createErrorResponse("ID is required and must be an integer");
+            }
 
+            String status = (String) messageMap.get("status");
+            if (status == null || status.isEmpty()) {
+                return createErrorResponse("Status is required");
+            }
+
+            RequestEntity requestEntity = requestService.approve(id, managerId, status);
+
+            if (requestEntity == null) {
+                return createErrorResponse("Failed to approve request. Request not found.");
+            }
+
+            return objectMapper.convertValue(requestEntity, JsonNode.class);
+            
+        } catch (Exception e) {
+            return createErrorResponse("An error occurred: " + e.getMessage());
+        }
+    }
+
+    private JsonNode createErrorResponse(String errorMessage) {
+        return objectMapper.createObjectNode()
+                .put("status", "error")
+                .put("message", errorMessage);
+    }
+
+
+    
+    
+    
     private JsonNode getAll(Map<String, Object> messageMap) { 
         int page = Integer.parseInt((String) messageMap.get("page"));
         return toJson(requestService.getAllRequests(page));
@@ -246,19 +292,39 @@ public class RequestController {
 
         System.out.println("Request map: " + requestMap);
 
-        RequestEntity request = fromJson(requestMap, RequestEntity.class);
+        RequestEntity request;
+        try {
+            request = fromJson(requestMap, RequestEntity.class);
 
-        System.out.println("Request before save: " + request);
+            System.out.println("Request before save: " + request);
 
-        request.setId(null);
+            request.setId(null);
 
-        RequestEntity createdRequest = requestService.createRequest(request);
-        System.out.println("Created request after save: " + createdRequest);
+            request.setStatus(RequestEntity.Status.PENDING);
 
-        return objectMapper.createObjectNode()
-                .put("status", "Request created")
-                .set("request", toJson(createdRequest));
+            request.setApprover_id(null);
+   
+            request.setReason(null);
+            request.setRequest_type(null);
+
+            request.setRequest_date(LocalDateTime.now());
+
+            RequestEntity createdRequest = requestService.createRequest(request);
+            System.out.println("Created request after save: " + createdRequest);
+
+            return objectMapper.createObjectNode()
+                    .put("status", "Request created")
+                    .set("request", toJson(createdRequest));
+        } catch (Exception e) {
+            e.printStackTrace();
+            
+            return objectMapper.createObjectNode()
+                    .put("status", "error")
+                    .put("message", "Failed to create request: " + e.getMessage());
+        }
     }
+
+
 
     private JsonNode updateRequestResponse(Map<String, Object> messageMap) {
         System.out.println("Message map: " + messageMap);

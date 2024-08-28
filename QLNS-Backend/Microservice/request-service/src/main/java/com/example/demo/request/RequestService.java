@@ -3,6 +3,7 @@ package com.example.demo.request;
 import com.example.demo.GRPC.EmployeeGrpcClient;
 import com.example.demo.GRPC.EmployeeProto.Employee;
 import com.example.demo.GRPC.EmployeeProto.EmployeeResponse;
+import com.example.demo.request.RequestEntity.Status;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,6 +177,21 @@ public class RequestService {
         return result;
     }
 
+    public RequestEntity approve(Integer id, String managerId, String status) {
+        if (!Status.isValid(status)) {
+            throw new IllegalArgumentException("Invalid status value");
+        }
+
+        RequestEntity request = requestRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Request not found"));
+
+        request.setStatus(Status.valueOf(status.toUpperCase()));
+        request.setApprover_id(managerId);
+
+        requestRepository.save(request);
+
+        return request;
+    }
 
     
     public RequestEntity checkIn(String employeeId) {
