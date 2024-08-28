@@ -1,180 +1,56 @@
-[
-    {"id": "1761", "images": "", "title": "GKitchen"},
-    {
+{
+    "items": [
+      {
+        "id": "1761",
+        "images": "",
+        "title": "GKitchen"
+      },
+      {
         "id": "1755",
         "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/27/640/1724751230_66cd9d7f25c2b.png",
-        "title": "Vua N\u1ec7m"
-    },
-    {
+        "title": "Vua Nệm"
+      },
+      {
         "id": "1753",
         "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/27/640/1724745213_66cd85fd482f7.png",
-        "title": "\u1ebech Xanh"
-    },
-    {
+        "title": "Ếch Xanh"
+      },
+      {
         "id": "1751",
         "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/26/640/1724655728_66cc28705a563.png",
         "title": "Beard Papa&#39;s"
-    },
-    {
+      },
+      {
         "id": "1750",
         "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/22/640/1724314242_66c6f282d25b0.png",
         "title": "88 BEER GARDEN"
-    },
-    {
+      },
+      {
         "id": "1749",
         "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/23/640/1724408877_66c8642dd8c1d.png",
         "title": "Mabu-KKO Chi"
-    },
-    {
+      },
+      {
         "id": "1748",
         "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/15/640/1723707010_66bdae8287a3e.png",
-        "title": "TI\u1ec6M N\u01af\u1edaNG CU\u1ed2NG N\u1ed8"
-    },
-    {
+        "title": "TIỆM NƯỚNG CUỒNG NỘ"
+      },
+      {
         "id": "1747",
         "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/15/640/1723706593_66bdace213797.png",
         "title": "WARNING ZONE"
-    },
-    {
+      },
+      {
         "id": "1746",
         "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/15/640/1723705508_66bda8a55a730.png",
         "title": "JUMP ARENA"
-    },
-    {
+      },
+      {
         "id": "1745",
         "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/13/640/1723510765_66baafee27506.png",
         "title": "HERAMO"
-    },
-    {
-        "id": "1744",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/05/640/1722842775_66b07e9839a87.png",
-        "title": "UrBox VPB HNW"
-    },
-    {
-        "id": "1743",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/04/640/1722765405_66af505e25072.png",
-        "title": "Nh\u00e0 S\u00e1ch Fahasa"
-    },
-    {"id": "1742", "images": "", "title": "Papa&#39;s Chicken"},
-    {
-        "id": "1741",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/15/640/1723695430_66bd81466556e.png",
-        "title": "W Gourmet"
-    },
-    {
-        "id": "1740",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/07/23/640/1721720777_669f5fc9af98b.png",
-        "title": "Anh Ph\u01b0\u01a1ng Jewelry (APJ)"
-    },
-    {
-        "id": "1739",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/07/11/640/1720687290_668f9aba9f78b.png",
-        "title": "Ph\u00f2ng ch\u1edd qu\u1ed1c t\u1ebf"
-    },
-    {
-        "id": "1737",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/07/08/640/1720420783_668b89afcdc92.png",
-        "title": "Nam Xanh JSC"
-    },
-    {"id": "1736", "images": "", "title": "Dulux"},
-    {"id": "1735", "images": "", "title": "Fang Pub"},
-    {
-        "id": "1734",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/24/640/1719247105_6679a10170dee.png",
-        "title": "zumwhere"
-    },
-    {
-        "id": "1733",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/24/640/1719243843_66799443adaf3.png",
-        "title": "MOSS"
-    },
-    {"id": "1732", "images": "", "title": "Ph\u01b0\u1eddng"},
-    {"id": "1731", "images": "", "title": "United Colors of Benetton"},
-    {"id": "1730", "images": "", "title": "POLO RALPH LAUREN"},
-    {"id": "1729", "images": "", "title": "GUESS"},
-    {"id": "1728", "images": "", "title": "ARMANI EXCHANGE"},
-    {
-        "id": "1727",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/27/640/1719460020_667ce0b537e5f.png",
-        "title": "Mala Gang"
-    },
-    {
-        "id": "1726",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/21/640/1718962825_66754a89e37c4.png",
-        "title": "PANASONIC"
-    },
-    {
-        "id": "1725",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/21/640/1718962772_66754a551a3ff.png",
-        "title": "BEAR"
-    },
-    {
-        "id": "1724",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/21/640/1718962700_66754a0ce59aa.png",
-        "title": "KALPEN"
-    },
-    {
-        "id": "1723",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/21/640/1718962447_6675490fdade1.png",
-        "title": "Beddy Bear"
-    },
-    {
-        "id": "1722",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/21/640/1718962247_66754847eabdb.png",
-        "title": "Laifen"
-    },
-    {
-        "id": "1721",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/21/640/1718962175_667547ffd5da6.png",
-        "title": "LUMIAS"
-    },
-    {"id": "1720", "images": "", "title": "TH\u1ea8M M\u1ef8 VI\u1ec6N SEOUL CENTER"},
-    {"id": "1719", "images": "", "title": "Nh\u00e0 h\u00e0ng Mars Venus"},
-    {"id": "1718", "images": "", "title": "Dyson"},
-    {
-        "id": "1717",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/10/640/1718019543_6666e5d7f0637.png",
-        "title": "Bear"
-    },
-    {"id": "1716", "images": "", "title": "Eonwon"},
-    {"id": "1715", "images": "", "title": "SI\u00caU TH\u1eca JMART"},
-    {"id": "1714", "images": "", "title": "Chucoo rooftop"},
-    {
-        "id": "1713",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/08/640/1717833866_6664108a6892c.png",
-        "title": "Farmers Market"
-    },
-    {
-        "id": "1712",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/07/640/1717757817_6662e7798f58f.png",
-        "title": "SHOKU"
-    },
-    {"id": "1711", "images": "", "title": "M\u1ef3 LONG"},
-    {"id": "1710", "images": "", "title": "M\u1ef3 Long Flagship"},
-    {
-        "id": "1709",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/06/640/1717645440_666130813491f.png",
-        "title": "Machiya - Vegetarian Cafe Restaurant"
-    },
-    {"id": "1708", "images": "", "title": "ROCK-IT FITNESS CENTER"},
-    {
-        "id": "1707",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/03/640/1717401388_665d772cb3ca1.png",
-        "title": "MOR FAI - Thai Hotpot and Somtum"
-    },
-    {
-        "id": "1706",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/06/07/640/1717743266_6662aea275c98.png",
-        "title": "Ph\u00f2ng kh\u00e1m \u0111a khoa Ivy Health"
-    },
-    {
-        "id": "1705",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/05/29/640/1716957810_6656b27315a51.png",
-        "title": "H\u1ec7 th\u1ed1ng Y T\u1ebf Tim M\u1ea1ch Ti\u1ec3u \u0110\u01b0\u1eddng 315"
-    },
-    {
-        "id": "1704",
-        "images": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/05/29/640/1716957557_6656b175b54fa.png",
-        "title": "H\u1ec7 th\u1ed1ng Y T\u1ebf M\u1eaft 315"
-    }
-]
+      }
+    ],
+    "total_page": 123
+  }
+  
