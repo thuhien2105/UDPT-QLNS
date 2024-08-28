@@ -28,7 +28,7 @@ public class RequestService {
     private final RequestRepository requestRepository;
     private final ObjectMapper objectMapper;
     private final EmployeeGrpcClient employeeGrpcClient;
-    private static final int PAGE_SIZE = 20;
+    private static final int PAGE_SIZE = 10;
 
     @Autowired
     public RequestService(RequestRepository requestRepository,

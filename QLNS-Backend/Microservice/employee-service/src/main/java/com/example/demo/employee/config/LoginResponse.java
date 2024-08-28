@@ -4,11 +4,13 @@ import com.example.demo.employee.Employee;
 
 public class LoginResponse {
     private Employee employee;
-    private String token;
+    private String accessToken;
+    private String refreshToken;
 
-    public LoginResponse(Employee employee, String token) {
+    public LoginResponse(Employee employee, String accessToken, String refreshToken) {
         this.employee = employee;
-        this.token = token;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 
     public Employee getEmployee() {
@@ -19,11 +21,19 @@ public class LoginResponse {
         this.employee = employee;
     }
 
-    public String getToken() {
-        return token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
