@@ -166,11 +166,6 @@ class EmployeeController extends Controller
         }
 
         $user = $request->attributes->get('jwt_payload');
-        if ($employee_id != $user['sub']) {
-            return response()->json([
-                'error' => 'Unauthorized'
-            ], 403);
-        }
 
         $validatedData = $request->validate([
             'old_password' => 'required|string',

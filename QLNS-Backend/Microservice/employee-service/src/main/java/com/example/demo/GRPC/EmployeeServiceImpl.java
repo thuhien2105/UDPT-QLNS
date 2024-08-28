@@ -28,7 +28,7 @@ public class EmployeeServiceImpl extends EmployeeServiceGrpc.EmployeeServiceImpl
         
         if (employee.isPresent()) {
             com.example.demo.GRPC.EmployeeProto.Employee empProto = com.example.demo.GRPC.EmployeeProto.Employee.newBuilder()
-                .setEmployeeId(employee.get().getEmployeeId())
+                .setEmployeeId(employee.get().getEmployee_id())
                 .setName(employee.get().getName())
                 .build();
             

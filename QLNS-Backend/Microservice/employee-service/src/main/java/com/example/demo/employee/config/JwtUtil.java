@@ -6,6 +6,8 @@ import java.security.Key;
 
 import org.springframework.stereotype.Component;
 
+import com.example.demo.employee.Employee.Role;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,7 +18,7 @@ public class JwtUtil {
     private String secretKey = "ungdungphantan_hcmus_20clcbytranthuhien"; 
     private long validityInMilliseconds = 3600000; 
 
-    public String generateToken(String idEmployee, String role) {
+    public String generateToken(String idEmployee, Role role) {
         Claims claims = Jwts.claims().setSubject(idEmployee);
         claims.put("role", role);
         Date now = new Date();

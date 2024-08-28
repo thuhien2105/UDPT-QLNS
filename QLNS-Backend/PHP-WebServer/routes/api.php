@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('signin', [AuthController::class, 'signin']);
+Route::post('signout', [AuthController::class, 'signout']);
 
 
 Route::get('employees/{keyword}/{page}', [EmployeeController::class, 'index']);
@@ -30,7 +31,6 @@ Route::get('employees/{employee_id}', [EmployeeController::class, 'show']);
 Route::post('employees', [EmployeeController::class, 'store']);
 Route::put('employees/{employee_id}', [EmployeeController::class, 'update']);
 Route::put('employees/changePassword/{employee_id}', [EmployeeController::class, 'ChangePassword']);
-
 Route::delete('employees/{employee_id}', [EmployeeController::class, 'destroy']);
 
 
@@ -43,7 +43,6 @@ Route::get('request/{Id}', [RequestController::class, 'showById']);
 Route::post('request/checkin', [RequestController::class, 'checkin']);
 Route::post('request/checkout', [RequestController::class, 'checkout']);
 Route::post('request/approve/{id}', [RequestController::class, 'approve']);
-
 Route::post('request', [RequestController::class, 'store']);
 Route::put('request/{id}', [RequestController::class, 'update']);
 Route::delete('request/{id}', [RequestController::class, 'destroy']);

@@ -1,12 +1,10 @@
 package com.example.demo.employee;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.sql.Timestamp;
 
-@Table(name = "employees")
 @Entity
+@Table(name = "employees")
 public class Employee {
 
     @Id
@@ -47,10 +45,11 @@ public class Employee {
     private String identity_card;
 
     @Column(name = "created_at")
-    private java.sql.Timestamp created_at;
+    private Timestamp created_at;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role;
+    private Role role;
 
     public String getEmployeeId() {
         return employee_id;
@@ -148,19 +147,24 @@ public class Employee {
         this.identity_card = identity_card;
     }
 
-    public java.sql.Timestamp getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return created_at;
     }
 
-    public void setCreatedAt(java.sql.Timestamp created_at) {
+    public void setCreatedAt(Timestamp created_at) {
         this.created_at = created_at;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
+    }
+
+    public enum Role {
+        employee,
+        manager
     }
 }

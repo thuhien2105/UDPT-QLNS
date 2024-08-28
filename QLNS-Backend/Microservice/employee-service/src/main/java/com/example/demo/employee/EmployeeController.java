@@ -115,16 +115,22 @@ public class EmployeeController {
         int page = Integer.parseInt(pageStr);
 
         try {
-            List<EmployeeDTO> employees = employeeService.getAllEmployees(keyword, page);
-            return objectMapper.createObjectNode()
-                    .put("status", "Employees retrieved")
-                    .set("employees", toJson(employees));
+            Map<String, Object> employeeData = employeeService.getAllEmployees(keyword, page);
+
+            ObjectNode responseNode = objectMapper.createObjectNode();
+            responseNode.put("status", "Employees retrieved");
+            responseNode.set("employees", toJson(employeeData.get("employees")));
+            responseNode.put("totalPages", (Integer) employeeData.get("totalPages"));
+            responseNode.put("totalElements", (Long) employeeData.get("totalElements"));
+
+            return responseNode;
         } catch (Exception e) {
             return objectMapper.createObjectNode()
                     .put("status", "Error retrieving employees")
                     .put("error", e.getMessage());
         }
     }
+
 
     private JsonNode loginEmployee(Map<String, Object> messageMap) {
         String username = (String) messageMap.get("username");
