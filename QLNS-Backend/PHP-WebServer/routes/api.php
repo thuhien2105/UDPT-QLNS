@@ -43,6 +43,6 @@ Route::get('request/{Id}', [RequestController::class, 'showById']);
 Route::post('request/checkin', [RequestController::class, 'checkin']);
 Route::post('request/checkout', [RequestController::class, 'checkout']);
 Route::post('request/approve/{id}', [RequestController::class, 'approve']);
-Route::post('request', [RequestController::class, 'store']);
+Route::post('request/create', [RequestController::class, 'store']);
 Route::put('request/{id}', [RequestController::class, 'update']);
 Route::delete('request/{id}', [RequestController::class, 'destroy']);

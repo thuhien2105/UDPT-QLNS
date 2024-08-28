@@ -112,6 +112,7 @@ class RequestController extends Controller
             return $response;
         }
 
+        $user = $request->attributes->get('jwt_payload');
 
         $message = json_encode(['action' => 'get_by_id', 'id' => $id]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
@@ -130,22 +131,35 @@ class RequestController extends Controller
         $request->merge(['employee_id' => $user['sub']]);
 
         $validatedData = $request->validate([
-            'employee_id' => ['required', 'string'],
             'request_type' => 'required|string',
-
-            'request_date' => 'required|date',
-            'start_time' => 'nullable|date',
-            'end_time' => 'nullable|date',
-
+            'start_time' => 'required|date',
+            'end_time' => 'required|date',
             'reason' => 'nullable|string|max:255',
-            'approver_id' => 'nullable|date',
-            'status' => 'required|string|in:pending,approved,rejected'
         ]);
 
+        $validatedData['employee_id'] = $user['sub'];
+
         $message = json_encode(['action' => 'create', 'request' => $validatedData]);
+
         $response = $this->rabbitMQService->sendToRequestQueue($message);
-        return response()->json($response, 201);
+
+        if (is_array($response)) {
+            $response = json_encode($response);
+        }
+
+        $responseData = json_decode($response, true);
+
+        if (isset($responseData['status']) && $responseData['status'] === 'error') {
+            $errorMessage = isset($responseData['message']) ? $responseData['message'] : 'Unknown error occurred';
+            return response()->json(['error' => $errorMessage], 400);
+        }
+
+        return response()->json($responseData, 201);
     }
+
+
+
+
 
     public function checkin(Request $request)
     {
@@ -183,6 +197,7 @@ class RequestController extends Controller
         if ($response) {
             return $response;
         }
+        $user = $request->attributes->get('jwt_payload');
 
         $validatedData = $request->validate([
             'request_type' => 'sometimes|required|string',
@@ -210,9 +225,47 @@ class RequestController extends Controller
         if ($response) {
             return $response;
         }
+        $user = $request->attributes->get('jwt_payload');
 
         $message = json_encode(['action' => 'delete', 'id' => $id]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);
+    }
+
+    public function approve(Request $request, $id)
+    {
+        $response = $this->verifyToken($request);
+        if ($response) {
+            return $response;
+        }
+
+        $user = $request->attributes->get('jwt_payload');
+
+        if ($user['role'] !== 'manager') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $validatedData = $request->validate([
+            'status' => 'required|string|in:PENDING,APPROVED,REJECTED'
+        ]);
+
+        $message = json_encode([
+            'action' => 'approve',
+            'manager_id' => $user['sub'],
+            'id' => $id,
+            'status' => $validatedData['status']
+        ]);
+
+        try {
+            $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+            if (isset($response['status']) && $response['status'] === 'error') {
+                return response()->json(['error' => 'Failed to approve request: ' . $response['message']], 500);
+            }
+
+            return response()->json(['response' => $response]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
     }
 }

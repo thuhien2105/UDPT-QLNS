@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,7 +34,7 @@ public class RequestEntity {
     private LocalDateTime start_time;
 
     @Column(name = "end_time")
-    private LocalDateTime end_time;
+    private LocalDateTime  end_time;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -84,19 +85,19 @@ public class RequestEntity {
         this.request_date = request_date;
     }
 
-    public LocalDateTime getStart_time() {
+    public LocalDateTime  getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(LocalDateTime start_time) {
+    public void setStart_time(LocalDateTime  start_time) {
         this.start_time = start_time;
     }
 
-    public LocalDateTime getEnd_time() {
+    public LocalDateTime  getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(LocalDateTime end_time) {
+    public void setEnd_time(LocalDateTime  end_time) {
         this.end_time = end_time;
     }
 
@@ -151,6 +152,14 @@ public class RequestEntity {
     public enum Status {
         PENDING,
         APPROVED,
-        REJECTED
+        REJECTED;
+        public static boolean isValid(String status) {
+            for (Status s : values()) {
+                if (s.name().equalsIgnoreCase(status)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
