@@ -1,19 +1,15 @@
 package com.example.demo.employee;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.sql.Timestamp;
 
-@Table(name = "employees")
 @Entity
+@Table(name = "employees")
 public class Employee {
 
     @Id
     @Column(name = "employee_id")
-    private String employeeId;
+    private String employee_id;
 
     @Column(name = "name")
     private String name;
@@ -31,7 +27,7 @@ public class Employee {
     private String address;
 
     @Column(name = "phone_number")
-    private String phoneNumber;
+    private String phone_number;
 
     @Column(name = "email")
     private String email;
@@ -40,27 +36,27 @@ public class Employee {
     private String position;
 
     @Column(name = "tax_code")
-    private String taxCode;
+    private String tax_code;
 
     @Column(name = "bank_account")
-    private String bankAccount;
+    private String bank_account;
 
     @Column(name = "identity_card")
-    private String identityCard;
+    private String identity_card;
 
     @Column(name = "created_at")
-    private java.sql.Timestamp createdAt;
+    private Timestamp created_at;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role;
-
+    private Role role;
 
     public String getEmployeeId() {
-        return employeeId;
+        return employee_id;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployeeId(String employee_id) {
+        this.employee_id = employee_id;
     }
 
     public String getName() {
@@ -104,11 +100,11 @@ public class Employee {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String phone_number) {
+        this.phone_number = phone_number;
     }
 
     public String getEmail() {
@@ -128,42 +124,47 @@ public class Employee {
     }
 
     public String getTaxCode() {
-        return taxCode;
+        return tax_code;
     }
 
-    public void setTaxCode(String taxCode) {
-        this.taxCode = taxCode;
+    public void setTaxCode(String tax_code) {
+        this.tax_code = tax_code;
     }
 
     public String getBankAccount() {
-        return bankAccount;
+        return bank_account;
     }
 
-    public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
+    public void setBankAccount(String bank_account) {
+        this.bank_account = bank_account;
     }
 
     public String getIdentityCard() {
-        return identityCard;
+        return identity_card;
     }
 
-    public void setIdentityCard(String identityCard) {
-        this.identityCard = identityCard;
+    public void setIdentityCard(String identity_card) {
+        this.identity_card = identity_card;
     }
 
-    public java.sql.Timestamp getCreatedAt() {
-        return createdAt;
+    public Timestamp getCreatedAt() {
+        return created_at;
     }
 
-    public void setCreatedAt(java.sql.Timestamp createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedAt(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
+    }
+
+    public enum Role {
+        employee,
+        manager
     }
 }

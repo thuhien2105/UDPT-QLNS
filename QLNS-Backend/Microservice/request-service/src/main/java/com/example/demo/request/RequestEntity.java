@@ -2,6 +2,8 @@ package com.example.demo.request;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,158 +11,146 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
-import com.example.demo.GRPC.EmployeeProto.EmployeeResponse;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 @Entity
 @Table(name = "request")
-
 public class RequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;  
-    
-    @Column(name = "employee_id")
-    private String employeeId;
+    private Integer id;
 
+    @Column(name = "employee_id")
+    private String employee_id;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "request_type")
-    private String requestType;
+    private RequestType request_type;
 
     @Column(name = "request_date")
-    private LocalDateTime requestDate;
+    private LocalDateTime request_date;
 
     @Column(name = "start_time")
-    private LocalDateTime startTime;
+    private LocalDateTime start_time;
 
     @Column(name = "end_time")
-    private LocalDateTime endTime;
+    private LocalDateTime end_time;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @Column(name = "approver_id")
-    private Integer approverId;
+    private String approver_id;
 
-    @Column(name = "action")
-    private String action;  
-
-    @Column(name = "payload")
-    private String payload;
-
-    @Column(name = "response")
-    private String response;
+    @Column(name = "reason")
+    private String reason;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime created_at;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    
+    private LocalDateTime updated_at;
 
-    
-    
-    public Integer getId() {  
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) { 
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getEmployee_id() {
+        return employee_id;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee_id(String employee_id) {
+        this.employee_id = employee_id;
     }
 
-    public String getRequestType() {
-        return requestType;
+    public RequestType getRequest_type() {
+        return request_type;
     }
 
-    public void setRequestType(String requestType) {
-        this.requestType = requestType;
+    public void setRequest_type(RequestType request_type) {
+        this.request_type = request_type;
     }
 
-    public LocalDateTime getRequestDate() {
-        return requestDate;
+    public LocalDateTime getRequest_date() {
+        return request_date;
     }
 
-    public void setRequestDate(LocalDateTime requestDate) {
-        this.requestDate = requestDate;
+    public void setRequest_date(LocalDateTime request_date) {
+        this.request_date = request_date;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public LocalDateTime getStart_time() {
+        return start_time;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setStart_time(LocalDateTime start_time) {
+        this.start_time = start_time;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalDateTime getEnd_time() {
+        return end_time;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setEnd_time(LocalDateTime end_time) {
+        this.end_time = end_time;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
-    public Integer getApproverId() {
-        return approverId;
+    public String getApprover_id() {
+        return approver_id;
     }
 
-    public void setApproverId(Integer approverId) {
-        this.approverId = approverId;
+    public void setApprover_id(String approver_id) {
+        this.approver_id = approver_id;
     }
 
-    public String getAction() {
-        return action;
+    public String getReason() {
+        return reason;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
-    public String getPayload() {
-        return payload;
+    public LocalDateTime getCreated_at() {
+        return created_at;
     }
 
-    public void setPayload(String payload) {
-        this.payload = payload;
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
     }
 
-    public String getResponse() {
-        return response;
+    public LocalDateTime getUpdated_at() {
+        return updated_at;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    public void setUpdated_at(LocalDateTime updated_at) {
+        this.updated_at = updated_at;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public enum RequestType {
+        LEAVE,            
+        UPDATE_TIME_SHEET, 
+        CHECK_IN,         
+        CHECK_OUT,         
+        WFH                
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public enum Status {
+        PENDING,
+        APPROVED,
+        REJECTED
     }
 }

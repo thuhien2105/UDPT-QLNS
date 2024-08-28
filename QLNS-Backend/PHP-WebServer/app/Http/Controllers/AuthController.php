@@ -18,8 +18,6 @@ class AuthController extends Controller
 
     public function signin(Request $request)
     {
-
-
         try {
             $validatedData = $request->validate([
                 'username' => 'required|string',
@@ -31,13 +29,27 @@ class AuthController extends Controller
                 'username' => $validatedData['username'],
                 'password' => $validatedData['password'],
             ]);
+
             $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
-            return response()->json(['response' => $response]);
+            if (is_array($response)) {
+                $response = json_encode($response);
+            }
+
+            $responseData = json_decode($response, true);
+
+            if (isset($responseData['error'])) {
+                $errorMessage = $responseData['error'] ?? 'Unknown error';
+                return response()->json(['status' => 'Error', 'error' => $errorMessage], 400);
+            }
+
+            return response()->json(['response' => $responseData]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred'], 500);
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
         }
     }
+
+
 
     public function logout(Request $request)
     {

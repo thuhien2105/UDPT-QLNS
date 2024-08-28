@@ -1,11 +1,10 @@
 package com.example.demo.request;
 
-import com.example.demo.request.RequestService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -58,9 +58,19 @@ public class RequestController {
         switch (action) {
             case "get_all":
 
-                return toJson(requestService.getAllRequests());
-            case "get":
+                return getAll(messageMap);
+            case "get_by_id":
                 return getRequestById(messageMap);
+            case "get_time_sheet_by_employee":
+                return getTimeSheetByEmployee(messageMap);
+            case "get_request_by_employee":
+                return getRequestByEmployee(messageMap);
+
+            case "check-in":
+                return checkInResponse(messageMap);
+            case "check-out":
+                return checkOutResponse(messageMap);
+            	
             case "create":
                 return createRequestResponse(messageMap);
             case "update":
@@ -72,6 +82,128 @@ public class RequestController {
         }
     }
 
+    private JsonNode getAll(Map<String, Object> messageMap) { 
+        int page = Integer.parseInt((String) messageMap.get("page"));
+        return toJson(requestService.getAllRequests(page));
+    }
+    
+    
+    private JsonNode checkInResponse(Map<String, Object> messageMap) {
+        String employeeId = (String) messageMap.get("employee_id");
+
+        try {
+            RequestEntity updatedRequest = requestService.checkIn(employeeId);
+            return objectMapper.createObjectNode()
+                    .put("status", "Checked in successfully")
+                    .set("request", toJson(updatedRequest));
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            return objectMapper.createObjectNode()
+                    .put("status", "Check-in failed")
+                    .put("message", e.getMessage());
+        }
+    }
+
+    private JsonNode checkOutResponse(Map<String, Object> messageMap) {
+        String employeeId = (String) messageMap.get("employee_id");
+
+        try {
+            RequestEntity updatedRequest = requestService.checkOut(employeeId);
+            return objectMapper.createObjectNode()
+                    .put("status", "Checked out successfully")
+                    .set("request", toJson(updatedRequest));
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            return objectMapper.createObjectNode()
+                    .put("status", "Check-out failed")
+                    .put("message", e.getMessage());
+        }
+    }
+
+    private JsonNode getTimeSheetByEmployee(Map<String, Object> messageMap) {
+        String employeeId = (String) messageMap.get("employee_id");
+        int month = Integer.parseInt((String) messageMap.get("month"));
+        int year = Integer.parseInt((String) messageMap.get("year"));
+        int page = Integer.parseInt((String) messageMap.get("page"));
+
+        Map<String, Object> resultMap = requestService.getTimeSheetByEmployeeId(employeeId, month, year, page);
+
+        ObjectNode responseNode = objectMapper.createObjectNode();
+
+        int currentPage = (Integer) resultMap.get("currentPage");
+        int totalPages = (Integer) resultMap.get("totalPages");
+        long totalRequests = (Long) resultMap.get("totalRequests");
+
+        List<Map<String, Object>> requests = (List<Map<String, Object>>) resultMap.get("requests");
+
+        responseNode.put("status", requests.isEmpty() ? "No requests found for the given employee ID" : "Requests retrieved");
+        responseNode.put("currentPage", currentPage);
+        responseNode.put("totalPages", totalPages);
+
+        if (requests != null && !requests.isEmpty()) {
+            ArrayNode requestsArrayNode = objectMapper.createArrayNode();
+
+            for (Map<String, Object> requestMap : requests) {
+                ObjectNode requestNode = objectMapper.createObjectNode();
+                requestNode.set("request", objectMapper.valueToTree(requestMap.get("request")));
+                requestNode.set("employee", objectMapper.valueToTree(requestMap.get("employee")));
+                requestsArrayNode.add(requestNode);
+            }
+            responseNode.put("status", "Requests retrieved");
+            responseNode.set("requests", requestsArrayNode);
+            responseNode.put("currentPage", currentPage);
+            responseNode.put("totalPages", totalPages);
+        } else {
+        	ArrayNode requestsArrayNode = objectMapper.createArrayNode();
+            responseNode.set("requests", requestsArrayNode);
+            responseNode.put("currentPage", currentPage);
+            responseNode.put("totalPages", totalPages);
+        }
+
+        return responseNode;
+    }
+
+    
+    private JsonNode getRequestByEmployee(Map<String, Object> messageMap) {
+        String employeeId = (String) messageMap.get("employee_id");
+        int month = Integer.parseInt((String) messageMap.get("month"));
+        int year = Integer.parseInt((String) messageMap.get("year"));
+        int page = Integer.parseInt((String) messageMap.get("page"));
+
+        Map<String, Object> resultMap = requestService.getRequestByEmployeeId(employeeId, month, year, page);
+
+        ObjectNode responseNode = objectMapper.createObjectNode();
+
+        List<Map<String, Object>> requests = (List<Map<String, Object>>) resultMap.get("requests");
+        int currentPage = (Integer) resultMap.get("currentPage");
+        int totalPages = (Integer) resultMap.get("totalPages");
+
+        if (requests != null && !requests.isEmpty()) {
+            ArrayNode requestsArrayNode = objectMapper.createArrayNode();
+
+            for (Map<String, Object> requestMap : requests) {
+                ObjectNode requestNode = objectMapper.createObjectNode();
+                requestNode.set("request", objectMapper.valueToTree(requestMap.get("request")));
+                requestNode.set("employee", objectMapper.valueToTree(requestMap.get("employee")));
+                requestsArrayNode.add(requestNode);
+            }
+
+            responseNode.put("status", "Requests retrieved");
+            responseNode.set("requests", requestsArrayNode);
+            responseNode.put("currentPage", currentPage);
+            responseNode.put("totalPages", totalPages);
+        } else {
+            ArrayNode requestsArrayNode = objectMapper.createArrayNode();
+
+            responseNode.set("requests", requestsArrayNode);
+            responseNode.put("currentPage", currentPage);
+            responseNode.put("totalPages", totalPages);
+        }
+
+        return responseNode;
+    }
+
+
+    
+    
     private JsonNode getRequestById(Map<String, Object> messageMap) {
         Object idValue = messageMap.get("id");
 
@@ -84,20 +216,26 @@ public class RequestController {
             throw new IllegalArgumentException("Invalid type for id: " + idValue.getClass().getName());
         }
 
-        Optional<RequestEntity> request = requestService.getRequestById(id);
+        Optional<Map<String, Object>> requestOptional = requestService.getRequestById(id);
 
         ObjectNode responseNode = objectMapper.createObjectNode();
-        responseNode.put("status", "Request retrieved");
 
-        if (request.isPresent()) {
-            JsonNode requestNode = objectMapper.valueToTree(request.get());
+        if (requestOptional.isPresent()) {
+            Map<String, Object> requestMap = requestOptional.get();
+
+            JsonNode requestNode = objectMapper.valueToTree(requestMap.get("request"));
+            JsonNode employeeNode = objectMapper.valueToTree(requestMap.get("employee"));
+
+            responseNode.put("status", "Request retrieved");
             responseNode.set("request", requestNode);
+            responseNode.set("employee", employeeNode);
         } else {
             responseNode.put("status", "Request not found");
         }
 
         return responseNode;
     }
+
 
 
     private JsonNode createRequestResponse(Map<String, Object> messageMap) {

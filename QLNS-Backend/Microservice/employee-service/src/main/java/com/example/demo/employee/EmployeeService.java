@@ -10,6 +10,7 @@ import com.example.demo.employee.config.LoginResponse;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,13 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.UUID;
 import com.example.demo.employee.EmployeeDTO;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import java.util.HashMap;
+
 
 @Service
 public class EmployeeService {
@@ -63,8 +71,8 @@ public class EmployeeService {
     
     
     
-    public List<EmployeeDTO> getAllEmployees(String keyword, int page) {
-        PageRequest pageable = PageRequest.of(page - 1, 20); 
+    public Map<String, Object> getAllEmployees(String keyword, int page) {
+        PageRequest pageable = PageRequest.of(page - 1, 10);
         Page<Employee> employeePage;
 
         if (keyword == null || keyword.trim().isEmpty()) {
@@ -73,11 +81,20 @@ public class EmployeeService {
             employeePage = employeeRepository.findByNameContainingIgnoreCase(keyword, pageable);
         }
 
-        return employeePage.getContent().stream()
+        List<EmployeeDTO> employeeDTOs = employeePage.getContent().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("employees", employeeDTOs);
+        response.put("totalPages", employeePage.getTotalPages());
+        response.put("totalElements", employeePage.getTotalElements());
+
+        return response;
     }
 
+    
+    
     public Optional<EmployeeDTO> getEmployeeById(String id) {
         return employeeRepository.findById(id)
                 .map(this::convertToDTO);
@@ -122,24 +139,45 @@ public class EmployeeService {
         }
         return false;
     }
-
+    public ResponseEntity<String> changePassword(String employeeId, String oldPassword, String newPassword) {
+        try {
+            Optional<Employee> employeeOpt = employeeRepository.findById(employeeId);
+            if (employeeOpt.isPresent()) {
+                Employee employee = employeeOpt.get();
+                if (passwordEncoder.matches(oldPassword, employee.getPassword())) {
+                    String encodedNewPassword = passwordEncoder.encode(newPassword);
+                    employee.setPassword(encodedNewPassword);
+                    employeeRepository.save(employee);
+                    return ResponseEntity.ok("Password changed successfully.");
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Old password is incorrect.");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee with ID " + employeeId + " not found.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while changing the password.");
+        }
+    }
+    
     public boolean existsById(String id) {
         return employeeRepository.existsById(id);
     }
 
     private EmployeeDTO convertToDTO(Employee employee) {
         EmployeeDTO dto = new EmployeeDTO();
-        dto.setEmployeeId(employee.getEmployeeId());
+        dto.setEmployee_id(employee.getEmployeeId());
         dto.setName(employee.getName());
         dto.setDob(employee.getDob());
         dto.setAddress(employee.getAddress());
         dto.setEmail(employee.getEmail());
         dto.setPosition(employee.getPosition());
-        dto.setPhoneNumber(employee.getPhoneNumber());
-        dto.setTaxCode(employee.getTaxCode());
-        dto.setBankAccount(employee.getBankAccount());
-        dto.setIdentityCard(employee.getIdentityCard());
-        dto.setRole(employee.getRole());
+        dto.setPhone_number(employee.getPhoneNumber());
+        dto.setTax_code(employee.getTaxCode());
+        dto.setBank_account(employee.getBankAccount());
+        dto.setIdentity_card(employee.getIdentityCard());
+        dto.setRole(employee.getRole()); 
         return dto;
     }
+
 }
