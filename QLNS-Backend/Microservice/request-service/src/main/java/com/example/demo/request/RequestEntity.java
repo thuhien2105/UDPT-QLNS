@@ -20,36 +20,36 @@ public class RequestEntity {
     private Integer id;
 
     @Column(name = "employee_id")
-    private String employeeId;
+    private String employee_id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "request_type")
-    private RequestType requestType;
+    private RequestType request_type;
 
     @Column(name = "request_date")
-    private LocalDateTime requestDate;
+    private LocalDateTime request_date;
 
     @Column(name = "start_time")
-    private LocalDateTime startTime;
+    private LocalDateTime start_time;
 
     @Column(name = "end_time")
-    private LocalDateTime endTime;
+    private LocalDateTime end_time;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
 
     @Column(name = "approver_id")
-    private String approverId;
+    private String approver_id;
 
     @Column(name = "reason")
     private String reason;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime created_at;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDateTime updated_at;
 
 
     public Integer getId() {
@@ -60,44 +60,44 @@ public class RequestEntity {
         this.id = id;
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getEmployee_id() {
+        return employee_id;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee_id(String employee_id) {
+        this.employee_id = employee_id;
     }
 
-    public RequestType getRequestType() {
-        return requestType;
+    public RequestType getRequest_type() {
+        return request_type;
     }
 
-    public void setRequestType(RequestType requestType) {
-        this.requestType = requestType;
+    public void setRequest_type(RequestType request_type) {
+        this.request_type = request_type;
     }
 
-    public LocalDateTime getRequestDate() {
-        return requestDate;
+    public LocalDateTime getRequest_date() {
+        return request_date;
     }
 
-    public void setRequestDate(LocalDateTime requestDate) {
-        this.requestDate = requestDate;
+    public void setRequest_date(LocalDateTime request_date) {
+        this.request_date = request_date;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public LocalDateTime getStart_time() {
+        return start_time;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setStart_time(LocalDateTime start_time) {
+        this.start_time = start_time;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalDateTime getEnd_time() {
+        return end_time;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setEnd_time(LocalDateTime end_time) {
+        this.end_time = end_time;
     }
 
     public Status getStatus() {
@@ -108,12 +108,12 @@ public class RequestEntity {
         this.status = status;
     }
 
-    public String getApproverId() {
-        return approverId;
+    public String getApprover_id() {
+        return approver_id;
     }
 
-    public void setApproverId(String approverId) {
-        this.approverId = approverId;
+    public void setApprover_id(String approver_id) {
+        this.approver_id = approver_id;
     }
 
     public String getReason() {
@@ -124,22 +124,21 @@ public class RequestEntity {
         this.reason = reason;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getCreated_at() {
+        return created_at;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getUpdated_at() {
+        return updated_at;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdated_at(LocalDateTime updated_at) {
+        this.updated_at = updated_at;
     }
-
 
     public enum RequestType {
         LEAVE,            

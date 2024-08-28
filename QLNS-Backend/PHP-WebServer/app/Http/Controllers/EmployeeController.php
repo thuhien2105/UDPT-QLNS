@@ -61,7 +61,7 @@ class EmployeeController extends Controller
 
         return response()->json($response);
     }
-    public function show($id, Request $request)
+    public function show($employee_id, Request $request)
     {
         $response = $this->verifyToken($request);
         if ($response) {
@@ -70,8 +70,8 @@ class EmployeeController extends Controller
 
         $user = $request->attributes->get('jwt_payload');
 
-        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $id)) {
-            $message = json_encode(['action' => 'get', 'employee_id' => $id]);
+        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $employee_id)) {
+            $message = json_encode(['action' => 'get', 'employee_id' => $employee_id]);
             $response = $this->rabbitMQService->sendToEmployeeQueue($message);
             return response()->json($response);
         }
@@ -141,7 +141,7 @@ class EmployeeController extends Controller
         return response()->json(['error' => 'Unauthorized'], 403);
     }
 
-    public function destroy($id, Request $request)
+    public function destroy($employee_id, Request $request)
     {
         $response = $this->verifyToken($request);
         if ($response) {
@@ -154,7 +154,30 @@ class EmployeeController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        $message = json_encode(['action' => 'delete', 'employee_id' => $id]);
+        $message = json_encode(['action' => 'delete', 'employee_id' => $employee_id]);
+        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+        return response()->json($response);
+    }
+    public function ChangePassword(Request $request)
+    {
+        $response = $this->verifyToken($request);
+        if ($response) {
+            return $response;
+        }
+        $user = $request->attributes->get('jwt_payload');
+
+        $validatedData = $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:8',
+        ]);
+
+        $message = json_encode([
+            'action' => 'change-password',
+            'employee_id' => $user['sub'],
+            'old_password' => $validatedData['old_password'],
+            'new_password' => $validatedData['new_password'],
+        ]);
+
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
         return response()->json($response);
     }

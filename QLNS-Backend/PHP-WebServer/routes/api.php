@@ -26,10 +26,12 @@ Route::post('signin', [AuthController::class, 'signin']);
 
 Route::get('employees/{keyword}/{page}', [EmployeeController::class, 'index']);
 
-Route::get('employees/{id}', [EmployeeController::class, 'show']);
+Route::get('employees/{employee_id}', [EmployeeController::class, 'show']);
 Route::post('employees', [EmployeeController::class, 'store']);
-Route::put('employees/{id}', [EmployeeController::class, 'update']);
-Route::delete('employees/{id}', [EmployeeController::class, 'destroy']);
+Route::put('employees/{employee_id}', [EmployeeController::class, 'update']);
+Route::put('employees/changePassword/{employee_id}', [EmployeeController::class, 'ChangePassword']);
+
+Route::delete('employees/{employee_id}', [EmployeeController::class, 'destroy']);
 
 
 
@@ -40,6 +42,8 @@ Route::get('request/timesheet/{employeeId}/{page}/{month}/{year}', [RequestContr
 Route::get('request/{Id}', [RequestController::class, 'showById']);
 Route::post('request/checkin', [RequestController::class, 'checkin']);
 Route::post('request/checkout', [RequestController::class, 'checkout']);
+Route::post('request/approve/{id}', [RequestController::class, 'approve']);
+
 Route::post('request', [RequestController::class, 'store']);
 Route::put('request/{id}', [RequestController::class, 'update']);
 Route::delete('request/{id}', [RequestController::class, 'destroy']);

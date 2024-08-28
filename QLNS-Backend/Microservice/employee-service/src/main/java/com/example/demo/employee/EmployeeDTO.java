@@ -1,28 +1,24 @@
 package com.example.demo.employee;
 
-
-import java.util.Date;
-
 public class EmployeeDTO {
-    private String employeeId;
+    private String employee_id;
     private String name;
     private String dob;
     private String address;
     private String email;
     private String position;
-    private String phoneNumber;
-    private String taxCode;
-    private String bankAccount;
-    private String identityCard;
+    private String phone_number;
+    private String tax_code;
+    private String bank_account;
+    private String identity_card;
     private String role;
 
-
     public String getEmployeeId() {
-        return employeeId;
+        return employee_id;
     }
 
     public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+        this.employee_id = employeeId;
     }
 
     public String getName() {
@@ -66,35 +62,35 @@ public class EmployeeDTO {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phone_number = phoneNumber;
     }
 
     public String getTaxCode() {
-        return taxCode;
+        return tax_code;
     }
 
     public void setTaxCode(String taxCode) {
-        this.taxCode = taxCode;
+        this.tax_code = taxCode;
     }
 
     public String getBankAccount() {
-        return bankAccount;
+        return bank_account;
     }
 
     public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
+        this.bank_account = bankAccount;
     }
 
     public String getIdentityCard() {
-        return identityCard;
+        return identity_card;
     }
 
     public void setIdentityCard(String identityCard) {
-        this.identityCard = identityCard;
+        this.identity_card = identityCard;
     }
 
     public String getRole() {

@@ -22,6 +22,12 @@ import java.util.stream.Collectors;
 import java.util.UUID;
 import com.example.demo.employee.EmployeeDTO;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+
 @Service
 public class EmployeeService {
 
@@ -122,7 +128,27 @@ public class EmployeeService {
         }
         return false;
     }
-
+    public ResponseEntity<String> changePassword(String employeeId, String oldPassword, String newPassword) {
+        try {
+            Optional<Employee> employeeOpt = employeeRepository.findById(employeeId);
+            if (employeeOpt.isPresent()) {
+                Employee employee = employeeOpt.get();
+                if (passwordEncoder.matches(oldPassword, employee.getPassword())) {
+                    String encodedNewPassword = passwordEncoder.encode(newPassword);
+                    employee.setPassword(encodedNewPassword);
+                    employeeRepository.save(employee);
+                    return ResponseEntity.ok("Password changed successfully.");
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Old password is incorrect.");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee with ID " + employeeId + " not found.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while changing the password.");
+        }
+    }
+    
     public boolean existsById(String id) {
         return employeeRepository.existsById(id);
     }

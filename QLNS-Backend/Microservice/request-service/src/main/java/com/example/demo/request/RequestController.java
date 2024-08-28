@@ -58,7 +58,7 @@ public class RequestController {
         switch (action) {
             case "get_all":
 
-                return toJson(requestService.getAllRequests());
+                return getAll(messageMap);
             case "get_by_id":
                 return getRequestById(messageMap);
             case "get_time_sheet_by_employee":
@@ -82,6 +82,11 @@ public class RequestController {
         }
     }
 
+    private JsonNode getAll(Map<String, Object> messageMap) { 
+        int page = Integer.parseInt((String) messageMap.get("page"));
+        return toJson(requestService.getAllRequests(page));
+    }
+    
     
     private JsonNode checkInResponse(Map<String, Object> messageMap) {
         String employeeId = (String) messageMap.get("employee_id");
@@ -118,12 +123,22 @@ public class RequestController {
         int month = Integer.parseInt((String) messageMap.get("month"));
         int year = Integer.parseInt((String) messageMap.get("year"));
         int page = Integer.parseInt((String) messageMap.get("page"));
-        
-        List<Map<String, Object>> requests = requestService.getTimeSheetByEmployeeId(employeeId, month, year, page);
+
+        Map<String, Object> resultMap = requestService.getTimeSheetByEmployeeId(employeeId, month, year, page);
 
         ObjectNode responseNode = objectMapper.createObjectNode();
 
-        if (!requests.isEmpty()) {
+        int currentPage = (Integer) resultMap.get("currentPage");
+        int totalPages = (Integer) resultMap.get("totalPages");
+        long totalRequests = (Long) resultMap.get("totalRequests");
+
+        List<Map<String, Object>> requests = (List<Map<String, Object>>) resultMap.get("requests");
+
+        responseNode.put("status", requests.isEmpty() ? "No requests found for the given employee ID" : "Requests retrieved");
+        responseNode.put("currentPage", currentPage);
+        responseNode.put("totalPages", totalPages);
+
+        if (requests != null && !requests.isEmpty()) {
             ArrayNode requestsArrayNode = objectMapper.createArrayNode();
 
             for (Map<String, Object> requestMap : requests) {
@@ -132,27 +147,36 @@ public class RequestController {
                 requestNode.set("employee", objectMapper.valueToTree(requestMap.get("employee")));
                 requestsArrayNode.add(requestNode);
             }
-
             responseNode.put("status", "Requests retrieved");
             responseNode.set("requests", requestsArrayNode);
+            responseNode.put("currentPage", currentPage);
+            responseNode.put("totalPages", totalPages);
         } else {
-            responseNode.put("status", "No requests found for the given employee ID");
+        	ArrayNode requestsArrayNode = objectMapper.createArrayNode();
+            responseNode.set("requests", requestsArrayNode);
+            responseNode.put("currentPage", currentPage);
+            responseNode.put("totalPages", totalPages);
         }
 
         return responseNode;
     }
+
     
     private JsonNode getRequestByEmployee(Map<String, Object> messageMap) {
         String employeeId = (String) messageMap.get("employee_id");
         int month = Integer.parseInt((String) messageMap.get("month"));
         int year = Integer.parseInt((String) messageMap.get("year"));
         int page = Integer.parseInt((String) messageMap.get("page"));
-        
-        List<Map<String, Object>> requests = requestService.getRequestByEmployeeId(employeeId, month, year, page);
+
+        Map<String, Object> resultMap = requestService.getRequestByEmployeeId(employeeId, month, year, page);
 
         ObjectNode responseNode = objectMapper.createObjectNode();
 
-        if (!requests.isEmpty()) {
+        List<Map<String, Object>> requests = (List<Map<String, Object>>) resultMap.get("requests");
+        int currentPage = (Integer) resultMap.get("currentPage");
+        int totalPages = (Integer) resultMap.get("totalPages");
+
+        if (requests != null && !requests.isEmpty()) {
             ArrayNode requestsArrayNode = objectMapper.createArrayNode();
 
             for (Map<String, Object> requestMap : requests) {
@@ -164,12 +188,20 @@ public class RequestController {
 
             responseNode.put("status", "Requests retrieved");
             responseNode.set("requests", requestsArrayNode);
+            responseNode.put("currentPage", currentPage);
+            responseNode.put("totalPages", totalPages);
         } else {
-            responseNode.put("status", "No requests found for the given employee ID");
+            ArrayNode requestsArrayNode = objectMapper.createArrayNode();
+
+            responseNode.set("requests", requestsArrayNode);
+            responseNode.put("currentPage", currentPage);
+            responseNode.put("totalPages", totalPages);
         }
 
         return responseNode;
     }
+
+
     
     
     private JsonNode getRequestById(Map<String, Object> messageMap) {

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 
 
 @RestController
@@ -73,7 +74,8 @@ public class EmployeeController {
             return loginEmployee(messageMap);
         case "logout":
             return logoutEmployee(messageMap);
-        		
+        case "change-password":
+            return changePassword(messageMap);		
             case "get_all":
                 return getEmployees(messageMap);
             case "get":
@@ -89,7 +91,15 @@ public class EmployeeController {
         }
     }
 
-    
+    private JsonNode changePassword(Map<String, Object> messageMap) {
+        String employeeId = (String) messageMap.get("employee_id");
+        String old_password = (String) messageMap.get("old_password");
+        String new_password = (String) messageMap.get("new_password");
+
+
+        ResponseEntity<String> respone = employeeService.changePassword(employeeId, old_password, new_password);
+        return toJson(respone);
+    }
     
     private JsonNode getEmployees(Map<String, Object> messageMap) {
         String keyword = (String) messageMap.get("keyword");

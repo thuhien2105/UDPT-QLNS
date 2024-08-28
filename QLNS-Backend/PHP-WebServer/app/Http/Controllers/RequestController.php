@@ -74,7 +74,7 @@ class RequestController extends Controller
 
         $message = json_encode([
             'action' => 'get_request_by_employee',
-            'employeeId' => $employeeId,
+            'employee_id' => $employeeId,
             'page' => $page,
             'month' => $month,
             'year' => $year
@@ -97,7 +97,7 @@ class RequestController extends Controller
 
         $message = json_encode([
             'action' => 'get_time_sheet_by_employee',
-            'employeeId' => $employeeId,
+            'employee_id' => $employeeId,
             'page' => $page,
             'month' => $month,
             'year' => $year
