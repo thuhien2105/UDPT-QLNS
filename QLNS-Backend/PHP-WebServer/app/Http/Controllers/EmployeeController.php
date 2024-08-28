@@ -158,13 +158,19 @@ class EmployeeController extends Controller
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
         return response()->json($response);
     }
-    public function ChangePassword(Request $request)
+    public function ChangePassword(Request $request, $employee_id)
     {
         $response = $this->verifyToken($request);
         if ($response) {
             return $response;
         }
+
         $user = $request->attributes->get('jwt_payload');
+        if ($employee_id != $user['sub']) {
+            return response()->json([
+                'error' => 'Unauthorized'
+            ], 403);
+        }
 
         $validatedData = $request->validate([
             'old_password' => 'required|string',
