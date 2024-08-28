@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    // var currentPath = window.location.pathname;
-    // if (currentPath !== '/login') {
-    //     if (!Cookies.get('token') || !Cookies.get('id') || !Cookies.get('name') || !Cookies.get('dob') || !Cookies.get('address') || !Cookies.get('phone_number')) {
-    //         window.location.href = '/login';
-    //     }
-    // }
+    var currentPath = window.location.pathname;
+    if (currentPath !== '/login') {
+        if (!Cookies.get('token') || !Cookies.get('id')) {
+            window.location.href = '/login';
+        }
+    }
 
     $(".nav-link").click(function () {
         $(".nav-link").removeClass("active");
@@ -44,6 +44,12 @@ $(document).ready(function () {
         Cookies.remove("dob");
         Cookies.remove("address");
         Cookies.remove("phone_number");
+        Cookies.remove("email");
+        Cookies.remove("position");
+        Cookies.remove("role");
+        Cookies.remove("tax_code");
+        Cookies.remove("bank_account");
+        Cookies.remove("identity_card");
         window.location.href = "/login";
     });
 });

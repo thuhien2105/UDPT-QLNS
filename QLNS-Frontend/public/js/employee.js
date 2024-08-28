@@ -16,6 +16,7 @@ $(document).ready(function () {
                 success: function (data) {
                     $("#employee-id").val(data.employee.employeeId);
                     $("#name_0").val(data.employee.name);
+                    $("#title_0").text(data.employee.name);
                     $("#dob_0").val(data.employee.dob);
                     $("#address_0").val(data.employee.address);
                     $("#phone_number_0").val(data.employee.phone_number);

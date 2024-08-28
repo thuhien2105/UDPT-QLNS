@@ -2,7 +2,7 @@ $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
     var token = Cookies.get("token");
-    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    var csrfToken = $('meta[name="csrf-token"]').attr("content");
     if (id != null)
         $.ajax({
             url: `http://localhost:5000/activities/${id}`,
@@ -10,6 +10,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 $("#name_0").val(data.name);
+                $("#title_0").text(data.name);
                 const activity = data;
                 const fields = [
                     { label: "Type", value: activity.localized_sport_type },
@@ -110,29 +111,28 @@ $(document).ready(function () {
                 );
             },
         });
-        $("#create-campaign").on("submit", function (event) {
-            event.preventDefault();
-            var formData = $(this).serializeArray();
-            var data = {};
-            $(formData).each(function(index, obj){
-                data[obj.name] = obj.value;
-            });
-
-            $.ajax({
-                url: "http://127.0.0.1:5000/activities",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                success: function (response) {
-                    window.location.href = "/campaign";
-                },
-                error: function (xhr) {
-                    console.error("Request failed:", xhr.responseText);
-                },
-            });
+    $("#create-campaign").on("submit", function (event) {
+        event.preventDefault();
+        var formData = $(this).serializeArray();
+        var data = {};
+        $(formData).each(function (index, obj) {
+            data[obj.name] = obj.value;
         });
 
+        $.ajax({
+            url: "http://127.0.0.1:5000/activities",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+            success: function (response) {
+                window.location.href = "/campaign";
+            },
+            error: function (xhr) {
+                console.error("Request failed:", xhr.responseText);
+            },
+        });
+    });
 });

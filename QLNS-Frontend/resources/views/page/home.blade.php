@@ -56,7 +56,7 @@
                     </div>
                     @endif
                     <div class="col-3 col-md-2 o_draggable mb-3 px-0">
-                        <a href="/gifts" role="option"
+                        <a href="/gifts?type=category" role="option"
                             class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"
                             id="result_app_9" aria-selected="false"
                             data-menu-xmlid="hr_work_entry_contract_enterprise.menu_hr_payroll_root"><img
