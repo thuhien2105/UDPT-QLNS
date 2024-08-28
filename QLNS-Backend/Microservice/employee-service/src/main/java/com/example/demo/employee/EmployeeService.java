@@ -56,17 +56,13 @@ public class EmployeeService {
         if (employeeOpt.isPresent()) {
             Employee employee = employeeOpt.get();
             if (passwordEncoder.matches(password, employee.getPassword())) {
-                String accessToken = jwtUtil.generateToken(employee.getEmployeeId(), employee.getRole());
-                
-                String refreshToken = jwtUtil.generateRefreshToken(employee.getEmployeeId());
-                
-                LoginResponse loginResponse = new LoginResponse(employee, accessToken, refreshToken);
+                String token = jwtUtil.generateToken(employee.getEmployeeId(), employee.getRole());
+                LoginResponse loginResponse = new LoginResponse(employee, token);
                 return Optional.of(loginResponse);
             }
         }
         return Optional.empty();
     }
-
 
 
     public void logout(String username) {

@@ -72,6 +72,9 @@ class RequestController extends Controller
 
     public function showById(Request $request, $id, $page, $month, $year)
     {
+        $user = $request->attributes->get('payload');
+
+
         $message = json_encode(['action' => 'get_by_id', 'id' => $id]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);

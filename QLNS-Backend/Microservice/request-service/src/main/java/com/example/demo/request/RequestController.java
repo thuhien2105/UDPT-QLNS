@@ -303,6 +303,9 @@ public class RequestController {
             request.setStatus(RequestEntity.Status.PENDING);
 
             request.setApprover_id(null);
+   
+            request.setReason(null);
+            request.setRequest_type(null);
 
             request.setRequest_date(LocalDateTime.now());
 
