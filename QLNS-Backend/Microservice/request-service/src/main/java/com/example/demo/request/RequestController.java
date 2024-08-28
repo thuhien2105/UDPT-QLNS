@@ -304,8 +304,7 @@ public class RequestController {
 
             request.setApprover_id(null);
    
-            request.setReason(null);
-            request.setRequest_type(null);
+     
 
             request.setRequest_date(LocalDateTime.now());
 

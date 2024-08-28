@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RabbitMQConnection;
+use Illuminate\Support\Facades\Cache;
 
 class EmployeeController extends Controller
 {
@@ -23,20 +24,40 @@ class EmployeeController extends Controller
         }
 
         $keyword = $keyword === 'null' ? null : $keyword;
+        $cacheKey = "employees:{$keyword}:page:{$page}";
+
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
+        }
+
         $message = json_encode(['action' => 'get_all', 'keyword' => $keyword, 'page' => $page]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
-
 
     public function show($employee_id, Request $request)
     {
         $user = $request->attributes->get('payload');
 
         if ($user['role'] === 'manager' || ($user['sub'] == $employee_id)) {
+            $cacheKey = "employee:{$employee_id}";
+
+            $cachedResponse = Cache::get($cacheKey);
+
+            if ($cachedResponse) {
+                return response()->json($cachedResponse);
+            }
+
             $message = json_encode(['action' => 'get', 'employee_id' => $employee_id]);
             $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+            Cache::put($cacheKey, $response, now()->addMinutes(30));
+
             return response()->json($response);
         }
 
@@ -45,7 +66,6 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-
         $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
@@ -72,8 +92,6 @@ class EmployeeController extends Controller
 
     public function update(Request $request)
     {
-
-
         $user = $request->attributes->get('payload');
 
         $validatedData = $request->validate([
@@ -100,7 +118,6 @@ class EmployeeController extends Controller
 
     public function destroy($employee_id, Request $request)
     {
-
         $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
@@ -114,9 +131,7 @@ class EmployeeController extends Controller
 
     public function changePassword(Request $request, $employee_id)
     {
-
-        $user = $user = $request->attributes->get('payload');
-
+        $user = $request->attributes->get('payload');
 
         $validatedData = $request->validate([
             'old_password' => 'required|string',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RabbitMQConnection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class RequestController extends Controller
@@ -17,16 +18,24 @@ class RequestController extends Controller
 
     public function index(Request $request, $page)
     {
-
         $user = $request->attributes->get('payload');
-
 
         if ($user['role'] !== 'manager') {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
+        $cacheKey = "requests:page:{$page}";
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
+        }
+
         $message = json_encode(['action' => 'get_all', 'page' => $page]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
 
@@ -34,9 +43,15 @@ class RequestController extends Controller
     {
         $user = $request->attributes->get('payload');
 
-
         if ($user['role'] !== 'manager' && $user['sub'] !== $employeeId) {
             return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $cacheKey = "requests:employee:{$employeeId}:page:{$page}:month:{$month}:year:{$year}";
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
         }
 
         $message = json_encode([
@@ -47,6 +62,9 @@ class RequestController extends Controller
             'year' => $year
         ]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
 
@@ -54,9 +72,15 @@ class RequestController extends Controller
     {
         $user = $request->attributes->get('payload');
 
-
         if ($user['role'] !== 'manager' && $user['sub'] !== $employeeId) {
             return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $cacheKey = "time_sheets:employee:{$employeeId}:page:{$page}:month:{$month}:year:{$year}";
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
         }
 
         $message = json_encode([
@@ -67,6 +91,9 @@ class RequestController extends Controller
             'year' => $year
         ]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
 
@@ -74,16 +101,24 @@ class RequestController extends Controller
     {
         $user = $request->attributes->get('payload');
 
+        $cacheKey = "requests:id:{$id}:page:{$page}:month:{$month}:year:{$year}";
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
+        }
 
         $message = json_encode(['action' => 'get_by_id', 'id' => $id]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
 
     public function store(Request $request)
     {
         $user = $request->attributes->get('payload');
-
 
         $request->merge(['employee_id' => $user['sub']]);
 
@@ -118,7 +153,6 @@ class RequestController extends Controller
     {
         $user = $request->attributes->get('payload');
 
-
         $message = json_encode(['action' => 'check-in', 'employee_id' => $user['sub']]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);
@@ -128,7 +162,6 @@ class RequestController extends Controller
     {
         $user = $request->attributes->get('payload');
 
-
         $message = json_encode(['action' => 'check-out', 'employee_id' => $user['sub']]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);
@@ -137,7 +170,6 @@ class RequestController extends Controller
     public function update(Request $request, $id)
     {
         $user = $request->attributes->get('payload');
-
 
         $validatedData = $request->validate([
             'request_type' => 'sometimes|required|string',
@@ -162,7 +194,6 @@ class RequestController extends Controller
     {
         $user = $request->attributes->get('payload');
 
-
         $message = json_encode(['action' => 'delete', 'id' => $id]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);
@@ -171,7 +202,6 @@ class RequestController extends Controller
     public function approve(Request $request, $id)
     {
         $user = $request->attributes->get('payload');
-
 
         if ($user['role'] !== 'manager') {
             return response()->json(['error' => 'Unauthorized'], 403);
