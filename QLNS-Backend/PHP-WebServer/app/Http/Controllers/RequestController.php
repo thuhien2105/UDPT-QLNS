@@ -4,72 +4,54 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RabbitMQConnection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class RequestController extends Controller
 {
     private $rabbitMQService;
-    private $secretKey = 'ungdungphantan_hcmus_20clcbytranthuhien';
 
     public function __construct(RabbitMQConnection $rabbitMQService)
     {
         $this->rabbitMQService = $rabbitMQService;
     }
 
-    private function verifyToken(Request $request)
-    {
-        $token = $request->bearerToken();
-
-        if (!$token) {
-            return response()->json(['error' => 'Token not provided'], 401);
-        }
-
-        try {
-            $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
-            $jwtPayload = (array) $decoded;
-
-            Log::info('Decoded JWT Token:', $jwtPayload);
-
-            $request->attributes->set('jwt_payload', $jwtPayload);
-
-            return null;
-        } catch (\Exception $e) {
-            Log::error('Invalid token: ' . $e->getMessage());
-            return response()->json(['error' => 'Invalid token'], 401);
-        }
-    }
-
     public function index(Request $request, $page)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
-
-        $user = $request->attributes->get('jwt_payload');
+        $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+        }
+
+        $cacheKey = "requests:page:{$page}";
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
         }
 
         $message = json_encode(['action' => 'get_all', 'page' => $page]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
 
     public function showRequestByEmployee(Request $request, $employeeId, $page, $month, $year)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
-
-        $user = $request->attributes->get('jwt_payload');
+        $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager' && $user['sub'] !== $employeeId) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+        }
+
+        $cacheKey = "requests:employee:{$employeeId}:page:{$page}:month:{$month}:year:{$year}";
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
         }
 
         $message = json_encode([
@@ -80,19 +62,25 @@ class RequestController extends Controller
             'year' => $year
         ]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
+
     public function showTimeSheetByEmployee(Request $request, $employeeId, $page, $month, $year)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
-
-        $user = $request->attributes->get('jwt_payload');
+        $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager' && $user['sub'] !== $employeeId) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+        }
+
+        $cacheKey = "time_sheets:employee:{$employeeId}:page:{$page}:month:{$month}:year:{$year}";
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
         }
 
         $message = json_encode([
@@ -103,30 +91,34 @@ class RequestController extends Controller
             'year' => $year
         ]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
-    public function showById(Request $request, $id,  $page, $month, $year)
-    {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
 
-        $user = $request->attributes->get('jwt_payload');
+    public function showById(Request $request, $id, $page, $month, $year)
+    {
+        $user = $request->attributes->get('payload');
+
+        $cacheKey = "requests:id:{$id}:page:{$page}:month:{$month}:year:{$year}";
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
+        }
 
         $message = json_encode(['action' => 'get_by_id', 'id' => $id]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
 
     public function store(Request $request)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
-
-        $user = $request->attributes->get('jwt_payload');
+        $user = $request->attributes->get('payload');
 
         $request->merge(['employee_id' => $user['sub']]);
 
@@ -157,19 +149,9 @@ class RequestController extends Controller
         return response()->json($responseData, 201);
     }
 
-
-
-
-
     public function checkin(Request $request)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
-
-        $user = $request->attributes->get('jwt_payload');
-
+        $user = $request->attributes->get('payload');
 
         $message = json_encode(['action' => 'check-in', 'employee_id' => $user['sub']]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
@@ -178,26 +160,16 @@ class RequestController extends Controller
 
     public function checkout(Request $request)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
-
-        $user = $request->attributes->get('jwt_payload');
-
-
+        $user = $request->attributes->get('payload');
 
         $message = json_encode(['action' => 'check-out', 'employee_id' => $user['sub']]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
         return response()->json($response);
     }
+
     public function update(Request $request, $id)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
-        $user = $request->attributes->get('jwt_payload');
+        $user = $request->attributes->get('payload');
 
         $validatedData = $request->validate([
             'request_type' => 'sometimes|required|string',
@@ -218,14 +190,9 @@ class RequestController extends Controller
         return response()->json($response);
     }
 
-
     public function destroy(Request $request, $id)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
-        $user = $request->attributes->get('jwt_payload');
+        $user = $request->attributes->get('payload');
 
         $message = json_encode(['action' => 'delete', 'id' => $id]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
@@ -234,19 +201,14 @@ class RequestController extends Controller
 
     public function approve(Request $request, $id)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
-
-        $user = $request->attributes->get('jwt_payload');
+        $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
         }
 
         $validatedData = $request->validate([
-            'status' => 'required|string|in:PENDING,APPROVED,REJECTED'
+            'status' => 'required|string|in:APPROVED,REJECTED'
         ]);
 
         $message = json_encode([

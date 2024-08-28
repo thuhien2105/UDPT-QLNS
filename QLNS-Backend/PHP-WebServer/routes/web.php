@@ -21,8 +21,6 @@ use Illuminate\Http\Request;
 //     return view('welcome');
 // });
 
-Route::prefix('api')->group(function () {
-    Route::middleware('jwt.auth')->get('test', function (Request $request) {
-        return response()->json(['message' => 'JWT is working'], 200);
-    });
+Route::middleware("jwt.auth")->group(function () {
+    Route::get('api/employees/{keyword}/{page}', [EmployeeController::class, 'index']);
 });
