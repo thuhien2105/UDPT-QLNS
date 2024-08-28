@@ -24,12 +24,10 @@ class JwtAuthMiddleware
             $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
             $jwtPayload = (array) $decoded;
 
-            Log::info('Decoded JWT Token:', $jwtPayload);
             $request->attributes->set('payload', $jwtPayload);
 
             return $next($request);
         } catch (\Exception $e) {
-            Log::error('Invalid token: ' . $e->getMessage());
             return response()->json(['error' => 'Invalid token'], 401);
         }
     }

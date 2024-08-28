@@ -16,13 +16,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtUtil {
 
     private String secretKey = "ungdungphantan_hcmus_20clcbytranthuhien"; 
-    private long Validity = 86400000; 
+    private long validityInMilliseconds = 3600000; 
 
     public String generateToken(String idEmployee, Role role) {
         Claims claims = Jwts.claims().setSubject(idEmployee);
         claims.put("role", role);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + Validity);
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         Key key = new SecretKeySpec(secretKey.getBytes(), SignatureAlgorithm.HS256.getJcaName());
 

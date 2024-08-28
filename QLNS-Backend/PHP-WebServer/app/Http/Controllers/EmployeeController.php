@@ -20,7 +20,7 @@ class EmployeeController extends Controller
         $jwtPayload = $request->attributes->get('payload');
 
         if ($jwtPayload['role'] !== 'manager') {
-            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $keyword = $keyword === 'null' ? null : $keyword;
@@ -61,7 +61,7 @@ class EmployeeController extends Controller
             return response()->json($response);
         }
 
-        return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+        return response()->json(['error' => 'Unauthorized'], 403);
     }
 
     public function store(Request $request)
@@ -69,7 +69,7 @@ class EmployeeController extends Controller
         $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
-            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $validatedData = $request->validate([
@@ -113,7 +113,7 @@ class EmployeeController extends Controller
             return response()->json($response);
         }
 
-        return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+        return response()->json(['error' => 'Unauthorized'], 403);
     }
 
     public function destroy($employee_id, Request $request)
@@ -121,7 +121,7 @@ class EmployeeController extends Controller
         $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
-            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $message = json_encode(['action' => 'delete', 'employee_id' => $employee_id]);

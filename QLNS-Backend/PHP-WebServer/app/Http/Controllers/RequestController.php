@@ -21,7 +21,7 @@ class RequestController extends Controller
         $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
-            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $cacheKey = "requests:page:{$page}";
@@ -44,7 +44,7 @@ class RequestController extends Controller
         $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager' && $user['sub'] !== $employeeId) {
-            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $cacheKey = "requests:employee:{$employeeId}:page:{$page}:month:{$month}:year:{$year}";
@@ -73,7 +73,7 @@ class RequestController extends Controller
         $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager' && $user['sub'] !== $employeeId) {
-            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $cacheKey = "time_sheets:employee:{$employeeId}:page:{$page}:month:{$month}:year:{$year}";
@@ -204,11 +204,11 @@ class RequestController extends Controller
         $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
-            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $validatedData = $request->validate([
-            'status' => 'required|string|in:APPROVED,REJECTED'
+            'status' => 'required|string|in:PENDING,APPROVED,REJECTED'
         ]);
 
         $message = json_encode([
