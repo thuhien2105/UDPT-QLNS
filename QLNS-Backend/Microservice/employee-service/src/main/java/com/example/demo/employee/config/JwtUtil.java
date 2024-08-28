@@ -16,7 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtUtil {
 
     private String secretKey = "ungdungphantan_hcmus_20clcbytranthuhien"; 
-    private long validityInMilliseconds = 3600000; 
+    private long validityInMilliseconds = 86400000; 
 
     public String generateToken(String idEmployee, Role role) {
         Claims claims = Jwts.claims().setSubject(idEmployee);
