@@ -2,75 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\RabbitMQConnection;
-use Illuminate\Support\Facades\Log;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class EmployeeController extends Controller
 {
     private $rabbitMQService;
-    private $secretKey = 'ungdungphantan_hcmus_20clcbytranthuhien';
 
     public function __construct(RabbitMQConnection $rabbitMQService)
     {
         $this->rabbitMQService = $rabbitMQService;
     }
 
-    private function verifyToken(Request $request)
-    {
-        $token = $request->bearerToken();
-
-        if (!$token) {
-            return response()->json(['error' => 'Token not provided'], 401);
-        }
-
-        try {
-            $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
-            $jwtPayload = (array) $decoded;
-
-            Log::info('Decoded JWT Token:', $jwtPayload);
-
-            if ($jwtPayload['role'] !== 'manager') {
-                return response()->json(['error' => 'Unauthorized'], 403);
-            }
-
-            $request->attributes->set('jwt_payload', $jwtPayload);
-
-            return null;
-        } catch (\Exception $e) {
-            Log::error('Invalid token: ' . $e->getMessage());
-            return response()->json(['error' => 'Invalid token'], 401);
-        }
-    }
-
     public function index(Request $request, $keyword = null, $page = 1)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
+        $jwtPayload = $request->attributes->get('payload');
+
+        if ($jwtPayload['role'] !== 'manager') {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $keyword = $keyword === 'null' ? null : $keyword;
-
         $message = json_encode(['action' => 'get_all', 'keyword' => $keyword, 'page' => $page]);
-
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
         return response()->json($response);
     }
+
+
     public function show($employee_id, Request $request)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
+        $user = $request->attributes->get('payload');
 
-        $user = $request->attributes->get('jwt_payload');
-
-        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $employee_id)) {
+        if ($user['role'] === 'manager' || ($user['sub'] == $employee_id)) {
             $message = json_encode(['action' => 'get', 'employee_id' => $employee_id]);
             $response = $this->rabbitMQService->sendToEmployeeQueue($message);
             return response()->json($response);
@@ -81,12 +45,8 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
 
-        $user = $request->attributes->get('jwt_payload');
+        $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
             return response()->json(['error' => 'Unauthorized'], 403);
@@ -112,12 +72,9 @@ class EmployeeController extends Controller
 
     public function update(Request $request)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
 
-        $user = $request->attributes->get('jwt_payload');
+
+        $user = $request->attributes->get('payload');
 
         $validatedData = $request->validate([
             'employee_id' => 'required|string',
@@ -143,12 +100,8 @@ class EmployeeController extends Controller
 
     public function destroy($employee_id, Request $request)
     {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
 
-        $user = $request->attributes->get('jwt_payload');
+        $user = $request->attributes->get('payload');
 
         if ($user['role'] !== 'manager') {
             return response()->json(['error' => 'Unauthorized'], 403);
@@ -158,14 +111,12 @@ class EmployeeController extends Controller
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
         return response()->json($response);
     }
-    public function ChangePassword(Request $request, $employee_id)
-    {
-        $response = $this->verifyToken($request);
-        if ($response) {
-            return $response;
-        }
 
-        $user = $request->attributes->get('jwt_payload');
+    public function changePassword(Request $request, $employee_id)
+    {
+
+        $user = $user = $request->attributes->get('payload');
+
 
         $validatedData = $request->validate([
             'old_password' => 'required|string',

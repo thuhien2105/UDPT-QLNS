@@ -14,37 +14,21 @@ class JwtAuthMiddleware
 
     public function handle(Request $request, Closure $next)
     {
-        Log::info('Incoming request:', [
-            'url' => $request->url(),
-            'method' => $request->method(),
-            'headers' => $request->headers->all(),
-            'body' => $request->all()
-        ]);
-
         $token = $request->bearerToken();
 
         if (!$token) {
-            return response()->json(['error' => 'Token không được cung cấp'], 401);
+            return response()->json(['error' => 'Token not provided'], 401);
         }
 
         try {
             $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
             $jwtPayload = (array) $decoded;
 
-            Log::info('Decoded JWT Token:', $jwtPayload);
-
-            if ($jwtPayload['role'] !== 'manager') {
-                return response()->json(['error' => 'Unauthorized'], 403);
-            }
-
-            Log::info('User Role:', ['role' => $jwtPayload['role']]);
-
-            $request->attributes->set('jwt_payload', $jwtPayload);
+            $request->attributes->set('payload', $jwtPayload);
 
             return $next($request);
         } catch (\Exception $e) {
-            Log::error('Token không hợp lệ: ' . $e->getMessage());
-            return response()->json(['error' => 'Token không hợp lệ'], 401);
+            return response()->json(['error' => 'Invalid token'], 401);
         }
     }
 }
