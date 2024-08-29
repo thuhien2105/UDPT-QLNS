@@ -26,7 +26,6 @@
                 data-section="341">User</a>
         </div>
         @include('page.header')
-
     </nav>
 </header>
 @section('title')

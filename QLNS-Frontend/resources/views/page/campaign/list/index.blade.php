@@ -21,13 +21,15 @@
                                 </ul>
                             </div>
                             <div class="d-none d-xl-inline-flex gap-1">
+                                <a href="/campaign/add"
+                                    class="btn btn-primary o_list_button_add">New</a>
                                 <div class="o_list_buttons d-flex gap-1 d-empty-none align-items-baseline" role="toolbar"
                                     aria-label="Main actions"></div>
                             </div>
                         </div>
                         <div class="o_breadcrumb d-flex gap-1 text-truncate">
                             <div class="o_last_breadcrumb_item active d-flex fs-4 min-w-0 align-items-center">
-                                <span class="min-w-0 text-truncate">Campaign</span>
+                                <span class="min-w-0 text-truncate" id="title_0">Campaign</span>
                             </div>
                             <div class="o_control_panel_breadcrumbs_actions d-inline-flex">
                                 <div class="o_cp_action_menus d-flex align-items-center pe-2 gap-1">
@@ -66,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-3 gap-lg-1 gap-xl-3 order-1 order-lg-2 flex-grow-1"><div class="o_cp_pager text-nowrap " role="search"><nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span class="o_pager_counter align-self-center"><span class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1-80</span><span> / </span><span class="o_pager_limit">1356</span></span><span class="btn-group d-print-none" aria-atomic="true"><button type="button" class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start" aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p" title=""></button><button type="button" class="fa fa-chevron-right btn btn-secondary o_pager_next px-2 rounded-end" aria-label="Next" data-tooltip="Next" tabindex="-1" data-hotkey="n"></button></span></nav></div></div>
+                    <div class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-3 gap-lg-1 gap-xl-3 order-1 order-lg-2 flex-grow-1"><div class="o_cp_pager text-nowrap " role="search"><nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span class="o_pager_counter align-self-center"><span class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1</span><span> / </span><span class="o_pager_limit">1pan></span><span class="btn-group d-print-none" aria-atomic="true"><button type="button" class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start" aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p" title=""></button><button type="button" class="fa fa-chevron-right btn btn-secondary o_pager_next px-2 rounded-end" aria-label="Next" data-tooltip="Next" tabindex="-1" data-hotkey="n"></button></span></nav></div></div>
                 </div>
             </div>
             <div class="o_content">
@@ -99,90 +101,17 @@
                                     data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_owner_id","type":"many2one","widget":"many2one_avatar_user","widgetDescription":"Many2one","context":"{}","domain":"(company_id and [(&apos;company_ids&apos;, &apos;in&apos;, [company_id])] or []) + ([(&apos;company_ids&apos;, &apos;in&apos;, company_id)])","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false,"relation":"res.users"}}'
                                     style="width: 302px">
                                     <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Type</span>
-                                    </div>
-                                    <span
-                                        class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                                </th>
-                                <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
-                                    class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
-                                    data-tooltip-template="web.FieldTooltip"
-                                    data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
-                                    style="width: 203px">
-                                    <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Date start</span>
-                                    </div>
-                                    <span
-                                        class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                                </th>
-                                <th data-tooltip-delay="1000" tabindex="-1" data-name="activity_ids"
-                                    class="align-middle cursor-default o_list_activity_cell opacity-trigger-hover"
-                                    data-tooltip-template="web.FieldTooltip"
-                                    data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"activity_ids","type":"one2many","widget":"list_activity","context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false,"relation":"mail.activity"}}'
-                                    style="width: 155px">
-                                    <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Date end</span><i
-                                            class="d-none fa-angle-down opacity-0 opacity-75-hover"></i>
+                                        <span class="d-block min-w-0 text-truncate flex-grow-1">ID Activity</span>
                                     </div>
                                     <span
                                         class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="ui-sortable">
-                            <tr onclick="window.location.href = '/campaign/form';" class="o_data_row text-info"
-                                data-id="datapoint_35">
-                                <td class="o_list_record_selector user-select-none" tabindex="-1">
-                                    <div class="o-checkbox form-check">
-                                        <input type="checkbox" class="form-check-input" id="checkbox-comp-2" /><label
-                                            class="form-check-label" for="checkbox-comp-2"></label>
-                                    </div>
-                                </td>
-                                <td class="o_data_cell cursor-pointer o_field_cell o_list_char" data-tooltip-delay="1000"
-                                    tabindex="-1" name="name" data-tooltip="Business trip to London">
-                                    Business trip to London
-                                </td>
-                                <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_many2one_avatar_user_cell"
-                                    data-tooltip-delay="1000" tabindex="-1" name="request_owner_id"
-                                    data-tooltip="Mitchell Admin">
-                                    <div name="request_owner_id"
-                                        class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
-                                        <div class="d-flex align-items-center gap-1" data-tooltip="Mitchell Admin">
-                                            <span class="o_avatar o_m2o_avatar"><img class="rounded"
-                                                    src="/web/image/res.users/2/avatar_128" /></span><span><span>Mitchell
-                                                    Admin</span></span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_required_modifier"
-                                    data-tooltip-delay="1000" tabindex="-1" name="category_id"
-                                    data-tooltip="Business Trip">
-                                    Business Trip
-                                </td>
-                                <td class="o_data_cell cursor-pointer o_field_cell o_list_activity_cell"
-                                    data-tooltip-delay="1000" tabindex="-1" name="activity_ids">
-                                    <div name="activity_ids" class="o_field_widget o_field_list_activity">
-                                        <a class="o-mail-ActivityButton" role="button" aria-label="Show activities"
-                                            title="Show activities"><i
-                                                class="fa fa-fw fa-lg text-muted fa-clock-o btn-link text-dark"
-                                                role="img"></i></a><span class="o-mail-ListActivity-summary"></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">​</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">​</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">​</td>
-                            </tr>
+                        <tbody class="ui-sortable" id="data-table">
                         </tbody>
                         <tfoot class="o_list_footer cursor-default">
                             <tr>
-                                <td></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

@@ -84,7 +84,6 @@ class EmployeeController extends Controller
             'identity_card' => 'required|string|max:20',
             'role' => 'required|string|in:employee,manager'
         ]);
-
         $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 

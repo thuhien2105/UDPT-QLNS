@@ -10,42 +10,43 @@
                             <img alt="Logo" style="max-height:120px; max-width: 100%; width:auto" src="/image/logo.png">
                         </div>
 
-                        <form class="oe_signup_form" role="form" method="post">
-                            <input type="hidden" name="csrf_token"
-                                value="9c3e8e9b6b5272edbd0667900ab04782fabf6a41o1755789450">
-
+                        <form id="signupForm" method="post">
                             <div class="mb-3 field-login">
                                 <label for="login">Your Email</label>
                                 <input type="text" name="login" id="login" class="form-control form-control-sm"
-                                    autofocus="autofocus" autocapitalize="off" required="required">
+                                       autofocus="autofocus" autocapitalize="off" required="required">
                             </div>
 
                             <div class="mb-3 field-name">
                                 <label for="name">Your Name</label>
                                 <input type="text" name="name" id="name" class="form-control form-control-sm"
-                                    placeholder="e.g. John Doe" required="required">
+                                       placeholder="e.g. John Doe" required="required">
                             </div>
 
                             <div class="mb-3 field-password pt-2">
                                 <label for="password">Password</label>
                                 <input type="password" name="password" id="password" class="form-control form-control-sm"
-                                    required="required">
+                                       required="required">
                             </div>
 
                             <div class="mb-3 field-confirm_password">
                                 <label for="confirm_password">Confirm Password</label>
                                 <input type="password" name="confirm_password" id="confirm_password"
-                                    class="form-control form-control-sm" required="required">
+                                       class="form-control form-control-sm" required="required">
                             </div>
 
                             <input type="hidden" name="redirect">
                             <input type="hidden" name="token">
                             <div class="text-center oe_login_buttons d-grid pt-3">
-                                <button type="submit" class="btn btn-primary"> Sign up</button>
+                                <button type="submit" class="btn btn-primary">Sign up</button>
                                 <a class="btn btn-link btn-sm" role="button" href="/login">Already have an account?</a>
                                 <div class="o_login_auth"></div>
                             </div>
                         </form>
+
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script src="{{ asset('js/signup.js') }}" defer></script>
+
 
                         <div class="text-center small mt-4 pt-3 border-top">
                             <a href="https://www.odoo.com?utm_source=db&amp;utm_medium=auth" target="_blank">Powered by
@@ -56,4 +57,7 @@
             </div>
         </main>
     </div>
+@endsection
+@section('script')
+    <script src="{{ asset('js/page.js') }}"></script>
 @endsection

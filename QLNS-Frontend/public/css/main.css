@@ -30494,7 +30494,7 @@ body:not(.o_touch_device)
 	color: #111827;
 }
 .o_list_renderer .o_list_table thead .o_list_number_th {
-	text-align: right;
+	text-align: center;
 }
 .o_list_renderer .o_list_table > :not(:first-child) {
 	border-top-width: 0;
@@ -51655,8 +51655,4 @@ button.o-sidePanelButton.o-version-history-load-more:hover {
 	opacity: 0.33;
 	pointer-events: none;
 	user-select: none;
-}
-.no-outline {
-    /* outline: none; */
-    border: none; /* Optional: adjust border style */
 }

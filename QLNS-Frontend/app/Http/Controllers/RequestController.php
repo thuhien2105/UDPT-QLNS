@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\RequestModel; 
+use App\Models\RequestModel;
+use App\Notification\Notification;
 
 class RequestController extends Controller
 {
+    use Notification;
     public function store(Request $request)
     {
         $request->validate([
