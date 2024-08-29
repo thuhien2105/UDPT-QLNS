@@ -18,6 +18,12 @@ public interface RequestRepository extends JpaRepository<RequestEntity, Integer>
     		@Param("employeeId") String employeeId
 );
 
+	@Query("SELECT r FROM RequestEntity r WHERE r.request_date BETWEEN :startDate AND :endDate ORDER BY r.request_date DESC")
+	Page<RequestEntity> findByRequestDateBetween(
+	    @Param("startDate") LocalDateTime startDate,
+	    @Param("endDate") LocalDateTime endDate,
+	    Pageable pageable
+	);
 
     @Query("SELECT r FROM RequestEntity r WHERE r.employee_id = :employeeId " +
            "AND FUNCTION('MONTH', r.request_date) = :month " +

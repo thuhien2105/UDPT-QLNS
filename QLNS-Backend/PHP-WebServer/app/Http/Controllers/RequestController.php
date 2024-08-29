@@ -16,7 +16,7 @@ class RequestController extends Controller
         $this->rabbitMQService = $rabbitMQService;
     }
 
-    public function index(Request $request, $page)
+    public function index(Request $request, $page, $month, $year)
     {
         $user = $request->attributes->get('payload');
 
@@ -24,14 +24,48 @@ class RequestController extends Controller
             return response()->json(['error' => 'You do not have permission to access this resource'], 403);
         }
 
-        $cacheKey = "requests:page:{$page}";
+        $cacheKey = "requests:page:{$page}:month:{$month}:year:{$year}";
         $cachedResponse = Cache::get($cacheKey);
 
         if ($cachedResponse) {
             return response()->json($cachedResponse);
         }
 
-        $message = json_encode(['action' => 'get_all', 'page' => $page]);
+        $message = json_encode([
+            'action' => 'get_all_request',
+            'page' => $page,
+            'month' => $month,
+            'year' => $year
+        ]);
+        $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
+        return response()->json($response);
+    }
+
+    public function indexTimeSheet(Request $request, $page, $month, $year)
+    {
+        $user = $request->attributes->get('payload');
+
+        if ($user['role'] !== 'manager') {
+            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+        }
+
+        $cacheKey = "time_sheets:page:{$page}:month:{$month}:year:{$year}";
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
+        }
+
+        $message = json_encode([
+            'action' => 'get_all_timesheet',
+            'page' => $page,
+            'month' => $month,
+            'year' => $year
+        ]);
+
         $response = $this->rabbitMQService->sendToRequestQueue($message);
 
         Cache::put($cacheKey, $response, now()->addMinutes(30));
@@ -145,7 +179,14 @@ class RequestController extends Controller
             $errorMessage = isset($responseData['message']) ? $responseData['message'] : 'Unknown error occurred';
             return response()->json(['error' => $errorMessage], 400);
         }
-
+        $keys = Cache::getRedis()->keys('requests:*');
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
+        $keys = Cache::getRedis()->keys('time_sheets:*');
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
         return response()->json($responseData, 201);
     }
 
@@ -155,6 +196,11 @@ class RequestController extends Controller
 
         $message = json_encode(['action' => 'check-in', 'employee_id' => $user['sub']]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+
+        $keys = Cache::getRedis()->keys('time_sheets:*');
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
         return response()->json($response);
     }
 
@@ -164,6 +210,12 @@ class RequestController extends Controller
 
         $message = json_encode(['action' => 'check-out', 'employee_id' => $user['sub']]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+        $keys = Cache::getRedis()->keys('requests:*');
+
+        $keys = Cache::getRedis()->keys('time_sheets:*');
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
         return response()->json($response);
     }
 
@@ -186,7 +238,12 @@ class RequestController extends Controller
         $message = json_encode(['action' => 'update', 'request' => $validatedData]);
 
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+        $keys = Cache::getRedis()->keys('requests:*');
 
+        $keys = Cache::getRedis()->keys('time_sheets:*');
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
         return response()->json($response);
     }
 
@@ -196,6 +253,12 @@ class RequestController extends Controller
 
         $message = json_encode(['action' => 'delete', 'id' => $id]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
+        $keys = Cache::getRedis()->keys('requests:*');
+
+        $keys = Cache::getRedis()->keys('time_sheets:*');
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
         return response()->json($response);
     }
 
@@ -224,7 +287,12 @@ class RequestController extends Controller
             if (isset($response['status']) && $response['status'] === 'error') {
                 return response()->json(['error' => 'Failed to approve request: ' . $response['message']], 500);
             }
+            $keys = Cache::getRedis()->keys('requests:*');
 
+            $keys = Cache::getRedis()->keys('time_sheets:*');
+            foreach ($keys as $key) {
+                Cache::forget($key);
+            }
             return response()->json(['response' => $response]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);

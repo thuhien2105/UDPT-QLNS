@@ -57,9 +57,12 @@ public class RequestController {
 
     private JsonNode handleAction(String action, Map<String, Object> messageMap) {
         switch (action) {
-            case "get_all":
+            case "get_all_request":
 
-                return getAll(messageMap);
+                return getAllRequest(messageMap);
+            case "get_all_timesheet":
+
+                return getAllTimesheet(messageMap);
             case "get_by_id":
                 return getRequestById(messageMap);
             case "get_time_sheet_by_employee":
@@ -84,6 +87,27 @@ public class RequestController {
                 return objectMapper.createObjectNode().put("status", "Unknown action: " + action);
         }
     }
+    
+    private JsonNode getAllRequest(Map<String, Object> messageMap) { 
+
+    	 int month = Integer.parseInt((String) messageMap.get("month"));
+         int year = Integer.parseInt((String) messageMap.get("year"));
+         int page = Integer.parseInt((String) messageMap.get("page"));
+         
+
+        return toJson(requestService.getAllRequests(month, year, page));
+    }
+    
+    private JsonNode getAllTimesheet(Map<String, Object> messageMap) { 
+    	 int month = Integer.parseInt((String) messageMap.get("month"));
+         int year = Integer.parseInt((String) messageMap.get("year"));
+         int page = Integer.parseInt((String) messageMap.get("page"));
+         
+        return toJson(requestService.getAllTimesheet(month, year, page));
+    }
+    
+    
+    
     private JsonNode approve(Map<String, Object> messageMap) {
         try {
             String managerId = (String) messageMap.get("manager_id");
@@ -128,10 +152,7 @@ public class RequestController {
     
     
     
-    private JsonNode getAll(Map<String, Object> messageMap) { 
-        int page = Integer.parseInt((String) messageMap.get("page"));
-        return toJson(requestService.getAllRequests(page));
-    }
+ 
     
     
     private JsonNode checkInResponse(Map<String, Object> messageMap) {
