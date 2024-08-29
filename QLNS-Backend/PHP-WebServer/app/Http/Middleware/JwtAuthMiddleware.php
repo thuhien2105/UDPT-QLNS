@@ -17,7 +17,7 @@ class JwtAuthMiddleware
         $token = $request->bearerToken();
 
         if (!$token) {
-            return response()->json(['error' => 'Token not provided'], 401);
+            return $next($request);
         }
 
         try {
