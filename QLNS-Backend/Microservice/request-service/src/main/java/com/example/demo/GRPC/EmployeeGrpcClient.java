@@ -12,23 +12,29 @@ import com.example.demo.GRPC.EmployeeServiceGrpc;
 
 public class EmployeeGrpcClient {
 
-    private static final Logger logger = LoggerFactory.getLogger(EmployeeGrpcClient.class);
-    private final EmployeeServiceGrpc.EmployeeServiceBlockingStub blockingStub;
+    private static final String HOST = "localhost";
+    private static final int PORT = 9091;
 
-    public EmployeeGrpcClient(ManagedChannel channel) {
-        this.blockingStub = EmployeeServiceGrpc.newBlockingStub(channel);
-    }
-    public Employee getEmployeeById(int id) {
-        EmployeeRequest request = EmployeeRequest.newBuilder().setEmployeeId(id).build();
+    public EmployeeResponse getEmployeeById(String employeeId) {
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(HOST, PORT)
+                .usePlaintext()  
+                .build();
+        
+        EmployeeServiceGrpc.EmployeeServiceBlockingStub blockingStub = EmployeeServiceGrpc.newBlockingStub(channel);
+
+        EmployeeRequest request = EmployeeRequest.newBuilder().setEmployeeId(employeeId).build();
+        
+        EmployeeResponse response = null;
+        
         try {
-            EmployeeResponse response = blockingStub.getEmployeeById(request);
-            return response.getEmployee();
-        } catch (StatusRuntimeException e) {
-            logger.error("gRPC error fetching employee with ID {}: Status: {}, Message: {}", id, e.getStatus().getCode(), e.getMessage());
-            throw new RuntimeException("Error fetching employee", e);
+            response = blockingStub.getEmployeeById(request);
+        
         } catch (Exception e) {
-            logger.error("Unexpected error fetching employee with ID {}: {}", id, e.getMessage());
-            throw new RuntimeException("Unexpected error fetching employee", e);
+            e.printStackTrace();
+        } finally {
+            channel.shutdown();
         }
+
+        return response ;
     }
 }

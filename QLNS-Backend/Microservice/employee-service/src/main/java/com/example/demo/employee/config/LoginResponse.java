@@ -1,21 +1,21 @@
 package com.example.demo.employee.config;
 
-import com.example.demo.employee.Employee;
+import com.example.demo.employee.EmployeeDTO;
 
 public class LoginResponse {
-    private Employee employee;
+    private EmployeeDTO employee;
     private String token;
 
-    public LoginResponse(Employee employee, String token) {
+    public LoginResponse(EmployeeDTO employee, String token) {
         this.employee = employee;
         this.token = token;
     }
 
-    public Employee getEmployee() {
+    public EmployeeDTO getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Employee employee) {
+    public void setEmployee(EmployeeDTO employee) {
         this.employee = employee;
     }
 

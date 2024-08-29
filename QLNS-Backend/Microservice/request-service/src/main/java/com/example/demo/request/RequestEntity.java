@@ -1,11 +1,16 @@
-
 package com.example.demo.request;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "request")
@@ -13,105 +18,148 @@ public class RequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;  
+    private Integer id;
 
-    private Integer employeeId;
-    private String requestType;
-    private String requestDate;
-    private String startTime;
-    private String endTime;
-    private String status;
-    private Integer approverId;
-    
-    private String action;  
-    private String payload;
-    private String response;
+    @Column(name = "employee_id")
+    private String employee_id;
 
-    public Integer getId() {  
+    @Enumerated(EnumType.STRING)
+    @Column(name = "request_type")
+    private RequestType request_type;
+
+    @Column(name = "request_date")
+    private LocalDateTime request_date;
+
+    @Column(name = "start_time")
+    private LocalDateTime start_time;
+
+    @Column(name = "end_time")
+    private LocalDateTime  end_time;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
+
+    @Column(name = "approver_id")
+    private String approver_id;
+
+    @Column(name = "reason")
+    private String reason;
+
+    @Column(name = "created_at")
+    private LocalDateTime created_at;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updated_at;
+
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) { 
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getAction() {
-        return action;
+    public String getEmployee_id() {
+        return employee_id;
     }
 
-    public void setAction(String action) {
-        this.action = action;
+    public void setEmployee_id(String employee_id) {
+        this.employee_id = employee_id;
     }
 
-    public String getPayload() {
-        return payload;
+    public RequestType getRequest_type() {
+        return request_type;
     }
 
-    public void setPayload(String payload) {
-        this.payload = payload;
+    public void setRequest_type(RequestType request_type) {
+        this.request_type = request_type;
     }
 
-    public String getResponse() {
-        return response;
+    public LocalDateTime getRequest_date() {
+        return request_date;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
-    }
-    
-    public Integer getEmployeeId() {
-        return employeeId;
+    public void setRequest_date(LocalDateTime request_date) {
+        this.request_date = request_date;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public LocalDateTime  getStart_time() {
+        return start_time;
     }
 
-    public String getRequestType() {
-        return requestType;
+    public void setStart_time(LocalDateTime  start_time) {
+        this.start_time = start_time;
     }
 
-    public void setRequestType(String requestType) {
-        this.requestType = requestType;
+    public LocalDateTime  getEnd_time() {
+        return end_time;
     }
 
-    public String getRequestDate() {
-        return requestDate;
+    public void setEnd_time(LocalDateTime  end_time) {
+        this.end_time = end_time;
     }
 
-    public void setRequestDate(String requestDate) {
-        this.requestDate = requestDate;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
-    public Integer getApproverId() {
-        return approverId;
+    public String getApprover_id() {
+        return approver_id;
     }
 
-    public void setApproverId(Integer approverId) {
-        this.approverId = approverId;
+    public void setApprover_id(String approver_id) {
+        this.approver_id = approver_id;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public LocalDateTime getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(LocalDateTime updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public enum RequestType {
+        LEAVE,            
+        UPDATE_TIME_SHEET, 
+        CHECK_IN,         
+        CHECK_OUT,         
+        WFH                
+    }
+
+    public enum Status {
+        PENDING,
+        APPROVED,
+        REJECTED;
+        public static boolean isValid(String status) {
+            for (Status s : values()) {
+                if (s.name().equalsIgnoreCase(status)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
