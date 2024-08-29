@@ -26,7 +26,7 @@ Route::post('signout', [AuthController::class, 'signout']);
 
 
 
-Route::get('employees/{keyword}/{page}', [EmployeeController::class, 'index']);
+Route::get('employees/getAll/{keyword}/{page}', [EmployeeController::class, 'index']);
 Route::get('employees/{employee_id}', [EmployeeController::class, 'show']);
 Route::post('employees', [EmployeeController::class, 'store']);
 Route::put('employees/{employee_id}', [EmployeeController::class, 'update']);
