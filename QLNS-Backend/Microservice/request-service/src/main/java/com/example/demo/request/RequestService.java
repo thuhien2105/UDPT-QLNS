@@ -57,32 +57,80 @@ public class RequestService {
         requestRepository.deleteById(requestId);
     }
 
-    public Map<String, Object> getAllRequests(int page) {
-        Pageable pageable = PageRequest.of(page-1, PAGE_SIZE);
-        Page<RequestEntity> requestPage = requestRepository.findAll(pageable);
-    	System.out.println("requestPage.getContent Response: " + requestPage.getContent());
+    public Map<String, Object> getAllRequests(int month, int year, int page) {
+        LocalDateTime startDate = LocalDate.of(year, month, 1).atStartOfDay();
+        LocalDateTime endDate = startDate.plusMonths(1).minusNanos(1);
 
-        List<Map<String, Object>> requests = requestPage.getContent().stream().map(request -> {
-            EmployeeDTO employeeDto = null;
-          
-            try {                
-            	System.out.println("request Response: " + request);
+        Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE);
 
-                EmployeeResponse employee = employeeGrpcClient.getEmployeeById(request.getEmployee_id());
-                System.out.println("Employee Response: " + employee);
-                employeeDto = new EmployeeDTO(employee);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        Page<RequestEntity> requestPage = requestRepository.findByRequestDateBetween(startDate, endDate, pageable);
+        System.out.println("requestPage.getContent Response: " + requestPage.getContent());
 
-            Map<String, Object> result = new HashMap<>();
-            result.put("request", request);
-            result.put("employee", employeeDto);
+        List<Map<String, Object>> requests = requestPage.getContent().stream()
+            .filter(request -> !RequestEntity.RequestType.CHECK_IN.equals(request.getRequest_type())
+                    && !RequestEntity.RequestType.CHECK_OUT.equals(request.getRequest_type()))
+            .map(request -> {
+                Map<String, Object> result = new HashMap<>();
+                EmployeeDTO employeeDto = null;
+                EmployeeDTO approverDto = null;
 
-            System.out.println("Mapped Request: " + result);
-            return result;
-        }).collect(Collectors.toList());
+                try {
+                    EmployeeResponse employee = employeeGrpcClient.getEmployeeById(request.getEmployee_id());
+                    employeeDto = new EmployeeDTO(employee);
 
+                    if (request.getApprover_id() != null) {
+                        EmployeeResponse approver = employeeGrpcClient.getEmployeeById(request.getApprover_id());
+                        approverDto = new EmployeeDTO(approver);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                result.put("request", request);
+                result.put("employee", employeeDto);
+                result.put("approver", approverDto);
+
+                return result;
+            }).collect(Collectors.toList());
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("requests", requests);
+        result.put("currentPage", page);
+        result.put("totalPages", requestPage.getTotalPages());
+
+        return result;
+    }
+
+
+    public Map<String, Object> getAllTimesheet(int month, int year, int page) {
+        LocalDateTime startDate = LocalDate.of(year, month, 1).atStartOfDay();
+        LocalDateTime endDate = startDate.plusMonths(1).minusNanos(1);
+
+        Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE);
+
+        Page<RequestEntity> requestPage = requestRepository.findByRequestDateBetween(startDate, endDate, pageable);
+
+        List<Map<String, Object>> requests = requestPage.getContent().stream()
+        		.filter(request -> RequestEntity.RequestType.CHECK_IN.equals(request.getRequest_type())
+        		        || RequestEntity.RequestType.CHECK_OUT.equals(request.getRequest_type()))
+
+            .map(request -> {
+                Map<String, Object> result = new HashMap<>();
+                EmployeeDTO employeeDto = null;
+
+                try {
+                    EmployeeResponse employee = employeeGrpcClient.getEmployeeById(request.getEmployee_id());
+                    employeeDto = new EmployeeDTO(employee);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                result.put("request", request);
+                result.put("employee", employeeDto);
+
+                System.out.println("Mapped Request: " + result);
+                return result;
+            }).collect(Collectors.toList());
 
         Map<String, Object> result = new HashMap<>();
         result.put("requests", requests);

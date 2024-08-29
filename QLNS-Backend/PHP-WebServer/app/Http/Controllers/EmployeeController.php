@@ -87,6 +87,9 @@ class EmployeeController extends Controller
 
         $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+        Cache::flush();
+
         return response()->json($response, 201);
     }
 
@@ -110,6 +113,13 @@ class EmployeeController extends Controller
         if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $validatedData['employee_id'])) {
             $message = json_encode(['action' => 'update', 'employee' => $validatedData]);
             $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+            $keys = Cache::getRedis()->keys('employees:*');
+            foreach ($keys as $key) {
+                Cache::forget($key);
+            }
+
+
             return response()->json($response);
         }
 
@@ -126,6 +136,13 @@ class EmployeeController extends Controller
 
         $message = json_encode(['action' => 'delete', 'employee_id' => $employee_id]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+        $keys = Cache::getRedis()->keys('employees:*');
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
+
+
         return response()->json($response);
     }
 
@@ -146,6 +163,9 @@ class EmployeeController extends Controller
         ]);
 
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+        Cache::forget("employee:{$employee_id}");
+
         return response()->json($response);
     }
 }

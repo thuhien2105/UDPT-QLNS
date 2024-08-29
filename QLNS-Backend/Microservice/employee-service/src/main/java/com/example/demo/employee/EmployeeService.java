@@ -57,7 +57,8 @@ public class EmployeeService {
             Employee employee = employeeOpt.get();
             if (passwordEncoder.matches(password, employee.getPassword())) {
                 String token = jwtUtil.generateToken(employee.getEmployeeId(), employee.getRole());
-                LoginResponse loginResponse = new LoginResponse(employee, token);
+                EmployeeDTO employeeDTO = convertToDTO(employee);
+                LoginResponse loginResponse = new LoginResponse(employeeDTO, token);
                 return Optional.of(loginResponse);
             }
         }
