@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-    @include('page.employees.header')
+    @include('page.user.header')
 
     <div class="o_action_manager">
         <div class="o_form_view o_view_controller o_action">
@@ -23,7 +23,7 @@
                                 <ol class="breadcrumb flex-nowrap text-nowrap small lh-sm">
                                     <li class="breadcrumb-item d-inline-flex min-w-0 o_back_button" data-hotkey="b"><a
                                             href="#" class="fw-bold text-truncate"
-                                            data-tooltip="Back to &quot;My Requests&quot;">My Requests</a></li>
+                                            data-tooltip="Back to &quot;User&quot;">User</a></li>
                                 </ol>
                                 <div class="d-flex gap-1 text-truncate">
                                     <div
@@ -540,6 +540,5 @@
         <div class="o-overlay-container"></div>
         <div></div>
         <div class="o_notification_manager o_upload_progress_toast"></div>
-        <div class="o_notification_manager"></div>
     </div>
 @endsection
