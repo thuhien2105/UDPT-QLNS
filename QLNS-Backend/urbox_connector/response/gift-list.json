@@ -1,0 +1,216 @@
+{
+    "items": [
+      {
+        "brand": {
+          "id": "1761",
+          "title": "GKitchen"
+        },
+        "brand_id": "1761",
+        "cat_id": "12",
+        "detail": [
+          {
+            "code_quantity": "950",
+            "id": "15701",
+            "price": "0",
+            "price_format": "0 VNĐ",
+            "title": "Giảm 100,000đ cho hóa đơn từ 500,000đ tại GKitchen "
+          }
+        ],
+        "id": "11136",
+        "images_src": "",
+        "name": "Giảm 100,000đ cho hóa đơn từ 500,000đ tại GKitchen",
+        "view": "0"
+      },
+      {
+        "brand": {
+          "id": "1630",
+          "title": "YAKIMONO"
+        },
+        "brand_id": "1630",
+        "cat_id": "10",
+        "detail": [
+          {
+            "code_quantity": "1000",
+            "id": "15700",
+            "price": "0",
+            "price_format": "0 VNĐ",
+            "title": "Yakimono Giảm 150.000đ cho hóa đơn từ 750.000đ "
+          }
+        ],
+        "id": "11135",
+        "images_src": "",
+        "name": "Yakimono Giảm 150.000đ cho hóa đơn từ 750.000đ",
+        "view": "0"
+      },
+      {
+        "brand": {
+          "id": "1377",
+          "title": "JOMO"
+        },
+        "brand_id": "1377",
+        "cat_id": "137",
+        "detail": [
+          {
+            "code_quantity": "1000",
+            "id": "15699",
+            "price": "194000",
+            "price_format": "194.000 VNĐ",
+            "title": "Hộp quà Trung thu Moon Kid 2"
+          }
+        ],
+        "id": "11134",
+        "images_src": "",
+        "name": "Hộp quà Trung thu Moon Kid 2",
+        "view": "0"
+      },
+      {
+        "brand": {
+          "id": "1377",
+          "title": "JOMO"
+        },
+        "brand_id": "1377",
+        "cat_id": "137",
+        "detail": [
+          {
+            "code_quantity": "999",
+            "id": "15698",
+            "price": "389000",
+            "price_format": "389.000 VNĐ",
+            "title": "Hộp quà Trung thu Moon Star 2"
+          }
+        ],
+        "id": "11133",
+        "images_src": "",
+        "name": "Hộp quà Trung thu Moon Star 2",
+        "view": "0"
+      },
+      {
+        "brand": {
+          "id": "1377",
+          "title": "JOMO"
+        },
+        "brand_id": "1377",
+        "cat_id": "137",
+        "detail": [
+          {
+            "code_quantity": "1000",
+            "id": "15697",
+            "price": "194000",
+            "price_format": "194.000 VNĐ",
+            "title": "Hộp quà Trung thu Moon Kid 1"
+          }
+        ],
+        "id": "11132",
+        "images_src": "",
+        "name": "Hộp quà Trung thu Moon Kid 1",
+        "view": "0"
+      },
+      {
+        "brand": {
+          "id": "1377",
+          "title": "JOMO"
+        },
+        "brand_id": "1377",
+        "cat_id": "137",
+        "detail": [
+          {
+            "code_quantity": "1000",
+            "id": "15696",
+            "price": "570000",
+            "price_format": "570.000 VNĐ",
+            "title": "Hộp quà Trung thu Moon Star 1"
+          }
+        ],
+        "id": "11131",
+        "images_src": "",
+        "name": "Hộp quà Trung thu Moon Star 1",
+        "view": "0"
+      },
+      {
+        "brand": {
+          "id": "1377",
+          "title": "JOMO"
+        },
+        "brand_id": "1377",
+        "cat_id": "137",
+        "detail": [
+          {
+            "code_quantity": "1000",
+            "id": "15695",
+            "price": "674000",
+            "price_format": "674.000 VNĐ",
+            "title": "Hộp quà Trung thu Moon Lux"
+          }
+        ],
+        "id": "11130",
+        "images_src": "",
+        "name": "Hộp quà Trung thu Moon Lux",
+        "view": "0"
+      },
+      {
+        "brand": {
+          "id": "1755",
+          "title": "Vua Nệm"
+        },
+        "brand_id": "1755",
+        "cat_id": "110",
+        "detail": [
+          {
+            "code_quantity": "1000",
+            "id": "15694",
+            "price": "0",
+            "price_format": "0 VNĐ",
+            "title": "Giảm 10% tổng hóa đơn tại Vua Nệm "
+          }
+        ],
+        "id": "11129",
+        "images_src": "",
+        "name": "Giảm 10% tổng hóa đơn tại Vua Nệm",
+        "view": "0"
+      },
+      {
+        "brand": {
+          "id": "1658",
+          "title": "iBasic"
+        },
+        "brand_id": "1658",
+        "cat_id": "104",
+        "detail": [
+          {
+            "code_quantity": "1000",
+            "id": "15692",
+            "price": "0",
+            "price_format": "0 VNĐ",
+            "title": "Giảm 100.000đ cho hóa đơn tối thiểu 300.000đ tại IBasic "
+          }
+        ],
+        "id": "11127",
+        "images_src": "",
+        "name": "Giảm 100.000đ cho hóa đơn tối thiểu 300.000đ tại IBasic",
+        "view": "0"
+      },
+      {
+        "brand": {
+          "id": "1753",
+          "title": "Ếch Xanh"
+        },
+        "brand_id": "1753",
+        "cat_id": "10",
+        "detail": [
+          {
+            "code_quantity": "100",
+            "id": "15702",
+            "price": "0",
+            "price_format": "0 VNĐ",
+            "title": "Giảm 10% tổng hoá đơn tại Ếch Xanh "
+          }
+        ],
+        "id": "11126",
+        "images_src": "",
+        "name": "Giảm 10% tổng hoá đơn tại Ếch Xanh",
+        "view": "0"
+      }
+    ],
+    "total_page": 787
+  }
+  
