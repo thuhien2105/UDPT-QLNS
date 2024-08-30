@@ -11,7 +11,6 @@ $(document).ready(function () {
             },
             data: formData,
             success: function (response) {
-                console.log(response.response.employee)
                 if (response.response && response.response.status === 'Login successful') {
                     const employee = response.response.employee.employee
                     Cookies.set('token', response.response.employee.token, { expires: 7, secure: true });

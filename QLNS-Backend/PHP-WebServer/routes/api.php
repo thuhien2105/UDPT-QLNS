@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ActivityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,3 +50,12 @@ Route::post('request/approve/{id}', [RequestController::class, 'approve']);
 Route::post('request/create', [RequestController::class, 'store']);
 Route::put('request/{id}', [RequestController::class, 'update']);
 Route::delete('request/{id}', [RequestController::class, 'destroy']);
+
+Route::get('/activities', [ActivityController::class, 'getActivities']);
+Route::post('/activities', [ActivityController::class, 'postActivities']);
+Route::put('/activities/{id}', [ActivityController::class, 'updateActivity']);
+Route::get('/activities/{id}', [ActivityController::class, 'getActivity']);
+
+Route::get('/authorize', [ActivityController::class, 'activity_authorize']);
+Route::get('/callback', [ActivityController::class, 'activity_callback']);
+Route::post('/refresh_token', [ActivityController::class, 'activity_refreshToken']);

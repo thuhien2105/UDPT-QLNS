@@ -27,16 +27,19 @@ class RabbitMQConnection
         $this->employeeQueue = 'topic-employees';
         $this->requestQueue = 'topic-requests';
         $this->authQueue = 'topic-auths';
+        $this->activityQueue = 'topic-activities';
 
         $this->channel->exchange_declare('exchange', 'direct', false, true, false);
 
         $this->channel->queue_declare($this->employeeQueue, false, true, false, false);
         $this->channel->queue_declare($this->requestQueue, false, true, false, false);
         $this->channel->queue_declare($this->authQueue, false, true, false, false);
+        $this->channel->queue_declare($this->activityQueue, false, true, false, false);
 
         $this->channel->queue_bind($this->employeeQueue, 'exchange', 'employee_queue');
         $this->channel->queue_bind($this->requestQueue, 'exchange', 'request_queue');
         $this->channel->queue_bind($this->authQueue, 'exchange', 'auth_queue');
+        $this->channel->queue_bind($this->activityQueue, 'exchange', 'activity_queue');
     }
     public function sendToEmployeeQueue($messageBody)
     {
@@ -50,6 +53,11 @@ class RabbitMQConnection
     public function sendToRequestQueue($messageBody)
     {
         return $this->send($messageBody, 'exchange', 'request_queue');
+    }
+
+    public function sendToActivityQueue($messageBody)
+    {
+        return $this->send($messageBody, 'exchange', 'activity_queue');
     }
 
 
