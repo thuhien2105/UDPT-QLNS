@@ -5,10 +5,11 @@ $(document).ready(function () {
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
     if (id != null)
         $.ajax({
-            url: `http://localhost:5000/activities/${id}`,
+            url: `http://localhost:8000/api/activities/${id}`,
             method: "GET",
             dataType: "json",
-            success: function (data) {
+            success: function (response) {
+                const data = response.response
                 $("#name_0").val(data.name);
                 $("#title_0").text(data.name);
                 const activity = data;
@@ -70,10 +71,11 @@ $(document).ready(function () {
         });
     else
         $.ajax({
-            url: `http://localhost:5000/activities`,
+            url: `http://localhost:8000/api/activities`,
             method: "GET",
             dataType: "json",
-            success: function (data) {
+            success: function (response) {
+                const data = response.response
                 let rowsHtml = "";
                 for (let i = 0; i < data.length; i++) {
                     const activity = data[i];
@@ -120,7 +122,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: "http://127.0.0.1:5000/activities",
+            url: "http://127.0.0.1:8000/api/activities",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify(data),
