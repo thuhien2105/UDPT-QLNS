@@ -16,7 +16,8 @@ HELP.md
 *.iws
 *.iml
 *.ipr
-
+*.proto
+*.dumpstream
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
