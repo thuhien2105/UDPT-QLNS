@@ -1,11 +1,6 @@
 import requests
-import logging
-import time
-from flask import jsonify
 from urllib.parse import urlencode
 from datetime import datetime, timedelta
-
-_logger = logging.getLogger(__name__)
 
 
 class Connector:
@@ -50,18 +45,18 @@ class Connector:
             }
 
             if response.status_code == 200:
-                _logger.info("API call successful: %s", job)
+                print("API call successful: %s", job)
             else:
-                _logger.error("API call failed: %s", job)
+                print("API call failed: %s", job)
 
             return response_json, response.status_code
 
         except requests.exceptions.HTTPError as http_err:
-            _logger.error("HTTP error occurred: %s", http_err)
+            print("HTTP error occurred: %s", http_err)
             return {"error": str(http_err)}, response.status_code
 
         except Exception as e:
-            _logger.error("An error occurred: %s", e)
+            print("An error occurred: %s", e)
             return {"error": str(e)}, 500
 
     @classmethod
@@ -76,9 +71,9 @@ class Connector:
                 "headers": headers,
                 "response": response_json,
             }
-            _logger.info("Recorded job: %s", job_data)
+            print("Recorded job: %s", job_data)
         except Exception as e:
-            _logger.error("Error recording job: %s", str(e))
+            print("Error recording job: %s", str(e))
 
     def get(self, endpoint, params=None):
         return self.call("GET", endpoint, params=params)
@@ -95,7 +90,7 @@ class Connector:
     @classmethod
     def get_token(
         cls,
-        redirect_uri="http://localhost:5000/callback",
+        redirect_uri="http://localhost:8000/api/callback",
         scope="read,read_all,profile:read_all,profile:write,activity:read,activity:read_all,activity:write",
     ):
         """Retrieve access token, refresh if necessary. Redirect to authorize if no token."""
@@ -127,10 +122,10 @@ class Connector:
             cls.token_expiry = datetime.utcnow() + timedelta(
                 seconds=tokens.get("expires_in", 0)
             )
-            _logger.info("Token exchange successful: %s", tokens)
+            print("Token exchange successful: %s", tokens)
             return tokens
         except requests.exceptions.HTTPError as http_err:
-            _logger.error("HTTP error occurred during token exchange: %s", http_err)
+            print("HTTP error occurred during token exchange: %s", http_err)
             return {"error": str(http_err)}
 
     @classmethod
@@ -154,10 +149,10 @@ class Connector:
                 seconds=tokens.get("expires_in", 0)
             )
 
-            _logger.info("Token refresh successful: %s", tokens)
+            print("Token refresh successful: %s", tokens)
             return tokens
         except requests.exceptions.HTTPError as http_err:
-            _logger.error("HTTP error occurred during token refresh: %s", http_err)
+            print("HTTP error occurred during token refresh: %s", http_err)
             return {"error": str(http_err)}
 
     @classmethod
@@ -181,5 +176,5 @@ class Connector:
         }
         query_string = urlencode(params)
         auth_url = f"https://www.strava.com/oauth/authorize?{query_string}"
-        _logger.info("Authorization URL: %s", auth_url)
+        print("Authorization URL: %s", auth_url)
         return auth_url
