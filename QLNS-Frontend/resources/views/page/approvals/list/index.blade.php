@@ -27,7 +27,7 @@
                         </div>
                         <div class="o_breadcrumb d-flex gap-1 text-truncate">
                             <div class="o_last_breadcrumb_item active d-flex fs-4 min-w-0 align-items-center">
-                                <span class="min-w-0 text-truncate">My Requests</span>
+                                <span class="min-w-0 text-truncate" id="title_0">My Requests</span>
                             </div>
                             <div class="o_control_panel_breadcrumbs_actions d-inline-flex">
                                 <div class="o_cp_action_menus d-flex align-items-center pe-2 gap-1">
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-3 gap-lg-1 gap-xl-3 order-1 order-lg-2 flex-grow-1"><div class="o_cp_pager text-nowrap " role="search"><nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span class="o_pager_counter align-self-center"><span class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1-80</span><span> / </span><span class="o_pager_limit">1356</span></span><span class="btn-group d-print-none" aria-atomic="true"><button type="button" class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start" aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p" title=""></button><button type="button" class="fa fa-chevron-right btn btn-secondary o_pager_next px-2 rounded-end" aria-label="Next" data-tooltip="Next" tabindex="-1" data-hotkey="n"></button></span></nav></div></div>
+                    <div class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-3 gap-lg-1 gap-xl-3 order-1 order-lg-2 flex-grow-1"><div class="o_cp_pager text-nowrap " role="search"><nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span class="o_pager_counter align-self-center"><span class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1</span><span> / </span><span class="o_pager_limit">1></span><span class="btn-group d-print-none" aria-atomic="true"><button type="button" class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start" aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p" title=""></button><button type="button" class="fa fa-chevron-right btn btn-secondary o_pager_next px-2 rounded-end" aria-label="Next" data-tooltip="Next" tabindex="-1" data-hotkey="n"></button></span></nav></div></div>
                 </div>
             </div>
             <div class="o_content">

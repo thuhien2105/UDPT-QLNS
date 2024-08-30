@@ -1,0 +1,12 @@
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\GRPC\EmployeeGrpcClient.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\GRPC\GrpcClientConfig.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\GRPC\RequestService.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\request\EmployeeDTO.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\request\RequestController.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\request\RequestEntity.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\request\RequestRepository.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\request\RequestService.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\request\RequestWithEmployee.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\RequestServiceApplication.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\target\generated-sources\protobuf\grpc-java\com\example\demo\GRPC\EmployeeServiceGrpc.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\target\generated-sources\protobuf\java\com\example\demo\GRPC\EmployeeProto.java

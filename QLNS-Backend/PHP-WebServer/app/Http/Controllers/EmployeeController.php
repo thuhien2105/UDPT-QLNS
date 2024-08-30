@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\RabbitMQConnection;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class EmployeeController extends Controller
 {
@@ -16,60 +15,156 @@ class EmployeeController extends Controller
         $this->rabbitMQService = $rabbitMQService;
     }
 
-    public function index()
+    public function index(Request $request, $keyword = null, $page = 1)
     {
-        $message = json_encode(['action' => 'get_all']);
-        $response = $this->rabbitMQService->send($message);
+        $jwtPayload = $request->attributes->get('payload');
+
+        if ($jwtPayload['role'] !== 'manager') {
+            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+        }
+
+        $keyword = $keyword === 'null' ? null : $keyword;
+        $cacheKey = "employees:{$keyword}:page:{$page}";
+
+        $cachedResponse = Cache::get($cacheKey);
+
+        if ($cachedResponse) {
+            return response()->json($cachedResponse);
+        }
+
+        $message = json_encode(['action' => 'get_all', 'keyword' => $keyword, 'page' => $page]);
+        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+        Cache::put($cacheKey, $response, now()->addMinutes(30));
+
         return response()->json($response);
     }
-    public function show($id)
+
+    public function show($employee_id, Request $request)
     {
-        $message = json_encode(['action' => 'get', 'id' => $id]);
-        $response = $this->rabbitMQService->send($message);
-        return response()->json($response);
+        $user = $request->attributes->get('payload');
+
+        if ($user['role'] === 'manager' || ($user['sub'] == $employee_id)) {
+            $cacheKey = "employee:{$employee_id}";
+
+            $cachedResponse = Cache::get($cacheKey);
+
+            if ($cachedResponse) {
+                return response()->json($cachedResponse);
+            }
+
+            $message = json_encode(['action' => 'get', 'employee_id' => $employee_id]);
+            $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+            Cache::put($cacheKey, $response, now()->addMinutes(30));
+
+            return response()->json($response);
+        }
+
+        return response()->json(['error' => 'You do not have permission to access this resource'], 403);
     }
 
     public function store(Request $request)
     {
+        $user = $request->attributes->get('payload');
+
+        if ($user['role'] !== 'manager') {
+            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+        }
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'address' => 'required|string|max:255',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
-        ]); 
-    
+            'tax_code' => 'required|string|max:20',
+            'bank_account' => 'required|string|max:20',
+            'identity_card' => 'required|string|max:20',
+            'role' => 'required|string|in:employee,manager'
+        ]);
         $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
-    
-    
-        $response = $this->rabbitMQService->send($message);
+        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+        Cache::flush();
+
         return response()->json($response, 201);
     }
-    
 
-    
     public function update(Request $request)
     {
-    
+        $user = $request->attributes->get('payload');
 
         $validatedData = $request->validate([
-            'id' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'dob' => 'required|date',
-            'address' => 'required|string|max:255',
+            'employee_id' => 'required|string',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
+            'tax_code' => 'required|string|max:20',
+            'bank_account' => 'required|string|max:20',
+            'identity_card' => 'required|string|max:20',
+            'role' => 'required|string|in:employee,manager'
         ]);
 
-        $message = json_encode(['action' => 'update',  'employee' => $validatedData]);
-        $response = $this->rabbitMQService->send($message);
-        return response()->json($response);
+        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $validatedData['employee_id'])) {
+            $message = json_encode(['action' => 'update', 'employee' => $validatedData]);
+            $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+            $keys = Cache::getRedis()->keys('employees:*');
+            foreach ($keys as $key) {
+                Cache::forget($key);
+            }
+
+
+            return response()->json($response);
+        }
+
+        return response()->json(['error' => 'You do not have permission to access this resource'], 403);
     }
 
-    public function destroy($id)
+    public function destroy($employee_id, Request $request)
     {
+        $user = $request->attributes->get('payload');
 
-        $message = json_encode(['action' => 'delete', 'id' => $id]);
-        $response = $this->rabbitMQService->send($message);
+        if ($user['role'] !== 'manager') {
+            return response()->json(['error' => 'You do not have permission to access this resource'], 403);
+        }
+
+        $message = json_encode(['action' => 'delete', 'employee_id' => $employee_id]);
+        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+        $keys = Cache::getRedis()->keys('employees:*');
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
+
+
         return response()->json($response);
     }
 
+    public function changePassword(Request $request, $employee_id)
+    {
+        $user = $request->attributes->get('payload');
+
+        $validatedData = $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:8',
+        ]);
+
+        $message = json_encode([
+            'action' => 'change-password',
+            'employee_id' => $user['sub'],
+            'old_password' => $validatedData['old_password'],
+            'new_password' => $validatedData['new_password'],
+        ]);
+
+        $response = $this->rabbitMQService->sendToEmployeeQueue($message);
+
+        Cache::forget("employee:{$employee_id}");
+
+        return response()->json($response);
+    }
 }

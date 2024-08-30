@@ -23,13 +23,13 @@
                 alt="Attendances"><span class="o_menu_brand d-none d-md-flex ms-3 pe-0">Check In / Out</span></a>
         <div class="o_menu_sections d-none d-md-flex flex-grow-1 flex-shrink-1 w-0" role="menu">
             <div class="o-dropdown dropdown o-dropdown--no-caret">
-                <a href="/check-out" type="button" class="dropdown-toggle fw-normal" data-hotkey="1"
-                    tabindex="0" aria-expanded="false" data-menu-xmlid="approvals.approvals_approval_menu">
+                <a href="/check-in-out?type=check-in-out" type="button" class="dropdown-toggle fw-normal" data-hotkey="1" tabindex="0"
+                    aria-expanded="false" data-menu-xmlid="approvals.approvals_approval_menu">
                     <span data-section="301">Check In / Out</span>
                 </a>
             </div>
             <div class="o-dropdown dropdown o-dropdown--no-caret">
-                <a href="/check-in-out/manager" type="button" class="dropdown-toggle fw-normal" data-hotkey="1"
+                <a href="/check-in-out/manager?type=check-in-out" type="button" class="dropdown-toggle fw-normal" data-hotkey="1"
                     tabindex="0" aria-expanded="false" data-menu-xmlid="approvals.approvals_approval_menu">
                     <span data-section="301">Manager</span>
                 </a>
@@ -40,4 +40,7 @@
 </header>
 @section('title')
     {title}
+@endsection
+@section('script')
+    <script src="{{ asset('js/employee.js') }}"></script>
 @endsection

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\RequestController;
+use Illuminate\Http\Request;
 
 
 /*
@@ -19,10 +21,6 @@ use App\Http\Controllers\EmployeeController;
 //     return view('welcome');
 // });
 
-Route::prefix('api')->group(function () {
-    Route::get('employees', [EmployeeController::class, 'index']);
-    Route::get('employees/{id}', [EmployeeController::class, 'show']);
-    Route::post('employees', [EmployeeController::class, 'store']);
-    Route::put('employees/{id}', [EmployeeController::class, 'update']);
-    Route::delete('employees/{id}', [EmployeeController::class, 'destroy']);
+Route::middleware("jwt.auth")->group(function () {
+    Route::get('api/employees/{keyword}/{page}', [EmployeeController::class, 'index']);
 });

@@ -42,8 +42,9 @@
                             <div class="o_caption w-100 text-center text-truncate mt-2">Personal</div>
                         </a>
                     </div>
+                    @if (session('role') === 'manager')
                     <div class="col-3 col-md-2 o_draggable mb-3 px-0">
-                        <a href="/employees" role="option"
+                        <a href="/employees?type=employee" role="option"
                             class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"
                             id="result_app_8" aria-selected="false" data-menu-xmlid="hr.menu_hr_root"><img
                                 class="o_app_icon rounded-3"
@@ -53,8 +54,9 @@
                             </div>
                         </a>
                     </div>
+                    @endif
                     <div class="col-3 col-md-2 o_draggable mb-3 px-0">
-                        <a href="/gifts" role="option"
+                        <a href="/gifts?type=category" role="option"
                             class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"
                             id="result_app_9" aria-selected="false"
                             data-menu-xmlid="hr_work_entry_contract_enterprise.menu_hr_payroll_root"><img
@@ -66,7 +68,7 @@
                         </a>
                     </div>
                     <div class="col-3 col-md-2 o_draggable mb-3 px-0">
-                        <a href="/check-in" role="option"
+                        <a href="/check-in-out?type=check-in-out" role="option"
                             class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"
                             id="result_app_10" aria-selected="false"
                             data-menu-xmlid="hr_attendance.menu_hr_attendance_root"><img class="o_app_icon rounded-3"
