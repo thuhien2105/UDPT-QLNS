@@ -4,17 +4,25 @@ $(document).ready(function () {
     const type = urlParams.get("type");
     var token = Cookies.get("token");
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
+    function minutesToHHMM(minutes) {
+        const hours = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+        return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+    }
+
+
     if (id != null) {
         if (type == "employee")
             $.ajax({
                 url: `http://127.0.0.1:8000/api/employees/${id}`,
                 method: "GET",
                 headers: {
-                    Authorization: "Bearer " + csrfToken,
+                    Authorization: "Bearer " + token,
+                    "X-CSRF-TOKEN": csrfToken,
                 },
                 dataType: "json",
                 success: function (data) {
-                    $("#employee-id").val(data.employee.employeeId);
+                    $("#employee-id").val(data.employee.employee_id);
                     $("#name_0").val(data.employee.name);
                     $("#title_0").text(data.employee.name);
                     $("#dob_0").val(data.employee.dob);
@@ -86,78 +94,101 @@ $(document).ready(function () {
                 },
             });
     } else {
-        if (type == "check-in-out")
+        if (type == "check-in-out") {
+            var userId = getCookie("id");
+            const cur_month = new Date().getUTCMonth() + 1;
+            const cur_year = new Date().getUTCFullYear();
             $.ajax({
-                url: `http://localhost:5000/activities/${12229051364}`,
+                url: `http://localhost:8000/api/request/timesheet/${userId}/1/${cur_month}/${cur_year}`,
                 method: "GET",
                 dataType: "json",
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "X-CSRF-TOKEN": csrfToken,
+                },
                 success: function (data) {
-                    const activities = [
-                        {
-                            name: "RUN",
-                            start_date: "",
-                            end_date: "",
-                            time: "08:00",
-                        },
-                    ];
                     let rowsHtml = "";
-                    for (let i = 0; i < activities.length; i++) {
-                        const activity = activities[i];
+                    var group_date = [];
+                    for (let i = 0; i < data.requests.length; i++) {
+                        const element = data.requests[i].request;
+                        const request_date = new Date(element.request_date); // Ensure request_date is a Date object
+                        const request_type = element.request_type;
+
+                        const day = request_date.getUTCDate();
+                        const month = request_date.getUTCMonth() + 1;
+                        const year = request_date.getUTCFullYear();
+
+                        let is_exists = false;
+
+                        for (let index = 0; index < group_date.length; index++) {
+                            if (group_date[index].key === `${year}/${month}/${day}`) {
+                                is_exists = true;
+
+                                if (request_type === "CHECK_IN") {
+                                    group_date[index] = { ...group_date[index], start_date: request_date };
+                                } else if (request_type === "CHECK_OUT") {
+                                    group_date[index] = { ...group_date[index], end_date: request_date };
+                                }
+
+                                if (group_date[index].start_date && group_date[index].end_date) {
+                                    const startDate = new Date(group_date[index].start_date);
+                                    const endDate = new Date(group_date[index].end_date);
+                                    const diffTime = endDate - startDate;
+                                    const diffMinutes = Math.floor(diffTime / (1000 * 60));
+                                    group_date[index] = { ...group_date[index], time: diffMinutes };
+                                }
+                                break;
+                            }
+                        }
+                        if (!is_exists) {
+                            group_date.push({
+                                key: `${year}/${month}/${day}`,
+                                time: 0,
+                                start_date: request_type === "CHECK_IN" ? request_date : "",
+                                end_date: request_type === "CHECK_OUT" ? request_date : "",
+                            });
+                        }
+                    }
+
+                    for (let i = 0; i < group_date.length; i++) {
+                        const element = group_date[i];
                         rowsHtml += `
                         <tr>
-                            <td class="o_list_record_selector user-select-none" tabindex="-1">
-                                <div class="o-checkbox form-check">
-                                    <input type="checkbox" class="form-check-input" id="checkbox-${
-                                        activity.id
-                                    }" />
-                                    <label class="form-check-label" for="checkbox-${
-                                        activity.id
-                                    }"></label>
-                                </div>
-                            </td>
-                            <td class="o_data_cell cursor-pointer o_field_cell o_list_char" data-tooltip-delay="1000" tabindex="-1" name="name" data-tooltip="${
-                                activity.name
-                            }">
-                                ${activity.name}
-                            </td>
-                            <td class="o_data_cell cursor-pointer o_field_cell o_list_activity_cell" data-tooltip-delay="1000" tabindex="-1" name="start_date" data-tooltip="${new Date(
-                                activity.start_date
-                            ).toLocaleDateString()}">
-                                ${new Date(
-                                    activity.start_date
-                                ).toLocaleDateString()}
+                            <td class="o_data_cell cursor-pointer o_field_cell o_list_activity_cell" data-tooltip-delay="1000" tabindex="-1" name="start_date" data-tooltip="
+                            ${element.start_date ? new Date(element.start_date).toLocaleString() : ""}">
+                            ${element.start_date ? new Date(element.start_date).toLocaleString() : ""}
                             </td>
                             <td class="o_data_cell cursor-pointer o_field_cell o_list_activity_cell" data-tooltip-delay="1000" tabindex="-1" name="end_date" data-tooltip="${
-                                activity.end_date
+                                element.end_date
                                     ? new Date(
-                                          activity.end_date
-                                      ).toLocaleDateString()
+                                          element.end_date
+                                      ).toLocaleString()
                                     : ""
                             }">
                                 ${
-                                    activity.end_date
+                                    element.end_date
                                         ? new Date(
-                                              activity.end_date
-                                          ).toLocaleDateString()
+                                              element.end_date
+                                          ).toLocaleString()
                                         : ""
                                 }
                             </td>
                             <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_required_modifier" data-tooltip-delay="1000" tabindex="-1" name="type" data-tooltip="${
-                                activity.time
+                                element.time
                             }">
-                                ${activity.time}
+                                ${element.time ? minutesToHHMM(element.time): "00:00"}
                             </td>
                         </tr>
                     `;
                     }
                     rowsHtml += `<tr>
-                                <td colspan="5">​</td>
+                                <td colspan="3">​</td>
                             </tr>
                             <tr>
-                                <td colspan="5">​</td>
+                                <td colspan="3">​</td>
                             </tr>
                             <tr>
-                                <td colspan="5">​</td>
+                                <td colspan="3">​</td>
                             </tr>`;
                     $("#data-table").append(rowsHtml);
                 },
@@ -167,24 +198,25 @@ $(document).ready(function () {
                     );
                 },
             });
-        else if (type == "employee")
+        } else if (type == "employee")
             $.ajax({
-                url: `http://127.0.0.1:8000/api/employees/null/1`,
+                url: `http://127.0.0.1:8000/api/employees/getAll/null/1`,
                 method: "GET",
                 dataType: "json",
                 headers: {
-                    Authorization: "Bearer " + csrfToken,
+                    Authorization: "Bearer " + token,
+                    "X-CSRF-TOKEN": csrfToken,
                 },
                 success: function (data) {
-                    const employees = Array.isArray(data) ? data : [data];
+                    const employees = Array.isArray(data.employees) ? data.employees : [data.employees];
                     let rowsHtml = "";
                     employees.forEach((employee) => {
                         rowsHtml += `
-                            <tr onclick="window.location.href = '/employees/form?type=employee&id=${employee.employeeId}';" class="o_data_row text-info" data-id="datapoint_${employee.employeeId}">
+                            <tr onclick="window.location.href = '/employees/form?type=employee&id=${employee.employee_id}';" class="o_data_row text-info" data-id="datapoint_${employee.employee_id}">
                                 <td class="o_list_record_selector user-select-none" tabindex="-1">
                                     <div class="o-checkbox form-check">
-                                        <input type="checkbox" class="form-check-input" name="id" id="checkbox-${employee.employeeId}" value="${employee.employeeId}"/>
-                                        <label class="form-check-label" for="checkbox-${employee.employeeId}"></label>
+                                        <input type="checkbox" class="form-check-input" name="id" id="checkbox-${employee.employee_id}" value="${employee.employee_id}"/>
+                                        <label class="form-check-label" for="checkbox-${employee.employee_id}"></label>
                                     </div>
                                 </td>
                                 <td class="o_data_cell cursor-pointer o_field_cell o_list_char" data-tooltip-delay="1000" tabindex="-1" name="name" data-tooltip="${employee.name}">
@@ -252,7 +284,12 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response.success) {
-                    // window.location.href = "/check-in-out";
+                    const message = JSON.parse(response.message);
+                    if (!message.message.includes("checked")) {
+                        if (message.status.includes("successfully")) {
+                            window.location.href = "/check-in-out?checked=1";
+                        }
+                    } else window.location.href = "/check-in-out?checked=1";
                 } else {
                     alert("An error occurred: " + response.message);
                 }
@@ -264,18 +301,17 @@ $(document).ready(function () {
     });
     $("form#check-out").on("submit", function (event) {
         event.preventDefault();
-        const userId = getCookie("userId");
+        const userId = getCookie("id");
         const currentDateTime = new Date().toISOString();
         $.ajax({
             url: "/check-out",
             method: "POST",
-            data: JSON.stringify({
+            data: {
                 employee_id: userId,
-                requestType: "Check Out",
-                date: currentDateTime,
-            }),
+            },
             headers: {
-                Authorization: "Bearer " + csrfToken,
+                Authorization: "Bearer " + token,
+                "X-CSRF-TOKEN": csrfToken,
             },
             success: function (response) {
                 if (response.success) {

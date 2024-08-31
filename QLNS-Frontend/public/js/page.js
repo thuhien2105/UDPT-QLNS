@@ -14,7 +14,7 @@ $(document).ready(function () {
                 if (response.response && response.response.status === 'Login successful') {
                     const employee = response.response.employee.employee
                     Cookies.set('token', response.response.employee.token, { expires: 7, secure: true });
-                    Cookies.set('id', employee.employeeId, { expires: 7 });
+                    Cookies.set('id', employee.employee_id, { expires: 7 });
                     Cookies.set('name', employee.name, { expires: 7 });
                     Cookies.set('dob', employee.dob, { expires: 7 });
                     Cookies.set('address', employee.address, { expires: 7 });

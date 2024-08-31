@@ -82,54 +82,86 @@ class EmployeeController extends Controller
     {
         return view('page.employees.list.index');
     }
-    public function getCheckinoutPage()
+    public function getCheckinoutPage(Request $request)
     {
-        $is_checkin = false;
+        $is_checkin = $request->session()->get('checkin') || $request->query('checkin');
         if ($is_checkin) {
             return view('page.checkinout.checkout.index');
         }
         return view('page.checkinout.checkin.index');
     }
     public function checkIn(Request $request)
-{
-    // Validate the request
-    $validated = $request->validate([
-        'employee_id' => 'required|string|max:255',
-    ]);
-
-    // Retrieve the employee ID from validated data
-    $employeeId = $validated['employee_id'];
-
-    try {
-        $response = Http::withToken(session('token'))->post('http://127.0.0.1:8000/api/request/checkin', [
-            'employee_id' => $employeeId,
+    {
+        $validated = $request->validate([
+            'employee_id' => 'required|string|max:255',
         ]);
-        if ($response->successful()) {
-            return response()->json([
-                'success' => true,
-                'message' => $response->body(),
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cannot check in! Status code: ' . $response->status() . ', Error: ' . $response->body(),
-            ], $response->status());
-        }
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Exception occurred: ' . $e->getMessage(),
-        ], 500);
-    }
-}
+        $employeeId = $validated['employee_id'];
 
+        try {
+            $response = Http::withToken(session('token'))->post('http://127.0.0.1:8000/api/request/timesheet/checkin', [
+                'employee_id' => $employeeId,
+            ]);
+            if ($response->successful()) {
+                $request->session()->put('checkin', true);
+                return response()->json([
+                    'success' => true,
+                    'message' => $response->body(),
+                ]);
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Cannot 1! Status code: ' . $response->status() . ', Error: ' . $response->body(),
+                    ],
+                    $response->status(),
+                );
+            }
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Exception occurred: ' . $e->getMessage(),
+                ],
+                500,
+            );
+        }
+    }
 
     public function checkOut(Request $request)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Checked Out successfully!',
+        $validated = $request->validate([
+            'employee_id' => 'required|string|max:255',
         ]);
+        $employeeId = $validated['employee_id'];
+
+        try {
+            $response = Http::withToken(session('token'))->post('http://127.0.0.1:8000/api/request/timesheet/checkout', [
+                'employee_id' => $employeeId,
+            ]);
+            if ($response->successful()) {
+                $request->session()->put('checkin', false);
+                return response()->json([
+                    'success' => true,
+                    'message' => $response->body(),
+                ]);
+            } else {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Cannot check out! Status code: ' . $response->status() . ', Error: ' . $response->body(),
+                    ],
+                    $response->status(),
+                );
+            }
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Exception occurred: ' . $e->getMessage(),
+                ],
+                500,
+            );
+        }
     }
 
     public function getCheckinoutManagerPage()
@@ -169,7 +201,7 @@ class EmployeeController extends Controller
             ]);
         }
     }
-    public function editEmployee(Request $request,$id)
+    public function editEmployee(Request $request, $id)
     {
         $validated = $request->validate([
             'id' => 'required|string|max:255',

@@ -25,3 +25,6 @@
         </main>
     </div>
 @endsection
+@section('title')
+    Check IN
+@endsection

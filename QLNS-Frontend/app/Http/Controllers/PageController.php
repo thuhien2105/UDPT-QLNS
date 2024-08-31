@@ -39,23 +39,57 @@ class PageController extends Controller
             $responseData = $response->json();
             $employee = $responseData['response']['employee']['employee'];
             $token = $responseData['response']['employee']['token'];
+            $name = $responseData['response']['employee']['name'];
             $role = $employee['role'] ?? '';
             $request->session()->put('token', $token);
             $request->session()->put('role', $role);
-            return response()->json([
-                'response' => [
-                    'status' => 'Login successful',
-                    'employee' => [
-                        'employee' => $responseData['response']['employee']['employee'],
-                        'token' => $responseData['response']['employee']['token']
-                    ]
-                ]
-            ], 200);
+            return response()->json(
+                [
+                    'response' => [
+                        'status' => 'Login successful',
+                        'employee' => [
+                            'employee' => $responseData['response']['employee']['employee'],
+                            'token' => $responseData['response']['employee']['token'],
+                        ],
+                    ],
+                ],
+                200,
+            );
         } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Login failed! Please check your credentials.'
-            ], 401);
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message' => 'Login failed! Please check your credentials.',
+                ],
+                401,
+            );
+        }
+    }
+
+    public function checkLogout(Request $request)
+    {
+        $response = Http::post('http://127.0.0.1:8000/api/signout', [
+            'token' => $request->session()->get('token'),
+        ]);
+
+        if ($response->successful()) {
+            $request->session()->forget('token');
+            return response()->json(
+                [
+                    'response' => [
+                        'status' => 'Logout successful',
+                    ],
+                ],
+                200,
+            );
+        } else {
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message' => 'Login failed! Please check your credentials.',
+                ],
+                401,
+            );
         }
     }
 

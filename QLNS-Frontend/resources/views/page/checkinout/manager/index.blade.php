@@ -77,24 +77,6 @@
                         style="table-layout: fixed">
                         <thead>
                             <tr>
-                                <th class="o_list_record_selector o_list_controller align-middle pe-1 cursor-pointer"
-                                    tabindex="-1" style="width: 41px">
-                                    <div class="o-checkbox form-check d-flex m-0">
-                                        <input type="checkbox" class="form-check-input" id="checkbox-comp-1" /><label
-                                            class="form-check-label" for="checkbox-comp-1"></label>
-                                    </div>
-                                </th>
-                                <th data-tooltip-delay="1000" tabindex="-1" data-name="name"
-                                    class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
-                                    data-tooltip-template="web.FieldTooltip"
-                                    data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"name","type":"char","widget":null,"context":"{}","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false}}'
-                                    style="width: 356px">
-                                    <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Name</span>
-                                    </div>
-                                    <span
-                                        class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                                </th>
                                 <th data-tooltip-delay="1000" tabindex="-1" data-name="request_owner_id"
                                     class="align-middle o_column_sortable position-relative cursor-pointer o_many2one_avatar_user_cell opacity-trigger-hover"
                                     data-tooltip-template="web.FieldTooltip"
@@ -135,8 +117,6 @@
                         </tbody>
                         <tfoot class="o_list_footer cursor-default">
                             <tr>
-                                <td></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
