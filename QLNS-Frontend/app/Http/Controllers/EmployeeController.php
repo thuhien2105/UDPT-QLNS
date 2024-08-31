@@ -177,16 +177,28 @@ class EmployeeController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'dob' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:255',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'tax_code' => 'required|string|max:20',
+            'bank_account' => 'required|string|max:20',
+            'identity_card' => 'required|string|max:20',
+            'role' => 'required|string|in:employee,manager'
         ]);
 
-        $response = Http::post('http://127.0.0.1:8000/api/employees', [
+        $response = Http::withToken(session('token'))->post('http://127.0.0.1:8000/api/employees', [
             'name' => $validated['name'],
             'dob' => $validated['dob'],
             'address' => $validated['address'],
             'phone_number' => $validated['phone_number'],
+            'email' => $validated['email'],
+            'position' => $validated['position'],
+            'tax_code' => $validated['tax_code'],
+            'bank_account' => $validated['bank_account'],
+            'identity_card' => $validated['identity_card'],
+            'role' => $validated['role'],
         ]);
 
         if ($response->successful()) {
@@ -197,18 +209,24 @@ class EmployeeController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Error!',
+                'message' => 'Error!' . $response->body(),
             ]);
         }
     }
-    public function editEmployee(Request $request, $id)
+    public function editEmployee(Request $request)
     {
         $validated = $request->validate([
             'id' => 'required|string|max:255',
             'name' => 'required|string|max:255',
-            'dob' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:255',
+            'dob' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+            'email' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'tax_code' => 'required|string|max:20',
+            'bank_account' => 'required|string|max:20',
+            'identity_card' => 'required|string|max:20',
+            'role' => 'required|string|in:employee,manager'
         ]);
 
         try {
@@ -218,6 +236,12 @@ class EmployeeController extends Controller
                 'dob' => $validated['dob'],
                 'address' => $validated['address'],
                 'phone_number' => $validated['phone_number'],
+                'email' => $validated['email'],
+                'position' => $validated['position'],
+                'tax_code' => $validated['tax_code'],
+                'bank_account' => $validated['bank_account'],
+                'identity_card' => $validated['identity_card'],
+                'role' => $validated['role'],
             ]);
 
             if ($response->successful()) {

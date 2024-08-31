@@ -59,10 +59,11 @@ Route::get('/signup',[PageController::class, 'getSignupPage'])->name('signup');
 Route::post('/login',[PageController::class, 'checkLogin'])->name('login.check');
 Route::post('/signup',[PageController::class, 'checkSignup'])->name('signup.check');
 
-Route::get('/requests', [RequestController::class, 'index']);
-Route::get('/requests/{id}', [RequestController::class, 'show']);
-Route::post('/requests', [RequestController::class, 'store']);
-Route::put('/requests/{id}', [RequestController::class, 'update']);
-Route::delete('/requests/{id}', [RequestController::class, 'destroy']);
+// Route::get('/approvals', [ApprovalsController::class, 'index']);
+// Route::get('/approvals/{id}', [ApprovalsController::class, 'show']);
+Route::get('/approvals/add', [ApprovalsController::class, 'getAddPage']);
+Route::post('/approvals/add', [ApprovalsController::class]);
+// Route::put('/approvals/{id}', [ApprovalsController::class, 'update']);
+// Route::delete('/approvals/{id}', [ApprovalsControllre::class, 'destroy']);
 
 Route::post('/clear-notifications', [NotificationController::class, 'clearNotifications']);

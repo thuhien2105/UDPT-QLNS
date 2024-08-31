@@ -24,7 +24,7 @@
                             <ol class="breadcrumb flex-nowrap text-nowrap small lh-sm">
                                 <li class="breadcrumb-item d-inline-flex min-w-0 o_back_button" data-hotkey="b"><a
                                         href="#" class="fw-bold text-truncate"
-                                        data-tooltip="Back to &quot;My Requests&quot;">My Requests</a></li>
+                                        data-tooltip="Back to &quot;My Requests&quot;">Employee</a></li>
                             </ol>
                             <div class="d-flex gap-1 text-truncate">
                                 <div
@@ -135,6 +135,95 @@
                                                 <div class="o_field_widget o_required_modifier o_field_char">
                                                     <input class="o_input" id="phone_number_0" name="phone_number"
                                                         type="text" autocomplete="off" placeholder="e.g. Brussels">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                            <div
+                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                <label class="o_form_label" for="email_0">Email</label>
+                                            </div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                                style="width: 100%;">
+                                                <div name="email"
+                                                    class="o_field_widget o_required_modifier o_field_char">
+                                                    <input class="o_input"  id="email_0" type="text" autocomplete="off"name="email"
+                                                        placeholder="e.g. Brussels">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                            <div
+                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                <label class="o_form_label" for="position_0">Position</label>
+                                            </div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                                style="width: 100%;">
+                                                <div name="position"
+                                                    class="o_field_widget o_required_modifier o_field_char">
+                                                    <input class="o_input" id="position_0" type="text" autocomplete="off"name="position"
+                                                        placeholder="e.g. Brussels">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                            <div
+                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                <label class="o_form_label" for="tax_code_0">Tax Code</label>
+                                            </div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                                style="width: 100%;">
+                                                <div name="tax_code"
+                                                    class="o_field_widget o_required_modifier o_field_char">
+                                                    <input class="o_input" id="tax_code_0" type="text" autocomplete="off"name="tax_code"
+                                                        placeholder="e.g. Brussels">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                            <div
+                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                <label class="o_form_label" for="bank_account_0">Bank Account</label>
+                                            </div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                                style="width: 100%;">
+                                                <div name="bank_account"
+                                                    class="o_field_widget o_required_modifier o_field_char">
+                                                    <input class="o_input" id="bank_account_0" type="text" autocomplete="off"name="bank_account"
+                                                        placeholder="e.g. Brussels">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                            <div
+                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                <label class="o_form_label" for="identity_card_0">Identity Card</label>
+                                            </div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                                style="width: 100%;">
+                                                <div name="identity_card"
+                                                    class="o_field_widget o_required_modifier o_field_char">
+                                                    <input class="o_input" id="identity_card_0" type="text" autocomplete="off"name="identity_card"
+                                                        placeholder="e.g. Brussels">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                            <div
+                                                class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                                <label class="o_form_label" for="role_0">Role</label>
+                                            </div>
+                                            <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                                style="width: 100%;">
+                                                <div name="role"
+                                                    class="o_field_widget o_required_modifier o_field_char">
+                                                    <input class="o_input" id="role_0" type="text" autocomplete="off" name="role"
+                                                        placeholder="e.g. Brussels">
                                                 </div>
                                             </div>
                                         </div>

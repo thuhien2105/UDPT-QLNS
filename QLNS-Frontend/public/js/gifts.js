@@ -20,7 +20,7 @@ $(document).ready(function () {
         $('.o_pager_value').text(page)
         if (hasType) {
             if (type == "category") {
-                var url = `http://localhost:5002/category/list?page=${page}`;
+                var url = `http://localhost:5000/category/list?page=${page}`;
                 if (hasQ) {
                     url += `&q=${q}`;
                 }
@@ -92,7 +92,7 @@ $(document).ready(function () {
             } else if (type == "brand") {
                 if (hasId) {
                     $.ajax({
-                        url: `http://localhost:5002/brand/${id}`,
+                        url: `http://localhost:5000/brand/${id}`,
                         method: "GET",
                         dataType: "json",
                         success: function (data) {
@@ -137,7 +137,7 @@ $(document).ready(function () {
                         },
                     });
                 } else {
-                    var url = `http://localhost:5002/brand/list?page=${page}`;
+                    var url = `http://localhost:5000/brand/list?page=${page}`;
                     if (hasQ) {
                         url += `&q=${q}`;
                     }
@@ -210,7 +210,7 @@ $(document).ready(function () {
             } else if (type == "gift") {
                 if (hasId) {
                     $.ajax({
-                        url: `http://localhost:5002/gift/${id}`,
+                        url: `http://localhost:5000/gift/${id}`,
                         method: "GET",
                         dataType: "json",
                         success: function (data) {
@@ -253,11 +253,9 @@ $(document).ready(function () {
                                         <tr class="o_data_row o_row_draggable o_is_false" data-id="${
                                             element.id
                                         }"
-                                        onclick="window.location.href = '/gifts/gifts/sub-item/form?id=${
-                                            element.id
-                                        }&type=sub-item';"
+                                        onclick="window.location.href = '/gifts/gifts/sub-item/form?id=${element.id}&gift_id=${id}&type=sub-item';"
                                         >
-                                        <td style="width='80px'" class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
+                                            <td style="width='80px'" class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
                                                 <div name="product_template_id" class="o_field_widget o_field_sol_product_many2one">
                                                     <span>${index + 1}</span>
                                                 </div>
@@ -291,7 +289,7 @@ $(document).ready(function () {
                         },
                     });
                 } else {
-                    var url = `http://localhost:5002/gift/list?page=${page}`;
+                    var url = `http://localhost:5000/gift/list?page=${page}`;
                     if (hasQ) {
                         url += `&q=${q}`;
                     }
@@ -333,12 +331,12 @@ $(document).ready(function () {
                                         </td>
                                         <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_many2one_avatar_user_cell"
                                             data-tooltip-delay="1000" tabindex="-1" name="request_owner_id"
-                                            data-tooltip="${element.brand.title}">
+                                            data-tooltip="${element?.brand?.title}">
                                             <div name="request_owner_id"
                                                 class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
-                                                <div class="d-flex align-items-center gap-1" data-tooltip="${element.brand.title}">
+                                                <div class="d-flex align-items-center gap-1" data-tooltip="${element?.brand?.title}">
                                                     <span class="o_avatar o_m2o_avatar">
-                                                    </span><span><span>${element.brand.title}</span></span>
+                                                    </span><span><span>${element?.brand?.title}</span></span>
                                                 </div>
                                             </div>
                                         </td>
@@ -368,7 +366,7 @@ $(document).ready(function () {
                 if (hasId) {
                     const gift_id = urlParams.get("gift_id");
                     $.ajax({
-                        url: `http://localhost:5002/gift/${gift_id}/${id}`,
+                        url: `http://localhost:5000/gift/${gift_id}/${id}`,
                         method: "GET",
                         dataType: "json",
                         success: function (data) {
@@ -386,10 +384,7 @@ $(document).ready(function () {
                                         <tr class="o_data_row o_row_draggable o_is_false" data-id="${
                                             element.id
                                         }"
-                                        onclick="window.location.href = '/gifts/gifts/sub-item/form?id=${
-                                            element.id
-                                        }&gift_id=${id}&type=sub-item';"
-                                        >
+                                        onclick="window.location.href = '/gifts/gifts/sub-item/form?id=${element.id}&gift_id=${id}&type=sub-item';">
                                         <td style="width='80px'" class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
                                                 <div name="product_template_id" class="o_field_widget o_field_sol_product_many2one">
                                                     <span>${index + 1}</span>
@@ -430,7 +425,7 @@ $(document).ready(function () {
                     });
                 }
             } else if (type == "manager") {
-                var url = `http://localhost:5002/category/list?page=${page}`;
+                var url = `http://localhost:5000/category/list?page=${page}`;
                 if (hasQ) {
                     url += `&q=${q}`;
                 }
@@ -509,17 +504,12 @@ $(document).ready(function () {
         if (page > 1) {
             page -= 1;
             load()
-            console.log("DONE")
-        } else {
-            console.log("Already on the first page.");
         }
     });
     $(".o_pager_next").click(function () {
         if (page < max_page) {
             page += 1;
             load()
-        } else {
-            console.log("Already on the last page.");
         }
     });
 });

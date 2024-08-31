@@ -20,5 +20,9 @@ class ApprovalsController extends Controller
     {
     	return view('page.approvals.list.index');
     }
+    public function getAddPage()
+    {
+    	return view('page.approvals.add.index');
+    }
 
 }

@@ -120,6 +120,96 @@
                                         </div>
                                     </div>
 
+                                    <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                        <div
+                                            class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                            <label class="o_form_label" for="email_0">Email</label>
+                                        </div>
+                                        <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                            style="width: 100%;">
+                                            <div name="phone_number"
+                                                class="o_field_widget o_required_modifier o_field_char">
+                                                <input id="email_0" type="text" disabled autocomplete="off"
+                                                    placeholder="e.g. Brussels">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                        <div
+                                            class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                            <label class="o_form_label" for="position_0">Position</label>
+                                        </div>
+                                        <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                            style="width: 100%;">
+                                            <div name="phone_number"
+                                                class="o_field_widget o_required_modifier o_field_char">
+                                                <input id="position_0" type="text" disabled autocomplete="off"
+                                                    placeholder="e.g. Brussels">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                        <div
+                                            class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                            <label class="o_form_label" for="tax_code_0">Tax Code</label>
+                                        </div>
+                                        <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                            style="width: 100%;">
+                                            <div name="phone_number"
+                                                class="o_field_widget o_required_modifier o_field_char">
+                                                <input id="tax_code_0" type="text" disabled autocomplete="off"
+                                                    placeholder="e.g. Brussels">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                        <div
+                                            class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                            <label class="o_form_label" for="bank_account_0">Bank Account</label>
+                                        </div>
+                                        <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                            style="width: 100%;">
+                                            <div name="phone_number"
+                                                class="o_field_widget o_required_modifier o_field_char">
+                                                <input id="bank_account_0" type="text" disabled autocomplete="off"
+                                                    placeholder="e.g. Brussels">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                        <div
+                                            class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                            <label class="o_form_label" for="identity_card_0">Identity Card</label>
+                                        </div>
+                                        <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                            style="width: 100%;">
+                                            <div name="phone_number"
+                                                class="o_field_widget o_required_modifier o_field_char">
+                                                <input id="identity_card_0" type="text" disabled autocomplete="off"
+                                                    placeholder="e.g. Brussels">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
+                                        <div
+                                            class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
+                                            <label class="o_form_label" for="role_0">Role</label>
+                                        </div>
+                                        <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
+                                            style="width: 100%;">
+                                            <div name="role"
+                                                class="o_field_widget o_required_modifier o_field_char">
+                                                <input id="role_0" type="text" disabled autocomplete="off"
+                                                    placeholder="e.g. Brussels">
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="o_inner_group grid col-lg-6"></div>
                             </div>

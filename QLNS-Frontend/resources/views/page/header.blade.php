@@ -37,7 +37,7 @@
     </div>
 </div>
 @section('script-main')
-{{-- <script src="{{ asset('js/user.js') }}"></script> --}}
+<script src="{{ asset('js/header.js') }}"></script>
 <script>
 
 </script>

@@ -51,6 +51,38 @@ $(document).ready(function () {
         Cookies.remove("bank_account");
         Cookies.remove("identity_card");
         window.location.href = "/login";
+        // var token = Cookies.get("token");
+        // var csrfToken = $('meta[name="csrf-token"]').attr("content");
+        // $.ajax({
+        //     url: 'http://127.0.0.1:8000/api/signout',
+        //     method: "POST",
+        //     data: {
+        //         token: token
+        //     },
+        //     success: function (response) {
+        //         if (response.success) {
+        //             Cookies.remove("token");
+        //             Cookies.remove("id");
+        //             Cookies.remove("name");
+        //             Cookies.remove("dob");
+        //             Cookies.remove("address");
+        //             Cookies.remove("phone_number");
+        //             Cookies.remove("email");
+        //             Cookies.remove("position");
+        //             Cookies.remove("role");
+        //             Cookies.remove("tax_code");
+        //             Cookies.remove("bank_account");
+        //             Cookies.remove("identity_card");
+        //             window.location.href = "/login";
+        //         } else {
+        //             console.error("Logout failed:", response.response.message || 'Unknown error');
+        //         }
+        //     },
+        //     error: function (xhr) {
+        //         console.error("Request failed:", xhr.responseText);
+        //     },
+        // });
+
     });
 });
 document.addEventListener("DOMContentLoaded", function () {

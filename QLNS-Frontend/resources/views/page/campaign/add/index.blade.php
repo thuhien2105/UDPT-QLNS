@@ -23,23 +23,8 @@
                                 <ol class="breadcrumb flex-nowrap text-nowrap small lh-sm">
                                     <li class="breadcrumb-item d-inline-flex min-w-0 o_back_button" data-hotkey="b"><a
                                             href="#" class="fw-bold text-truncate"
-                                            data-tooltip="Back to &quot;My Requests&quot;">My Requests</a></li>
+                                            data-tooltip="Back to &quot;My Requests&quot;">Campaign</a></li>
                                 </ol>
-                                <div class="d-flex gap-1 text-truncate">
-                                    <div
-                                        class="o_last_breadcrumb_item active d-flex gap-2 align-items-center min-w-0 lh-sm">
-                                        <span class="min-w-0 text-truncate" id="title_0" id="title_0">Business trip to London</span>
-                                    </div>
-                                    <div class="o_control_panel_breadcrumbs_actions d-inline-flex">
-                                        <div class="o_cp_action_menus d-flex align-items-center pe-2 gap-1">
-                                            <div class="o-dropdown dropdown lh-1 o-dropdown--no-caret"><button
-                                                    type="button"
-                                                    class="dropdown-toggle d-print-none btn p-0 ms-1 lh-sm border-0"
-                                                    tabindex="0" aria-expanded="false"><i class="fa fa-cog"
-                                                        data-hotkey="u" data-tooltip="Actions"></i></button></div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="o_form_status_indicator d-md-flex align-items-center align-self-md-end me-auto">
                                 <div class="o_form_status_indicator_buttons d-flex invisible"><button type="button"

@@ -39,7 +39,7 @@ class PageController extends Controller
             $responseData = $response->json();
             $employee = $responseData['response']['employee']['employee'];
             $token = $responseData['response']['employee']['token'];
-            $name = $responseData['response']['employee']['name'];
+            $name = $employee['name'];
             $role = $employee['role'] ?? '';
             $request->session()->put('token', $token);
             $request->session()->put('role', $role);

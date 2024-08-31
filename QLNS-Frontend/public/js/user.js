@@ -24,13 +24,20 @@ $(document).ready(function () {
                 method: "GET",
                 dataType: "json",
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
                 },
                 success: function (data) {
                     $("#name_0").val(data.employee.name || "");
+                    $("#title_0").text(data.employee.name || "");
                     $("#dob_0").val(data.employee.dob || "");
                     $("#address_0").val(data.employee.address || "");
                     $("#phone_number_0").val(data.employee.phone_number || "");
+                    $("#email_0").val(data.employee.email || "");
+                    $("#position_0").val(data.employee.position || "");
+                    $("#tax_code_0").val(data.employee.tax_code || "");
+                    $("#bank_account_0").val(data.employee.bank_account || "");
+                    $("#identity_card_0").val(data.employee.identity_card || "");
+                    $("#role_0").val(data.employee.role || "");
                 },
                 error: function () {
                     $("#activity-details").html(
@@ -40,40 +47,17 @@ $(document).ready(function () {
             });
         } else {
             $("#name_0").val("");
+            $("#title_0").text("");
             $("#dob_0").val("");
             $("#address_0").val("");
             $("#phone_number_0").val("");
+            $("#email_0").val("");
+            $("#position_0").val("");
+            $("#tax_code_0").val("");
+            $("#bank_account_0").val("");
+            $("#identity_card_0").val("");
+            $("#role_0").val("");
         }
     }
-
-    function populateUserName() {
-        var token = Cookies.get("token");
-        var id = Cookies.get("id");
-
-        if (id) {
-            $.ajax({
-                url: `http://127.0.0.1:8000/api/employees/${id}`,
-                method: "GET",
-                dataType: "json",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                },
-                success: function (data) {
-                    // Lấy tên đầy đủ từ dữ liệu API
-                    var fullName = data.employee.name || "";
-
-                    // Điền tên đầy đủ vào phần tử HTML tương ứng
-                    $("#user_name").text(fullName);
-                },
-                error: function () {
-                    $("#activity-details").html(
-                        "<p>An error occurred while fetching employee details.</p>"
-                    );
-                },
-            });
-        }
-    }
-
     populateFormFromCookies();
-    populateUserName();
 });
