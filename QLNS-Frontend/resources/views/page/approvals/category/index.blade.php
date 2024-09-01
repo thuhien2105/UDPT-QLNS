@@ -43,11 +43,7 @@
                     </div>
                     <span class="d-none d-xl-block me-auto"></span>
                 </div>
-                <!-- Month and Year Picker -->
-                <div class="input-group ms-3">
-                    <span class="input-group-text">Month & Year:</span>
-                    <input type="month" class="form-control" id="monthYearPicker" name="monthYearPicker">
-                </div>
+
                 <div
                     class="o_control_panel_actions d-empty-none d-flex align-items-center justify-content-start justify-content-lg-around order-2 order-lg-1 w-100 w-lg-auto">
                     <div class="o_cp_searchview d-flex input-group" role="search">

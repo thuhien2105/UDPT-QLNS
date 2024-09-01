@@ -43,6 +43,16 @@
                     </div>
                     <span class="d-none d-xl-block me-auto"></span>
                 </div>
+                <!-- Month and Year Picker -->
+                <div class="input-group ms-3">
+                    <span class="input-group-text">Month & Year:</span>
+                    <input type="month" class="form-control" id="monthYearPicker" name="monthYearPicker">
+                </div>
+                <select id="statusPicker">
+                    <option value="Pending" selected>Pending</option>
+                    <option value="Complete">Complete</option>
+                </select>
+
                 <div
                     class="o_control_panel_actions d-empty-none d-flex align-items-center justify-content-start justify-content-lg-around order-2 order-lg-1 w-100 w-lg-auto">
                     <div class="o_cp_searchview d-flex input-group" role="search">
@@ -72,7 +82,7 @@
                         <nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span
                                 class="o_pager_counter align-self-center"><span
                                     class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1</span><span>
-                                    / </span><span class="o_pager_limit">1></span><span class="btn-group d-print-none"
+                                    / </span><span class="o_pager_limit">1</span><span class="btn-group d-print-none"
                                     aria-atomic="true"><button type="button"
                                         class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start"
                                         aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p"
@@ -84,11 +94,12 @@
                 </div>
             </div>
         </div>
+
         <div class="o_content">
             <div class="o_list_renderer o_renderer table-responsive o_list_renderer_1" tabindex="-1">
                 <table
                     class="o_list_table table table-sm table-hover position-relative mb-0 o_list_table_ungrouped table-striped"
-                    style="table-layout: fixed">
+                    id="data-table" style="table-layout: fixed">
                     <thead>
                         <tr>
                             <th class="o_list_record_selector o_list_controller align-middle pe-1 cursor-pointer"
@@ -113,7 +124,17 @@
                                 data-tooltip-template="web.FieldTooltip"
                                 data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_owner_id","type":"many2one","widget":"many2one_avatar_user","widgetDescription":"Many2one","context":"{}","domain":"(company_id and [(&apos;company_ids&apos;, &apos;in&apos;, [company_id])] or []) + ([(&apos;company_ids&apos;, &apos;in&apos;, company_id)])","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false,"relation":"res.users"}}'
                                 style="width: 302px">
-                                <div class="d-flex">Type</span>
+                                <div class="d-flex">Request Type</span>
+                                </div>
+                                <span
+                                    class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
+                            </th>
+                            <th data-tooltip-delay="1000" tabindex="-1" data-name="request_owner_id"
+                                class="align-middle o_column_sortable position-relative cursor-pointer o_many2one_avatar_user_cell opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_owner_id","type":"many2one","widget":"many2one_avatar_user","widgetDescription":"Many2one","context":"{}","domain":"(company_id and [(&apos;company_ids&apos;, &apos;in&apos;, [company_id])] or []) + ([(&apos;company_ids&apos;, &apos;in&apos;, company_id)])","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false,"relation":"res.users"}}'
+                                style="width: 302px">
+                                <div class="d-flex">Reason</span>
                                 </div>
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
@@ -129,54 +150,33 @@
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
                             </th>
-                            <th data-tooltip-delay="1000" tabindex="-1" data-name="request_status"
-                                class="align-middle o_column_sortable position-relative cursor-pointer o_badge_cell opacity-trigger-hover"
+                            <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
+                                class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
                                 data-tooltip-template="web.FieldTooltip"
-                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_status","type":"selection","widget":"badge","widgetDescription":"Badge","context":"{}","invisible":null,"column_invisible":null,"readonly":"True","required":null,"changeDefault":false,"selection":[["new","To Submit"],["pending","Submitted"],["approved","Approved"],["refused","Refused"],["cancel","Cancel"]]}}'
-                                style="width: 265px">
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
+                                style="width: 203px">
                                 <div class="d-flex">
-                                    <span class="d-block min-w-0 text-truncate flex-grow-1">Status</span>
+                                    <span class="d-block min-w-0 text-truncate flex-grow-1">Start Time</span>
                                 </div>
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
                             </th>
+                            <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
+                                class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
+                                style="width: 203px">
+                                <div class="d-flex">
+                                    <span class="d-block min-w-0 text-truncate flex-grow-1">End Time</span>
+                                </div>
+                                <span
+                                    class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
+                            </th>
+
                         </tr>
                     </thead>
                     <tbody class="ui-sortable">
-                        <tr onclick="window.location.href = '/approvals/form';" class="o_data_row text-info"
-                            data-id="datapoint_35">
-                            <td class="o_list_record_selector user-select-none" tabindex="-1">
-                                <div class="o-checkbox form-check">
-                                    <input type="checkbox" class="form-check-input" id="checkbox-comp-2" /><label
-                                        class="form-check-label" for="checkbox-comp-2"></label>
-                                </div>
-                            </td>
-                            <td class="o_data_cell cursor-pointer o_field_cell o_list_char" data-tooltip-delay="1000"
-                                tabindex="-1" name="name" data-tooltip="Business trip to London">
-                                Business trip to London
-                            </td>
-                            <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_required_modifier"
-                                data-tooltip-delay="1000" tabindex="-1" name="category_id" data-tooltip="Business Trip">
-                                Business Trip
-                            </td>
-                            <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_required_modifier"
-                                data-tooltip-delay="1000" tabindex="-1" name="category_id" data-tooltip="Business Trip">
-                                Business Trip
-                            </td>
-                            <td class="o_data_cell cursor-pointer o_field_cell o_badge_cell o_readonly_modifier"
-                                data-tooltip-delay="1000" tabindex="-1" name="request_status" data-tooltip="To Submit">
-                                <div name="request_status"
-                                    class="o_field_widget o_readonly_modifier o_field_badge text-info">
-                                    <span class="badge rounded-pill text-bg-info">To Submit</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="5">​</td>
-                        </tr>
-                        <tr>
-                            <td colspan="5">​</td>
-                        </tr>
+                        <!-- Dynamic rows will be inserted here -->
                     </tbody>
                     <tfoot class="o_list_footer cursor-default">
                         <tr>
@@ -192,6 +192,7 @@
         </div>
     </div>
 </div>
+
 <div class="o-main-components-container">
     <div class="o-discuss-CallInvitations position-absolute top-0 end-0 d-flex flex-column p-2"></div>
     <div class="o-mail-ChatWindowContainer"></div>
@@ -200,4 +201,5 @@
     <div class="o_notification_manager o_upload_progress_toast"></div>
     <div class="o_notification_manager"></div>
 </div>
+
 @endsection
