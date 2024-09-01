@@ -153,4 +153,42 @@ $(document).ready(function () {
             },
         });
     });
+
+    $('#create-request-form').on('submit', function (e) {
+        e.preventDefault(); // Ngăn chặn gửi form mặc định
+
+        // Thu thập dữ liệu từ form
+        const requestData = {
+            request_type: $('#request_type').val(),
+            start_time: $('#start_time').val(),
+            end_time: $('#end_time').val(),
+            reason: $('#reason').val()
+        };
+
+        createRequest(requestData);
+    });
+
+    function createRequest(data) {
+        $.ajax({
+            url: 'http://127.0.0.1:8000/api/requests',
+            method: 'POST',
+            headers: {
+                Authorization: "Bearer " + token,
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            data: data,
+            success: function (response) {
+                if (response.error) {
+                    alert("Error: " + response.error);
+                } else {
+                    alert("Request created successfully!");
+                    // Cập nhật danh sách yêu cầu nếu cần
+                    loadRequests($('#monthYearPicker').val(), $('#statusPicker').val());
+                }
+            },
+            error: function (xhr) {
+                alert("An error occurred: " + xhr.responseText);
+            }
+        });
+    }
 });
