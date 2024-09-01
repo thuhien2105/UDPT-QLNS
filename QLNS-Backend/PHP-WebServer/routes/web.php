@@ -20,7 +20,3 @@ use Illuminate\Http\Request;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
-Route::middleware("jwt.auth")->group(function () {
-    Route::get('api/employees/{keyword}/{page}', [EmployeeController::class, 'index']);
-});

@@ -8,6 +8,8 @@ services:
       - "8080:80"
     restart: on-failure
     env_file: "./php-webserver/.env"
+    networks:
+      - my_network
 
   employee-service:
     build:
@@ -15,6 +17,8 @@ services:
       dockerfile: ./microservice/employee-service/Dockerfile
     ports:
       - "8081:8080"
+    networks:
+      - my_network
 
   request-service:
     build:
@@ -22,9 +26,17 @@ services:
       dockerfile: ./microservice/request-service/Dockerfile
     ports:
       - "8082:8080"
+    networks:
+      - my_network
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge

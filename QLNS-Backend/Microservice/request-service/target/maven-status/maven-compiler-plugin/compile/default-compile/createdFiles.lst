@@ -1,10 +1,10 @@
 com\example\demo\GRPC\EmployeeServiceGrpc$2.class
 com\example\demo\GRPC\EmployeeServiceGrpc$EmployeeServiceStub.class
-com\example\demo\request\RequestController.class
 com\example\demo\GRPC\EmployeeProto$UpdateEmployeeRequest.class
 com\example\demo\GRPC\EmployeeServiceGrpc$AsyncService.class
 com\example\demo\GRPC\EmployeeProto$EmployeeOrBuilder.class
 com\example\demo\GRPC\EmployeeProto$EmployeeResponse.class
+com\example\demo\request\RequestWithEmployee.class
 com\example\demo\GRPC\EmployeeServiceGrpc$MethodHandlers.class
 com\example\demo\request\RequestEntity.class
 com\example\demo\GRPC\EmployeeProto$Employee.class

@@ -8,5 +8,5 @@ C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\jav
 C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\request\RequestService.java
 C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\request\RequestWithEmployee.java
 C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\src\main\java\com\example\demo\RequestServiceApplication.java
-C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\target\generated-sources\protobuf\grpc-java\com\example\demo\GRPC\EmployeeServiceGrpc.java
-C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\target\generated-sources\protobuf\java\com\example\demo\GRPC\EmployeeProto.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\target\generated-sources\protobuf\com\example\demo\GRPC\EmployeeProto.java
+C:\xampp\htdocs\UDPT-QLNS\QLNS-Backend\Microservice\request-service\target\generated-sources\protobuf\com\example\demo\GRPC\EmployeeServiceGrpc.java
