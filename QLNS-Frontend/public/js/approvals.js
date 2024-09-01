@@ -11,20 +11,23 @@ $(document).ready(function () {
         const mins = minutes % 60;
         return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
     }
-
+    function formatRequestType(requestType) {
+        const mappings = {
+            "WFH": "Work From Home",
+            "LEAVE": "Leave"
+        };
+        
+        // Chỉ hiển thị các tên dạng đẹp cho UI, không thay đổi giá trị truyền vào API
+        return mappings[requestType] || requestType
+            .replace(/_/g, ' ')      // Thay thế dấu gạch dưới bằng khoảng trắng
+            .toUpperCase();         // Chuyển tất cả ký tự thành chữ hoa
+    }
     function formatDate(date) {
         return date ? new Date(date).toLocaleDateString() : "";
     }
 
     function formatTime(date) {
         return date ? new Date(date).toLocaleTimeString() : "";
-    }
-
-    function formatRequestType(requestType) {
-        return requestType
-            .replace(/_/g, ' ') // Thay thế dấu gạch dưới bằng khoảng trắng
-            .toLowerCase()     // Chuyển tất cả ký tự thành chữ thường
-            .replace(/(^\w|\s\w)/g, m => m.toUpperCase()); // Viết hoa chữ cái đầu mỗi từ
     }
 
     function loadRequests(monthYear, status) {
@@ -170,7 +173,7 @@ $(document).ready(function () {
 
         // Thu thập dữ liệu từ form
         const requestData = {
-            request_type: $('#request_type').val(),
+            request_type: $('#request_type').val(),  // Giữ nguyên giá trị để gửi API
             start_time: $('#start_time').val(),
             end_time: $('#end_time').val(),
             reason: $('#reason').val()
@@ -202,6 +205,7 @@ $(document).ready(function () {
             }
         });
     }
+
     function formatDateTime(dateTimeString) {
         // Chuyển đổi định dạng từ 'yyyy-MM-dd HH:mm:ss' thành 'yyyy-MM-ddTHH:mm:ss'
         return dateTimeString.replace(' ', 'T');
@@ -209,12 +213,17 @@ $(document).ready(function () {
     
     $('#submit-request').click(function () {
         const requestData = {
-            request_type: $('#request_type').text(),
+            request_type: $('#request_type').text(), // Chỉ dùng cho UI, không gửi API
             start_time: formatDateTime($('#start_time').val()),
             end_time: formatDateTime($('#end_time').val()),
             reason: $('#reason').val()
         };
     
-        createRequest(requestData);
+        createRequest({
+            request_type: $('#request_type').text() === "Work From Home" ? "WFH" : "LEAVE", // Chuyển đổi cho API
+            start_time: formatDateTime($('#start_time').val()),
+            end_time: formatDateTime($('#end_time').val()),
+            reason: $('#reason').val()
+        });
     });
 });
