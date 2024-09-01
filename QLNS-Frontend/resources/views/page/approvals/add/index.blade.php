@@ -66,92 +66,48 @@
                             class="o_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
                             <div
                                 class="o_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
-                                <button invisible="not approver_ids or request_status != 'new'" data-hotkey="q"
-                                    class="btn btn-primary" name="action_confirm"
-                                    type="object"><span>Save</span></button>
+                                <button id="submit-request" class="btn btn-primary" type="button"><span>Create
+                                        Request</span></button>
                             </div>
                         </div>
                         <div class="o_form_sheet position-relative">
                             <div class="oe_title">
                                 <h1>
-                                    <div name="name" class="o_field_widget o_required_modifier o_field_char"><input
-                                            class="o_input" id="name_0" type="text" autocomplete="off"
-                                            placeholder="E.g: Expenses Paris business trip"></div>
+                                    <div name="name" class="o_field_widget o_required_modifier o_field_char">
+                                        <span id="request_type" class="o_field_display">Request Type Placeholder</span>
+                                    </div>
                                 </h1>
                             </div>
                             <div class="o_group row align-items-start">
                                 <div class="o_inner_group grid col-lg-6">
-
                                     <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
                                         <div
-                                            class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                            <label class="o_form_label" for="category_id_0">Request Type</label>
+                                            class="o_cell flex-grow-1 flex-sm-grow-0 o_wrap_label w-100 text-break text-900">
+                                            <label class="o_form_label" for="start_time">Start Time</label>
                                         </div>
-                                        <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
-                                            style="width: 100%;">
-                                            <div class="o_field_widget o_required_modifier o_field_many2one">
-                                                <select id="category_id_0" name="category_id"
-                                                    class="form-control no-outline">
-                                                    <!-- Add <option> elements here -->
-                                                    <option value="1">Category 1</option>
-                                                    <option value="2">Category 2</option>
-                                                    <!-- Example options -->
-                                                </select>
-                                            </div>
+                                        <div class="o_cell flex-grow-1 flex-sm-grow-0" style="width: 100%;">
+                                            <input type="datetime-local" class="o_input" id="start_time"
+                                                autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                        <div class="o_cell flex-grow-1 flex-sm-grow-0 o_wrap_label w-100 text-break text-900"
-                                            style=""><label class="o_form_label" for="date_start_0">Start Time</label>
+                                        <div
+                                            class="o_cell flex-grow-1 flex-sm-grow-0 o_wrap_label w-100 text-break text-900">
+                                            <label class="o_form_label" for="end_time">End Time</label>
                                         </div>
                                         <div class="o_cell flex-grow-1 flex-sm-grow-0" style="width: 100%;">
-                                            <div name="date_end"
-                                                class="o_field_widget o_required_modifier o_field_datetime oe_inline">
-                                                <div class="d-flex gap-2 align-items-center"><input type="date"
-                                                        class="o_input cursor-pointer" autocomplete="off"
-                                                        id="date_end_0" data-field="date_end"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
-                                        <div class="o_cell flex-grow-1 flex-sm-grow-0 o_wrap_label w-100 text-break text-900"
-                                            style=""><label class="o_form_label" for="date_start_0">End Time</label>
-                                        </div>
-                                        <div class="o_cell flex-grow-1 flex-sm-grow-0" style="width: 100%;">
-                                            <div name="date_end"
-                                                class="o_field_widget o_required_modifier o_field_datetime oe_inline">
-                                                <div class="d-flex gap-2 align-items-center"><input type="date"
-                                                        class="o_input cursor-pointer" autocomplete="off"
-                                                        id="date_end_0" data-field="date_end"></div>
-                                            </div>
+                                            <input type="datetime-local" class="o_input" id="end_time"
+                                                autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="o_wrap_field d-flex d-sm-contents flex-column mb-3 mb-sm-0">
                                         <div
                                             class="o_cell o_wrap_label flex-grow-1 flex-sm-grow-0 w-100 text-break text-900">
-                                            <label class="o_form_label" for="request_owner_id_0">Reason</label>
+                                            <label class="o_form_label" for="reason">Reason</label>
                                         </div>
                                         <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break"
                                             style="width: 100%;">
-                                            <div name="request_owner_id"
-                                                class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
-                                                <div class="d-flex align-items-center gap-1"
-                                                    data-tooltip="Mitchell Admin">
-                                                    <div class="o_field_many2one_selection">
-                                                        <div class="o_input_dropdown">
-                                                            <div class="o-autocomplete dropdown"><input type="text"
-                                                                    class="o-autocomplete--input o_input"
-                                                                    autocomplete="off" id="request_owner_id_0"
-                                                                    placeholder=""></div><span
-                                                                class="o_dropdown_button"></span>
-                                                        </div><button type="button"
-                                                            class="btn btn-link text-action fa o_external_button fa-arrow-right"
-                                                            tabindex="-1" draggable="false" aria-label="Internal link"
-                                                            data-tooltip="Internal link"></button>
-                                                    </div>
-                                                    <div class="o_field_many2one_extra"></div>
-                                                </div>
-                                            </div>
+                                            <input type="text" class="o_input" id="reason" placeholder="Enter reason">
                                         </div>
                                     </div>
                                 </div>
@@ -162,12 +118,13 @@
             </div>
         </div>
     </div>
+    <!-- Notification and overlay containers -->
     <div class="o-main-components-container">
         <div class="o-discuss-CallInvitations position-absolute top-0 end-0 d-flex flex-column p-2"></div>
         <div class="o-mail-ChatWindowContainer"></div>
         <div class="o-overlay-container"></div>
-        <div></div>
         <div class="o_notification_manager o_upload_progress_toast"></div>
         <div class="o_notification_manager"></div>
     </div>
-    @endsection
+</div>
+@endsection

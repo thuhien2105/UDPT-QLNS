@@ -1,6 +1,5 @@
 $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get("id");
     const type = urlParams.get("type");
     var token = Cookies.get("token");
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
@@ -19,6 +18,13 @@ $(document).ready(function () {
 
     function formatTime(date) {
         return date ? new Date(date).toLocaleTimeString() : "";
+    }
+
+    function formatRequestType(requestType) {
+        return requestType
+            .replace(/_/g, ' ') // Thay thế dấu gạch dưới bằng khoảng trắng
+            .toLowerCase()     // Chuyển tất cả ký tự thành chữ thường
+            .replace(/(^\w|\s\w)/g, m => m.toUpperCase()); // Viết hoa chữ cái đầu mỗi từ
     }
 
     function loadRequests(monthYear, status) {
@@ -57,7 +63,7 @@ $(document).ready(function () {
                             ${employee ? employee.name : ""}
                         </td>
                         <td class="o_data_cell cursor-pointer o_field_cell o_list_char" tabindex="-1" name="type">
-                            ${request.request_type}
+                            ${formatRequestType(request.request_type)}
                         </td>
                         <td class="o_data_cell cursor-pointer o_field_cell o_list_char" tabindex="-1" name="reason">
                             ${request.reason ? request.reason : ""}
@@ -95,6 +101,11 @@ $(document).ready(function () {
                 );
             },
         });
+    }
+
+    // Set initial value for request type if 'type' is present in URL
+    if (type) {
+        $('#request_type').text(formatRequestType(type));
     }
 
     // Load initial requests for current month, year, and default status (Pending)
@@ -170,7 +181,7 @@ $(document).ready(function () {
 
     function createRequest(data) {
         $.ajax({
-            url: 'http://127.0.0.1:8000/api/requests',
+            url: 'http://127.0.0.1:8000/api/request/create',
             method: 'POST',
             headers: {
                 Authorization: "Bearer " + token,
@@ -191,4 +202,19 @@ $(document).ready(function () {
             }
         });
     }
+    function formatDateTime(dateTimeString) {
+        // Chuyển đổi định dạng từ 'yyyy-MM-dd HH:mm:ss' thành 'yyyy-MM-ddTHH:mm:ss'
+        return dateTimeString.replace(' ', 'T');
+    }
+    
+    $('#submit-request').click(function () {
+        const requestData = {
+            request_type: $('#request_type').text(),
+            start_time: formatDateTime($('#start_time').val()),
+            end_time: formatDateTime($('#end_time').val()),
+            reason: $('#reason').val()
+        };
+    
+        createRequest(requestData);
+    });
 });
