@@ -29,11 +29,13 @@
                 </a>
             </div>
             <div class="o-dropdown dropdown o-dropdown--no-caret">
-                <a href="/approvals/list" type="button" class="dropdown-toggle fw-normal" data-hotkey="1" tabindex="0"
-                    aria-expanded="false" data-menu-xmlid="approvals.approvals_approval_menu">
+                <a href="/approvals/list" type="button" id="myApprovalsButton" class="dropdown-toggle fw-normal"
+                    data-hotkey="1" tabindex="0" aria-expanded="false"
+                    data-menu-xmlid="approvals.approvals_approval_menu">
                     <span data-section="301">My Approvals</span>
                 </a>
             </div>
+
             @if (session('role') === 'manager')
             <div class="o-dropdown dropdown o-dropdown--no-caret">
                 <a href="/approvals/request_list" type="button" class="dropdown-toggle fw-normal" data-hotkey="1"
@@ -51,4 +53,5 @@ Approvals
 @endsection
 @section('script')
 <script src="{{ asset('js/approvals.js') }}"></script>
+<script src="{{ asset('js/request.js') }}"></script>
 @endsection
