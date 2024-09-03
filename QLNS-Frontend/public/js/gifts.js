@@ -6,6 +6,7 @@ $(document).ready(function () {
     const category = urlParams.get("category");
     const brand = urlParams.get("brand");
     const token = Cookies.get("token");
+    const userID = Cookies.get("id");
     const csrfToken = $('meta[name="csrf-token"]').attr("content");
     var page = 1;
     var max_page = 1;
@@ -16,8 +17,18 @@ $(document).ready(function () {
     const hasCategory = category !== null;
     const hasBrand = brand !== null;
 
+    $.ajax({
+        url: `http://localhost:5000/employee/${userID}`,
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            $("#point_0").text(` - ${data.point} Points`);
+        },
+        error: function () {},
+    });
+
     function load() {
-        $('.o_pager_value').text(page)
+        $(".o_pager_value").text(page);
         if (hasType) {
             if (type == "category") {
                 var url = `http://localhost:5000/category/list?page=${page}`;
@@ -117,7 +128,9 @@ $(document).ready(function () {
                                             </td>
                                             <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
                                                 <div name="product_template_id" class="o_field_widget o_field_sol_product_many2one">
-                                                    <span>${element.address}</span>
+                                                    <span>${
+                                                        element.address
+                                                    }</span>
                                                 </div>
                                             </td>
                                         </tr>
@@ -232,7 +245,9 @@ $(document).ready(function () {
                                             </td>
                                             <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
                                                 <div name="product_template_id" class="o_field_widget o_field_sol_product_many2one">
-                                                    <span>${element.address}</span>
+                                                    <span>${
+                                                        element.address
+                                                    }</span>
                                                 </div>
                                             </td>
                                         </tr>
@@ -253,7 +268,9 @@ $(document).ready(function () {
                                         <tr class="o_data_row o_row_draggable o_is_false" data-id="${
                                             element.id
                                         }"
-                                        onclick="window.location.href = '/gifts/gifts/sub-item/form?id=${element.id}&gift_id=${id}&type=sub-item';"
+                                        onclick="window.location.href = '/gifts/gifts/sub-item/form?id=${
+                                            element.id
+                                        }&gift_id=${id}&type=sub-item';"
                                         >
                                             <td style="width='80px'" class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
                                                 <div name="product_template_id" class="o_field_widget o_field_sol_product_many2one">
@@ -262,7 +279,9 @@ $(document).ready(function () {
                                             </td>
                                             <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
                                                 <div name="product_template_id" class="o_field_widget o_field_sol_product_many2one">
-                                                    <span>${element.title}</span>
+                                                    <span>${
+                                                        element.title
+                                                    }</span>
                                                 </div>
                                             </td>
                                             <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
@@ -293,10 +312,10 @@ $(document).ready(function () {
                     if (hasQ) {
                         url += `&q=${q}`;
                     }
-                    if (hasCategory){
+                    if (hasCategory) {
                         url += `&category=${category}`;
                     }
-                    if (hasBrand){
+                    if (hasBrand) {
                         url += `&brand=${brand}`;
                     }
                     $.ajax({
@@ -352,7 +371,7 @@ $(document).ready(function () {
                                         <tr>
                                             <td colspan="3">​</td>
                                         </tr>`;
-                            $("#data-table").html('');
+                            $("#data-table").html("");
                             $("#data-table").append(rowsHtml);
                         },
                         error: function () {
@@ -384,7 +403,9 @@ $(document).ready(function () {
                                         <tr class="o_data_row o_row_draggable o_is_false" data-id="${
                                             element.id
                                         }"
-                                        onclick="window.location.href = '/gifts/gifts/sub-item/form?id=${element.id}&gift_id=${id}&type=sub-item';">
+                                        onclick="window.location.href = '/gifts/gifts/sub-item/form?id=${
+                                            element.id
+                                        }&gift_id=${id}&type=sub-item';">
                                         <td style="width='80px'" class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
                                                 <div name="product_template_id" class="o_field_widget o_field_sol_product_many2one">
                                                     <span>${index + 1}</span>
@@ -392,7 +413,9 @@ $(document).ready(function () {
                                             </td>
                                             <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
                                                 <div name="product_template_id" class="o_field_widget o_field_sol_product_many2one">
-                                                    <span>${element.title}</span>
+                                                    <span>${
+                                                        element.title
+                                                    }</span>
                                                 </div>
                                             </td>
                                             <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_sol_product_many2one_cell">
@@ -425,91 +448,162 @@ $(document).ready(function () {
                     });
                 }
             } else if (type == "manager") {
-                var url = `http://localhost:5000/category/list?page=${page}`;
-                if (hasQ) {
-                    url += `&q=${q}`;
+                if (hasId) {
+                    var url = `http://localhost:5000/employee/${userID}/gift/${id}`;
+                    $.ajax({
+                        url: url,
+                        method: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $("#name_0").val(data.gift_name);
+                            $("#title_0").text(data.gift_name);
+                            $("#image_1920").attr("src", data.gift_image);
+                            $("#qr_0").attr(
+                                "src",
+                                "http://localhost:5000" + data.gift_qr
+                            );
+                            $("#code_0").text(data.gift_code);
+                            $("#points_0").text(
+                                data.gift_price_format.split(" ")[0]
+                            );
+                        },
+                        error: function () {},
+                    });
+                } else {
+                    var url = `http://localhost:5000/employee/${userID}/gift?page=${2}`;
+                    if (hasQ) {
+                        url += `&q=${q}`;
+                    }
+                    $.ajax({
+                        url: url,
+                        method: "GET",
+                        dataType: "json",
+                        success: function (response) {
+                            const data = response.items;
+                            max_page = response.total_page;
+                            $(".o_pager_limit").text(max_page);
+                            let rowsHtml = "";
+                            for (let i = 0; i < data.length; i++) {
+                                const element = data[i];
+                                rowsHtml += `
+                                    <tr onclick="window.location.href = '/gifts/manager/form?id=${
+                                        element.id
+                                    }&type=manager';" class="o_data_row text-info" data-id="datapoint_${
+                                    element.id
+                                }">
+                                        <td class="o_list_record_selector user-select-none" tabindex="-1">
+                                            <div class="o-checkbox form-check">
+                                                <input type="checkbox" class="form-check-input" id="checkbox-comp-${i}" /><label
+                                                    class="form-check-label" for="checkbox-comp-${i}"></label>
+                                            </div>
+                                        </td>
+                                        <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_many2one_avatar_user_cell"
+                                            data-tooltip-delay="1000" tabindex="-1" name="request_owner_id"
+                                            data-tooltip="${element.gift_name}">
+                                            <div name="request_owner_id"
+                                                class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
+                                                <div class="d-flex align-items-center gap-1" data-tooltip="${
+                                                    element.gift_name
+                                                }">
+                                                    <span class="o_avatar o_m2o_avatar"><img class="rounded"
+                                                            src="${
+                                                                element.gift_image
+                                                            }" /></span><span><span>${
+                                    element.gift_name
+                                }</span></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_many2one_avatar_user_cell"
+                                            data-tooltip-delay="1000" tabindex="-1" name="request_owner_id"
+                                            data-tooltip="${element.gift_code}">
+                                            <div name="request_owner_id"
+                                                class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
+                                                <div class="d-flex align-items-center gap-1" data-tooltip="${
+                                                    element.gift_code
+                                                }"><span><span>${
+                                    element.gift_code
+                                }</span></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_many2one_avatar_user_cell"
+                                            data-tooltip-delay="1000" tabindex="-1" name="request_owner_id"
+                                            data-tooltip="${
+                                                element.gift_price_format.split(
+                                                    " "
+                                                )[0]
+                                            }">
+                                            <div name="request_owner_id"
+                                                class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
+                                                <div class="d-flex align-items-center gap-1" data-tooltip="${
+                                                    element.gift_price_format.split(
+                                                        " "
+                                                    )[0]
+                                                }"><span><span>${
+                                    element.gift_price_format.split(" ")[0]
+                                }</span></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `;
+                            }
+                            rowsHtml += `<tr>
+                                            <td colspan="4">​</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">​</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">​</td>
+                                        </tr>`;
+                            $("#data-table").empty();
+                            $("#data-table").append(rowsHtml);
+                        },
+                        error: function () {
+                            $("#data-table").html(
+                                '<tr><td colspan="5">An error occurred while fetching activity details.</td></tr>'
+                            );
+                        },
+                    });
                 }
-                $.ajax({
-                    url: url,
-                    method: "GET",
-                    dataType: "json",
-                    success: function (response) {
-                        const data = response.items;
-                        max_page = response.total_page;
-                        $(".o_pager_limit").text(max_page);
-                        let rowsHtml = "";
-                        for (let i = 0; i < data.length; i++) {
-                            const element = data[i];
-                            rowsHtml += `
-                                <tr class="o_data_row text-info" data-id="datapoint_${element.id}">
-                                    <td class="o_list_record_selector user-select-none" tabindex="-1">
-                                        <div class="o-checkbox form-check">
-                                            <input type="checkbox" class="form-check-input" id="checkbox-comp-${i}" /><label
-                                                class="form-check-label" for="checkbox-comp-${i}"></label>
-                                        </div>
-                                    </td>
-                                    <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_many2one_avatar_user_cell"
-                                        data-tooltip-delay="1000" tabindex="-1" name="request_owner_id"
-                                        data-tooltip="${element.title}">
-                                        <div name="request_owner_id"
-                                            class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
-                                            <div class="d-flex align-items-center gap-1" data-tooltip="${element.title}">
-                                                <span class="o_avatar o_m2o_avatar"><img class="rounded"
-                                                        src="${element.images}" /></span><span><span>${element.title}</span></span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_many2one_avatar_user_cell"
-                                        data-tooltip-delay="1000" tabindex="-1" name="request_owner_id"
-                                        data-tooltip="${element.title}">
-                                        <div name="request_owner_id"
-                                            class="o_field_widget o_field_many2one_avatar_user o_field_many2one_avatar">
-                                            <div class="d-flex align-items-center gap-1" data-tooltip="${element.title}">
-                                                <button onclick="window.location.href = '/gifts/gifts?category=${element.id}&type=gift';" class="btn btn-primary btn-sm oe_kanban_action oe_kanban_action_button"
-                                                    name="create_request" type="object"
-                                                    data-tooltip-template="views.ViewButtonTooltip"
-                                                    data-tooltip-info='{"debug":true,"button":{"context":"{&apos;category_id&apos;:id}","type":"object","name":"create_request"},"context":{"lang":"en_US","tz":"Asia/Saigon","uid":2,"allowed_company_ids":[1]},"model":"approval.category"}'>
-                                                    Go to Gifts</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            `;
-                        }
-                        rowsHtml += `<tr>
-                                        <td colspan="3">​</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">​</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">​</td>
-                                    </tr>`;
-                        $("#data-table").empty();
-                        $("#data-table").append(rowsHtml);
-                    },
-                    error: function () {
-                        $("#data-table").html(
-                            '<tr><td colspan="5">An error occurred while fetching activity details.</td></tr>'
-                        );
-                    },
-                });
             }
         } else {
             window.location.href = "/";
         }
     }
-    load()
+    load();
     $(".o_pager_previous").click(function () {
         if (page > 1) {
             page -= 1;
-            load()
+            load();
         }
     });
     $(".o_pager_next").click(function () {
         if (page < max_page) {
             page += 1;
-            load()
+            load();
         }
+    });
+    $("#action_confirm").click(function () {
+        const gift_id = urlParams.get("gift_id");
+        $.ajax({
+            url: `http://localhost:5000/gift/${gift_id}/${id}`,
+            method: "POST",
+            dataType: "json",
+            data: JSON.stringify({
+                employee_id: userID,
+                id,
+            }),
+            headers: {
+                Authorization: "Bearer " + token,
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            success: function (data) {
+                $("#point_0").text(` - ${data.point} Points`);
+            },
+            error: function () {},
+        });
     });
 });

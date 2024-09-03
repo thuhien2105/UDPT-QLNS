@@ -72,7 +72,7 @@
                             <nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span
                                     class="o_pager_counter align-self-center"><span
                                         class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1-80</span><span>
-                                        / </span><span class="o_pager_limit">1356</span></span><span
+                                        / </span><span class="o_pager_limit">1</span></span><span
                                     class="btn-group d-print-none" aria-atomic="true"><button type="button"
                                         class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start"
                                         aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p"

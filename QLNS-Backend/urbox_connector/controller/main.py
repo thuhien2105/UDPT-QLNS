@@ -18,7 +18,7 @@ class MainController:
     @staticmethod
     @routes.route("/static/<path:path>", methods=["GET"])
     def get_resource(path):
-        return send_from_directory('static',path)
+        return send_from_directory('urbox_connector/static',path)
     @staticmethod
     @routes.route("/employee/<string:id>/gift", methods=["GET"])
     def get_employee_gift(id):
@@ -48,7 +48,7 @@ class MainController:
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM gift_account where employee_id=%(emp_no)s ",{'emp_no':id})
             data = cursor.fetchone()
-            if(len(data)==0):
+            if(not data):
                 try:
                     result= cursor.execute("INSERT INTO gift_account (employee_id,point,created_at,updated_at) values (%(emp_no)s,%(point)s,CURTIME(),CURTIME())",{'emp_no':id,'point':2000})
                     conn.commit()
@@ -83,7 +83,7 @@ class MainController:
     def buy_gift_subitem(gift_id,id):
         data=None
         # Read Input
-        data =json.loads(request.data)
+        data =json.loads(request.get_data())
         # Find Gift
         if("id" not in data):
             return jsonify({"error": "Missing Item"}), 404
@@ -136,7 +136,7 @@ class MainController:
             "gift_price":int(item["price"]),
             "gift_price_format":item["price_format"],
             "gift_image":item["images"],
-            "gift_code":f"{emp["employee_id"]}{item["id"]}{int(time.time())}",
+            "gift_code":"%s%s%s" % (emp["employee_id"],item["id"],int(time.time())),
            
             "employee_id":emp["employee_id"]
         }
@@ -146,9 +146,8 @@ class MainController:
                    border=5)
                 qr.add_data(gift_code["gift_code"])
                 qr.make(fit=True)
-                img = qr.make_image(fill_color='red',
-                    back_color='white')
-                img.save(f'static/{gift_code["gift_code"]}.png')
+                img = qr.make_image(fill_color='black', back_color='white')
+                img.save(f'urbox_connector/static/{gift_code["gift_code"]}.png')
                 gift_code["gift_qr"]=f'/static/{gift_code["gift_code"]}.png'
                 cursor = conn.cursor(dictionary=True)
                 cursor.execute("""INSERT INTO gift (gift_name,gift_price,gift_price_format,gift_image,gift_code,gift_qr,created_at,updated_at,employee_id) values (%(gift_name)s,%(gift_price)s,%(gift_price_format)s,%(gift_image)s,%(gift_code)s,%(gift_qr)s,CURTIME(),CURTIME(),%(employee_id)s)""",gift_code)
@@ -160,7 +159,7 @@ class MainController:
                 e,
                 )
                 cursor = conn.cursor(dictionary=True)
-                cursor.execute("UPDATE gift_account set point=point+%(price)s where employee_id=%(emp_no)s ",{'emp_no':id,'price':int(item["price"])/1000})
+                cursor.execute("UPDATE gift_account set point=point+%(price)s where employee_id=%(emp_no)s ",{'emp_no':data["employee_id"],'price':int(item["price"])/1000})
                 cursor.close()
                 return jsonify({"error": "An internal error occurred"}), 500
         conn.commit()

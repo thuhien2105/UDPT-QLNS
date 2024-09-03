@@ -1,1 +1,12 @@
-{"created_at":"Mon, 02 Sep 2024 10:14:40 GMT","employee_id":"abcd","gift_code":"abcd155571725272080","gift_image":"https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/15/640/1723713866_66bdc94a8da1b.png","gift_name":"[UrBox Voucher] JUMP ARENA 100.000 \u0111","gift_price":"100000","gift_price_format":"100.000 VN\u0110","gift_qr":"/static/abcd155571725272080.png","id":7,"updated_at":"10:14:40"}
+{
+	"created_at": "Mon, 02 Sep 2024 10:14:40 GMT",
+	"employee_id": "abcd",
+	"gift_code": "abcd155571725272080",
+	"gift_image": "https://632466.sgp1.digitaloceanspaces.com/_img_server/2024/08/15/640/1723713866_66bdc94a8da1b.png",
+	"gift_name": "[UrBox Voucher] JUMP ARENA 100.000 \u0111",
+	"gift_price": "100000",
+	"gift_price_format": "100.000 VN\u0110",
+	"gift_qr": "/static/abcd155571725272080.png",
+	"id": 7,
+	"updated_at": "10:14:40"
+}

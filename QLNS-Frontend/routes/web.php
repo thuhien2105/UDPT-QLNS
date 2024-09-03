@@ -38,6 +38,7 @@ Route::get('/gifts/brands/form',[GiftsController::class, 'getBrandPage'])->name(
 Route::get('/gifts/brands',[GiftsController::class, 'getBrandsPage'])->name('gifts-brands-list');
 Route::get('/gifts',[GiftsController::class, 'getCategoryPage'])->name('gifts-category');
 Route::get('/gifts/manager',[GiftsController::class, 'getManagerPage'])->name('gifts-manager');
+Route::get('/gifts/manager/form',[GiftsController::class, 'getManagerFormPage'])->name('gifts-manager-form');
 
 Route::post('/employees/add',[EmployeeController::class, 'createEmployee'])->name('employees-create');
 Route::put('/employees/edit',[EmployeeController::class, 'editEmployee'])->name('employees-edit');
