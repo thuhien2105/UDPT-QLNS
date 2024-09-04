@@ -131,11 +131,11 @@ class RequestController extends Controller
         return response()->json($response);
     }
 
-    public function showById(Request $request, $id, $page, $month, $year)
+    public function showById(Request $request, $id)
     {
         $user = $request->attributes->get('payload');
 
-        $cacheKey = "requests:id:{$id}:page:{$page}:month:{$month}:year:{$year}";
+        $cacheKey = "requests:id:{$id}";
         $cachedResponse = Cache::get($cacheKey);
 
         if ($cachedResponse) {
@@ -157,7 +157,7 @@ class RequestController extends Controller
         $request->merge(['employee_id' => $user['sub']]);
 
         $validatedData = $request->validate([
-            'request_type' => 'required|string',
+            'request_type' => 'required|string|in:LEAVE,WFH',
             'start_time' => 'required|date',
             'end_time' => 'required|date',
             'reason' => 'nullable|string|max:255',
