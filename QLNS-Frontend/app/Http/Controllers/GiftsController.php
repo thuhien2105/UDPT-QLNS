@@ -44,8 +44,4 @@ class GiftsController extends Controller
     {
     	return view('page.gifts.manager.index');
     }
-    public function getManagerFormPage()
-    {
-    	return view('page.gifts.manager.form');
-    }
 }

@@ -27,8 +27,7 @@
                         </div>
                         <div class="o_breadcrumb d-flex gap-1 text-truncate">
                             <div class="o_last_breadcrumb_item active d-flex fs-4 min-w-0 align-items-center">
-                                <span class="min-w-0 text-truncate" id="title_0">Voucher</span>
-                                <span class="min-w-0 text-truncate" id="point_0"></span>
+                                <span class="min-w-0 text-truncate" id="title_0" id="title_0">Voucher</span>
                             </div>
                             <div class="o_control_panel_breadcrumbs_actions d-inline-flex">
                                 <div class="o_cp_action_menus d-flex align-items-center pe-2 gap-1">
@@ -73,7 +72,7 @@
                             <nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span
                                     class="o_pager_counter align-self-center"><span
                                         class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1</span><span>
-                                        / </span><span class="o_pager_limit">1</span><span
+                                        / </span><span class="o_pager_limit">1pan></span><span
                                     class="btn-group d-print-none" aria-atomic="true"><button type="button"
                                         class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start"
                                         aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p"
@@ -127,7 +126,7 @@
                                     data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_owner_id","type":"many2one","widget":"many2one_avatar_user","widgetDescription":"Many2one","context":"{}","domain":"(company_id and [(&apos;company_ids&apos;, &apos;in&apos;, [company_id])] or []) + ([(&apos;company_ids&apos;, &apos;in&apos;, company_id)])","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false,"relation":"res.users"}}'
                                     style="width: 302px">
                                     <div class="d-flex">
-                                        <span class="d-block min-w-0 text-truncate flex-grow-1">Points</span>
+                                        <span class="d-block min-w-0 text-truncate flex-grow-1">QR</span>
                                     </div>
                                     <span
                                         class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
