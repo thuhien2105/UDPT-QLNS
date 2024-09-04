@@ -37,7 +37,7 @@ $(document).ready(function () {
     function loadRequests(monthYear, status) {
         $(".o_pager_value").text(page);
         let [year, month] = monthYear.split("-");
-        let url = `http://127.0.0.1:8000/api/requests/timesheet/${page}/${month}/${year}?status=${status}`;
+        let url = `http://127.0.0.1:8000/api/requests/${page}/${month}/${year}?status=${status}`;
 
         $.ajax({
             url: url,
@@ -50,7 +50,7 @@ $(document).ready(function () {
             beforeSend: function () {
                 // Show a loading spinner or message
                 $("#data-table tbody").html(
-                    '<tr><td colspan="9">Loading...</td></tr>'
+                    '<tr><td colspan="8">Loading...</td></tr>'
                 );
             },
             success: function (data) {
@@ -69,14 +69,6 @@ $(document).ready(function () {
                     <tr class="o_data_row text-info" data-id="datapoint_${
                         request.id
                     }">
-                        <td class="o_list_record_selector user-select-none" tabindex="-1">
-                            <div class="o-checkbox form-check">
-                                <input type="checkbox" class="form-check-input" name="id" value="${
-                                    request.id
-                                }"/>
-                                <label class="form-check-label"></label>
-                            </div>
-                        </td>
                         <td class="o_data_cell cursor-pointer o_field_cell o_list_char" tabindex="-1" name="employee_name">
                             ${employee ? employee.name : ""}
                         </td>
@@ -99,7 +91,7 @@ $(document).ready(function () {
                             ${request.status ? request.status : ""}
                         </td>
                         <td class="o_data_cell cursor-pointer o_field_cell o_list_char" tabindex="-1" name="actions">
-                            <button class="btn btn-success approve-btn" data-id="${
+                            <button class="btn btn-success approve-btn me-2" data-id="${
                                 request.id
                             }">Approve</button>
                         </td>
@@ -107,17 +99,18 @@ $(document).ready(function () {
                 `;
                 });
 
+                // Add empty rows for spacing
                 rowsHtml += `
-                    <tr><td colspan="9">​</td></tr>
-                    <tr><td colspan="9">​</td></tr>
-                    <tr><td colspan="9">​</td></tr>
+                    <tr><td colspan="8">​</td></tr>
+                    <tr><td colspan="8">​</td></tr>
+                    <tr><td colspan="8">​</td></tr>
                 `;
 
                 $("#data-table tbody").html(rowsHtml);
             },
             error: function () {
                 $("#data-table tbody").html(
-                    '<tr><td colspan="9">An error occurred while fetching requests.</td></tr>'
+                    '<tr><td colspan="8">An error occurred while fetching requests.</td></tr>'
                 );
             },
         });

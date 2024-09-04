@@ -110,7 +110,7 @@
             <div class="o_list_renderer o_renderer table-responsive o_list_renderer_1" tabindex="-1">
                 <table
                     class="o_list_table table table-sm table-hover position-relative mb-0 o_list_table_ungrouped table-striped"
-                    id="data-table" style="table-layout: fixed">
+                    id="request_data-table" style="table-layout: fixed">
                     <thead>
                         <tr>
                             <th class="o_list_record_selector o_list_controller align-middle pe-1 cursor-pointer"
@@ -177,19 +177,9 @@
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
                             </th>
-                            <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
-                                class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
-                                style="width: 163px">
-                                <div class="d-flex">
-                                    <span class="d-block min-w-0 text-truncate flex-grow-1">Actions</span>
-                                </div>
-                                <span
-                                    class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Nội dung sẽ được thêm qua AJAX -->
                     </tbody>
                 </table>
             </div>
@@ -199,7 +189,5 @@
 @endsection
 
 @section('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
 <script src="{{ asset('js/request.js') }}"></script>
 @endsection
