@@ -16,7 +16,7 @@ app.config["EUREKA"] = {
 }
 eureka = Eureka(app)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:8000"}})
+CORS(app, origins=["http://localhost:8000", "http://localhost:9000"])
 
 app.register_blueprint(routes)
 app.register_blueprint(authorizationRoute)
