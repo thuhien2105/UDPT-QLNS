@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('signin', [AuthController::class, 'signin']);
+Route::post('signout', [AuthController::class, 'logout']);
 
 
 
@@ -47,7 +48,7 @@ Route::post('request/timesheet/checkin', [RequestController::class, 'checkin']);
 Route::post('request/timesheet/checkout', [RequestController::class, 'checkout']);
 Route::post('request/approve/{id}', [RequestController::class, 'approve']);
 Route::post('request/create', [RequestController::class, 'store']);
-//Route::put('request/{id}', [RequestController::class, 'update']);
+Route::put('request/{id}', [RequestController::class, 'update']);
 Route::delete('request/{id}', [RequestController::class, 'destroy']);
 
 Route::get('/activities', [ActivityController::class, 'getActivities']);

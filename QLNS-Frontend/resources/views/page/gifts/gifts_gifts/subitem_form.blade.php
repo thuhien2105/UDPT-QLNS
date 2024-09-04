@@ -55,7 +55,7 @@
                                 class="o_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">
                                 <div
                                     class="o_statusbar_buttons d-flex align-items-center align-content-around flex-wrap gap-1">
-                                    <button class="btn btn-primary" id="action_confirm" type="submit">
+                                    <button class="btn btn-primary" name="action_confirm" type="submit">
                                         <span>Xác nhận tạo voucher</span>
                                     </button>
                                 </div>

@@ -49,7 +49,7 @@ class ActivityController extends Controller
 
         try {
             $message = json_encode([
-                'action' => 'post_activities',
+                'action' => 'add_activity',
                 'data' => [
                     'id' => $request->input('id'),
                     'name' => $request->input('name'),
@@ -68,7 +68,7 @@ class ActivityController extends Controller
 
             return response()->json(['response' => $responseData]);
         } catch (\Exception $e) {
-            Log::error("An error occurred while sending post_activities message: {$e->getMessage()}");
+            Log::error("An error occurred while sending add_activity message: {$e->getMessage()}");
             return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
         }
     }
