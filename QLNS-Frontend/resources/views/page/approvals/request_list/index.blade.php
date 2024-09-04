@@ -1,5 +1,4 @@
 @extends('layout.master')
-
 @section('content')
 @include('page.approvals.header')
 
@@ -28,7 +27,7 @@
                     </div>
                     <div class="o_breadcrumb d-flex gap-1 text-truncate">
                         <div class="o_last_breadcrumb_item active d-flex fs-4 min-w-0 align-items-center">
-                            <span class="min-w-0 text-truncate" id="title_0">My Requests</span>
+                            <span class="min-w-0 text-truncate" id="title_0">Request List</span>
                         </div>
                         <div class="o_control_panel_breadcrumbs_actions d-inline-flex">
                             <div class="o_cp_action_menus d-flex align-items-center pe-2 gap-1">
@@ -44,14 +43,19 @@
                     </div>
                     <span class="d-none d-xl-block me-auto"></span>
                 </div>
-
-                <!-- Thêm phần chọn tháng và năm -->
-                <div class="d-flex align-items-center gap-3">
-                    <div class="input-group">
-                        <span class="input-group-text">Month & Year:</span>
-                        <input type="month" class="form-control" id="monthYearPicker" name="monthYearPicker">
-                    </div>
+                <!-- Month and Year Picker -->
+                <div class="input-group ms-3">
+                    <span class="input-group-text">Month & Year:</span>
+                    <input type="month" class="form-control" id="monthYearPicker" name="monthYearPicker">
                 </div>
+                <!-- <div class="input-group ms-3">
+                    <span class="input-group-text">Status:</span>
+                    <select class="form-select" id="statusPicker">
+                        <option value="PENDING" selected>Pending</option>
+                        <option value="APPROVED">Approved</option>
+                        <option value="REJECTED">Rejected</option>
+                    </select>
+                </div> -->
 
                 <div
                     class="o_control_panel_actions d-empty-none d-flex align-items-center justify-content-start justify-content-lg-around order-2 order-lg-1 w-100 w-lg-auto">
@@ -76,27 +80,20 @@
                         </div>
                     </div>
                 </div>
-
                 <div
                     class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-3 gap-lg-1 gap-xl-3 order-1 order-lg-2 flex-grow-1">
-                    <div class="o_cp_pager text-nowrap" role="search">
-                        <nav class="o_pager d-flex gap-2 h-100" aria-label="Pager">
-                            <span class="o_pager_counter align-self-center">
-                                <span
-                                    class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1</span>
-                                <span>/</span>
-                                <span class="o_pager_limit">1</span>
-                                <span class="btn-group d-print-none" aria-atomic="true">
-                                    <button type="button"
+                    <div class="o_cp_pager text-nowrap " role="search">
+                        <nav class="o_pager d-flex gap-2 h-100" aria-label="Pager"><span
+                                class="o_pager_counter align-self-center"><span
+                                    class="o_pager_value d-inline-block border-bottom border-transparent mb-n1">1</span><span>
+                                    / </span><span class="o_pager_limit">1</span><span class="btn-group d-print-none"
+                                    aria-atomic="true"><button type="button"
                                         class="fa fa-chevron-left btn btn-secondary o_pager_previous px-2 rounded-start"
                                         aria-label="Previous" data-tooltip="Previous" tabindex="-1" data-hotkey="p"
-                                        title=""></button>
-                                    <button type="button"
+                                        title=""></button><button type="button"
                                         class="fa fa-chevron-right btn btn-secondary o_pager_next px-2 rounded-end"
-                                        aria-label="Next" data-tooltip="Next" tabindex="-1" data-hotkey="n"></button>
-                                </span>
-                            </span>
-                        </nav>
+                                        aria-label="Next" data-tooltip="Next" tabindex="-1"
+                                        data-hotkey="n"></button></span></nav>
                     </div>
                 </div>
             </div>
@@ -106,32 +103,44 @@
             <div class="o_list_renderer o_renderer table-responsive o_list_renderer_1" tabindex="-1">
                 <table
                     class="o_list_table table table-sm table-hover position-relative mb-0 o_list_table_ungrouped table-striped"
-                    id="request_data-table" style="table-layout: fixed">
+                    id="data-table" style="table-layout: fixed">
                     <thead>
                         <tr>
+
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="name"
                                 class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"name","type":"char","widget":null,"context":"{}","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false}}'
                                 style="width: 256px">
-                                <div class="d-flex">Name</div>
+                                <div class="d-flex">Employee's Name</span>
+                                </div>
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
                             </th>
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="request_owner_id"
                                 class="align-middle o_column_sortable position-relative cursor-pointer o_many2one_avatar_user_cell opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_owner_id","type":"many2one","widget":"many2one_avatar_user","widgetDescription":"Many2one","context":"{}","domain":"(company_id and [(&apos;company_ids&apos;, &apos;in&apos;, [company_id])] or []) + ([(&apos;company_ids&apos;, &apos;in&apos;, company_id)])","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false,"relation":"res.users"}}'
                                 style="width: 302px">
-                                <div class="d-flex">Request Type</div>
+                                <div class="d-flex">Request Type</span>
+                                </div>
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
                             </th>
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="request_owner_id"
                                 class="align-middle o_column_sortable position-relative cursor-pointer o_many2one_avatar_user_cell opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"request_owner_id","type":"many2one","widget":"many2one_avatar_user","widgetDescription":"Many2one","context":"{}","domain":"(company_id and [(&apos;company_ids&apos;, &apos;in&apos;, [company_id])] or []) + ([(&apos;company_ids&apos;, &apos;in&apos;, company_id)])","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false,"relation":"res.users"}}'
                                 style="width: 302px">
-                                <div class="d-flex">Reason</div>
+                                <div class="d-flex">Reason</span>
+                                </div>
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
                             </th>
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
                                 class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
                                 style="width: 203px">
                                 <div class="d-flex">
                                     <span class="d-block min-w-0 text-truncate flex-grow-1">Date</span>
@@ -141,6 +150,8 @@
                             </th>
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
                                 class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
                                 style="width: 203px">
                                 <div class="d-flex">
                                     <span class="d-block min-w-0 text-truncate flex-grow-1">Start Time</span>
@@ -150,6 +161,8 @@
                             </th>
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
                                 class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
                                 style="width: 203px">
                                 <div class="d-flex">
                                     <span class="d-block min-w-0 text-truncate flex-grow-1">End Time</span>
@@ -159,6 +172,8 @@
                             </th>
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
                                 class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
                                 style="width: 203px">
                                 <div class="d-flex">
                                     <span class="d-block min-w-0 text-truncate flex-grow-1">Status</span>
@@ -168,16 +183,18 @@
                             </th>
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
                                 class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
                                 style="width: 203px">
                                 <div class="d-flex">
-                                    <span class="d-block min-w-0 text-truncate flex-grow-1">Manage</span>
+                                    <span class="d-block min-w-0 text-truncate flex-grow-1">Response</span>
                                 </div>
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="ui-sortable" id="request_data-table tbody">
+                    <tbody class="ui-sortable">
                         <!-- Dynamic rows will be inserted here -->
                     </tbody>
                     <tfoot class="o_list_footer cursor-default">
@@ -204,24 +221,23 @@
     <div class="o_notification_manager"></div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get the current date
-        const today = new Date();
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the current date
+    const today = new Date();
 
-        // Extract the current year and month
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    // Extract the current year and month
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
 
-        // Set the value of the monthYearPicker input
-        const monthYearPicker = document.getElementById('monthYearPicker');
+    // Set the value of the monthYearPicker input
+    const monthYearPicker = document.getElementById('monthYearPicker');
 
-        // Check if monthYearPicker exists and is of type 'month'
-        if (monthYearPicker && monthYearPicker.type === 'month') {
-            monthYearPicker.value = `${year}-${month}`;
-        } else {
-            console.error('Month Year Picker input is missing or not of type month.');
-        }
-    });
+    // Check if monthYearPicker exists and is of type 'month'
+    if (monthYearPicker && monthYearPicker.type === 'month') {
+        monthYearPicker.value = `${year}-${month}`;
+    } else {
+        console.error('Month Year Picker input is missing or not of type month.');
+    }
+});
 </script>
-
 @endsection
