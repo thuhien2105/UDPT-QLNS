@@ -111,7 +111,7 @@
                         <tr>
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="name"
                                 class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
-                                style="width: 256px">
+                                style="width: 356px">
                                 <div class="d-flex">Name</div>
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
@@ -166,15 +166,6 @@
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
                             </th>
-                            <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
-                                class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
-                                style="width: 203px">
-                                <div class="d-flex">
-                                    <span class="d-block min-w-0 text-truncate flex-grow-1">Manage</span>
-                                </div>
-                                <span
-                                    class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
-                            </th>
                         </tr>
                     </thead>
                     <tbody class="ui-sortable" id="request_data-table tbody">
@@ -204,24 +195,24 @@
     <div class="o_notification_manager"></div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get the current date
-        const today = new Date();
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the current date
+    const today = new Date();
 
-        // Extract the current year and month
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    // Extract the current year and month
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
 
-        // Set the value of the monthYearPicker input
-        const monthYearPicker = document.getElementById('monthYearPicker');
+    // Set the value of the monthYearPicker input
+    const monthYearPicker = document.getElementById('monthYearPicker');
 
-        // Check if monthYearPicker exists and is of type 'month'
-        if (monthYearPicker && monthYearPicker.type === 'month') {
-            monthYearPicker.value = `${year}-${month}`;
-        } else {
-            console.error('Month Year Picker input is missing or not of type month.');
-        }
-    });
+    // Check if monthYearPicker exists and is of type 'month'
+    if (monthYearPicker && monthYearPicker.type === 'month') {
+        monthYearPicker.value = `${year}-${month}`;
+    } else {
+        console.error('Month Year Picker input is missing or not of type month.');
+    }
+});
 </script>
 
 @endsection
