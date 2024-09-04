@@ -221,23 +221,23 @@
     <div class="o_notification_manager"></div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the current date
-    const today = new Date();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the current date
+        const today = new Date();
 
-    // Extract the current year and month
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        // Extract the current year and month
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
 
-    // Set the value of the monthYearPicker input
-    const monthYearPicker = document.getElementById('monthYearPicker');
+        // Set the value of the monthYearPicker input
+        const monthYearPicker = document.getElementById('monthYearPicker');
 
-    // Check if monthYearPicker exists and is of type 'month'
-    if (monthYearPicker && monthYearPicker.type === 'month') {
-        monthYearPicker.value = `${year}-${month}`;
-    } else {
-        console.error('Month Year Picker input is missing or not of type month.');
-    }
-});
+        // Check if monthYearPicker exists and is of type 'month'
+        if (monthYearPicker && monthYearPicker.type === 'month') {
+            monthYearPicker.value = `${year}-${month}`;
+        } else {
+            console.error('Month Year Picker input is missing or not of type month.');
+        }
+    });
 </script>
 @endsection
