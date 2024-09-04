@@ -23,7 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('signin', [AuthController::class, 'signin']);
-Route::post('signout', [AuthController::class, 'logout']);
 
 
 
