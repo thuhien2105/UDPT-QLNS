@@ -48,13 +48,14 @@
                     <span class="input-group-text">Month & Year:</span>
                     <input type="month" class="form-control" id="monthYearPicker" name="monthYearPicker">
                 </div>
-                <div class="input-group ms-3">
+                <!-- <div class="input-group ms-3">
                     <span class="input-group-text">Status:</span>
                     <select class="form-select" id="statusPicker">
-                        <option value="Pending" selected>Pending</option>
-                        <option value="Complete">Complete</option>
+                        <option value="PENDING" selected>Pending</option>
+                        <option value="APPROVED">Approved</option>
+                        <option value="REJECTED">Rejected</option>
                     </select>
-                </div>
+                </div> -->
 
                 <div
                     class="o_control_panel_actions d-empty-none d-flex align-items-center justify-content-start justify-content-lg-around order-2 order-lg-1 w-100 w-lg-auto">
@@ -110,7 +111,7 @@
                                 class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
                                 data-tooltip-template="web.FieldTooltip"
                                 data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"name","type":"char","widget":null,"context":"{}","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false}}'
-                                style="width: 356px">
+                                style="width: 256px">
                                 <div class="d-flex">Employee's Name</span>
                                 </div>
                                 <span
@@ -176,6 +177,17 @@
                                 style="width: 203px">
                                 <div class="d-flex">
                                     <span class="d-block min-w-0 text-truncate flex-grow-1">Status</span>
+                                </div>
+                                <span
+                                    class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
+                            </th>
+                            <th data-tooltip-delay="1000" tabindex="-1" data-name="category_id"
+                                class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
+                                data-tooltip-template="web.FieldTooltip"
+                                data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"category_id","type":"many2one","widget":null,"context":"{}","domain":[],"invisible":null,"column_invisible":null,"readonly":null,"required":"True","changeDefault":false,"relation":"approval.category"}}'
+                                style="width: 203px">
+                                <div class="d-flex">
+                                    <span class="d-block min-w-0 text-truncate flex-grow-1">Response</span>
                                 </div>
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>

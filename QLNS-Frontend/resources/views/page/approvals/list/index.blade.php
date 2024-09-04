@@ -51,10 +51,6 @@
                         <span class="input-group-text">Month & Year:</span>
                         <input type="month" class="form-control" id="monthYearPicker" name="monthYearPicker">
                     </div>
-
-
-
-                    <button id="filterButton" class="btn btn-primary ms-2">Apply</button>
                 </div>
 
                 <div
@@ -113,13 +109,6 @@
                     id="request_data-table" style="table-layout: fixed">
                     <thead>
                         <tr>
-                            <th class="o_list_record_selector o_list_controller align-middle pe-1 cursor-pointer"
-                                tabindex="-1" style="width: 41px">
-                                <div class="o-checkbox form-check d-flex m-0">
-                                    <input type="checkbox" class="form-check-input" id="checkbox-comp-1" />
-                                    <label class="form-check-label" for="checkbox-comp-1"></label>
-                                </div>
-                            </th>
                             <th data-tooltip-delay="1000" tabindex="-1" data-name="name"
                                 class="align-middle o_column_sortable position-relative cursor-pointer opacity-trigger-hover"
                                 style="width: 356px">
@@ -179,8 +168,18 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="ui-sortable">
+                        <!-- Dynamic rows will be inserted here -->
                     </tbody>
+                    <tfoot class="o_list_footer cursor-default">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

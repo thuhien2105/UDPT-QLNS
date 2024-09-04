@@ -48,7 +48,6 @@ $(document).ready(function () {
             },
             dataType: "json",
             beforeSend: function () {
-                // Show a loading spinner or message
                 $("#data-table tbody").html(
                     '<tr><td colspan="8">Loading...</td></tr>'
                 );
@@ -94,6 +93,9 @@ $(document).ready(function () {
                             <button class="btn btn-success approve-btn me-2" data-id="${
                                 request.id
                             }">Approve</button>
+                            <button class="btn btn-danger reject-btn" data-id="${
+                                request.id
+                            }">Reject</button>
                         </td>
                     </tr>
                 `;
@@ -167,8 +169,11 @@ $(document).ready(function () {
                 Authorization: "Bearer " + token,
                 "X-CSRF-TOKEN": csrfToken,
             },
+            data: {
+                status: "APPROVED",
+            },
             success: function (response) {
-                if (response.status) {
+                if (response.response) {
                     alert("Request approved successfully!");
                     loadRequests(
                         $("#monthYearPicker").val(),
@@ -176,6 +181,36 @@ $(document).ready(function () {
                     );
                 } else {
                     alert("Failed to approve request.");
+                }
+            },
+            error: function (xhr) {
+                alert("An error occurred: " + xhr.responseText);
+            },
+        });
+    });
+
+    $("#data-table").on("click", ".reject-btn", function () {
+        const requestId = $(this).data("id");
+
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/request/approve/${requestId}`,
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + token,
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            data: {
+                status: "REJECTED",
+            },
+            success: function (response) {
+                if (response.response) {
+                    alert("Request rejected successfully!");
+                    loadRequests(
+                        $("#monthYearPicker").val(),
+                        $("#statusPicker").val()
+                    );
+                } else {
+                    alert("Failed to reject request.");
                 }
             },
             error: function (xhr) {
