@@ -168,7 +168,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="ui-sortable">
+                    <tbody class="ui-sortable" id="request_data-table tbody">
                         <!-- Dynamic rows will be inserted here -->
                     </tbody>
                     <tfoot class="o_list_footer cursor-default">
@@ -185,8 +185,34 @@
         </div>
     </div>
 </div>
-@endsection
 
-@section('scripts')
-<script src="{{ asset('js/request.js') }}"></script>
+<div class="o-main-components-container">
+    <div class="o-discuss-CallInvitations position-absolute top-0 end-0 d-flex flex-column p-2"></div>
+    <div class="o-mail-ChatWindowContainer"></div>
+    <div class="o-overlay-container"></div>
+    <div></div>
+    <div class="o_notification_manager o_upload_progress_toast"></div>
+    <div class="o_notification_manager"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the current date
+    const today = new Date();
+
+    // Extract the current year and month
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+
+    // Set the value of the monthYearPicker input
+    const monthYearPicker = document.getElementById('monthYearPicker');
+
+    // Check if monthYearPicker exists and is of type 'month'
+    if (monthYearPicker && monthYearPicker.type === 'month') {
+        monthYearPicker.value = `${year}-${month}`;
+    } else {
+        console.error('Month Year Picker input is missing or not of type month.');
+    }
+});
+</script>
+
 @endsection
