@@ -13,19 +13,19 @@ class ActivityTest extends TestCase
      *
      * @return void
      */
-    //  public function test_get_activities()
-    // {
-    //     $response = $this->json('GET', '/api/activities');
-    //     $responseData = $response->decodeResponseJson();
-    //     $response->assertJsonStructure([
-    //             'response' => [
-    //                 '*' => [
-    //                     'id',
-    //                     'name',
-    //                 ],
-    //             ]
-    //     ]);
-    // }
+     public function test_get_activities()
+    {
+        $response = $this->json('GET', '/api/activities');
+        $responseData = $response->decodeResponseJson();
+        $response->assertJsonStructure([
+                'response' => [
+                    '*' => [
+                        'id',
+                        'name',
+                    ],
+                ]
+        ]);
+    }
     public function test_get_activity()
     {
         $response = $this->json('GET', '/api/activities/1287633');
@@ -52,18 +52,18 @@ class ActivityTest extends TestCase
             ],
         ]);
     }
-    // public function test_create_activities()
-    // {
-    //     $response = $this->json('POST', '/api/activities', [
-    //         'name' => '1231123',
-    //         'id' => '119',
-    //     ]);
-    //     $responseData = $response->decodeResponseJson();
-    //     $response->assertJsonStructure([
-    //         'response' => [
-    //             'id',
-    //             'name',
-    //         ],
-    //     ]);
-    // }
+    public function test_create_activities()
+    {
+        $response = $this->json('POST', '/api/activities', [
+            'name' => '1231123',
+            'id' => '119',
+        ]);
+        $responseData = $response->decodeResponseJson();
+        $response->assertJsonStructure([
+            'response' => [
+                'id',
+                'name',
+            ],
+        ]);
+    }
 }
