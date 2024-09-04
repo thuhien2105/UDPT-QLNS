@@ -24,7 +24,7 @@ class MainController:
     def get_employee_gift(id):
         per_page=10
         if(request.args.get('per-page')):
-            per_page=request.args.get('per-page')
+            per_page=int(request.args.get('per-page'))
         page=0
         if(request.args.get('page')):
             page=int(request.args.get('page'))-1
@@ -34,9 +34,14 @@ class MainController:
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM gift where employee_id=%(emp_no)s limit %(perpage)s offset %(page)s ",{'emp_no':id,'perpage':per_page,'page':page*per_page})
             data = cursor.fetchall()
+            cursor.execute("SELECT count(*) total FROM gift where employee_id=%(emp_no)s ",{'emp_no':id})
+            total = cursor.fetchone()
+            total_page=int(total['total']/per_page)
+            if(total['total']%per_page>0):
+                total_page+=1
             cursor.close()
             conn.close()
-            return jsonify({'items':data}), 200
+            return jsonify({'items':data,'total_page': +total_page}), 200
         except Exception as e:
             _logger.error("An error occurred while retrieving activities: %s", e)
             return {"error": str(e)}, 500
@@ -67,7 +72,6 @@ class MainController:
     @routes.route("/employee/<string:id>/gift/<int:gift_id>", methods=["GET"])
     def get_employee_gift_detail(id,gift_id):
         conn = mysql_db_connection_reward()
-        print(123)
         try:
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM  gift g  where g.employee_id=%(emp_no)s and g.id=%(gift_id)s ",{'emp_no':id,'gift_id':int(gift_id)})
