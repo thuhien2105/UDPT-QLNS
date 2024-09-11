@@ -1,3 +1,6 @@
+
+from multiprocessing  import Process
+import os
 from flask import Flask
 from flask_eureka import Eureka
 from flask_cors import CORS
@@ -16,10 +19,22 @@ app.config["EUREKA"] = {
 }
 eureka = Eureka(app)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-CORS(app, origins=["http://localhost:8000", "http://localhost:9000"])
+CORS(app, origins=[ "http://localhost:9000"])
 
 app.register_blueprint(routes)
-app.register_blueprint(authorizationRoute)
+# app.register_blueprint(authorizationRoute)
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
+#     app.run(debug=True)
+from .config import RabbitMQWorker
+def startFile():
+    queue_name = 'topic-gift'
+    worker = RabbitMQWorker(queue_name, "")
+    worker.start_consuming()
+if __name__ == '__main__':
+    p = Process(target=startFile, args=())
+    p.start()
+    # p.detach() 
+
     app.run(debug=True)
+

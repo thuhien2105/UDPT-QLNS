@@ -6,6 +6,8 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\GiftController;
+use App\Http\Controllers\RewardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +60,19 @@ Route::get('/activities/{id}', [ActivityController::class, 'getActivity']);
 Route::get('/authorize', [ActivityController::class, 'activity_authorize']);
 Route::get('/callback', [ActivityController::class, 'activity_callback']);
 Route::post('/refresh_token', [ActivityController::class, 'activity_refreshToken']);
+
+Route::get('/gift/list', [GiftController::class, 'getGiftList']);
+Route::get('/gift/category/list', [GiftController::class, 'getCategoryList']);
+Route::get('/gift/brand/list', [GiftController::class, 'getBrandList']);
+Route::get('/gift/brand/{id}', [GiftController::class, 'getBrandDetail']);
+Route::get('/gift/filter', [GiftController::class, 'getFilter']);
+Route::post('/gift/{gift_id}/{id}', [GiftController::class, 'buyGiftSubitem']);
+Route::get('/gift/{gift_id}/{id}', [GiftController::class, 'getGiftSubitem']);
+Route::get('/gift/{id}', [GiftController::class, 'getGiftDetail']);
+
+
+
+
+Route::get('/reward/employee/{id}', [RewardController::class, 'getGiftAccount']);
+Route::get('/reward/employee/{id}/gift', [RewardController::class, 'getGiftAccountGift']);
+Route::get('/reward/employee/{id}/gift/{gift_id}', [RewardController::class, 'getGiftAccountGiftDetail']);

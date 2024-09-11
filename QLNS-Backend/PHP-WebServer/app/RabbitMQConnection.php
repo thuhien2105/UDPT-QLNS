@@ -12,7 +12,10 @@ class RabbitMQConnection
     private $channel;
     private $employeeQueue;
     private $requestQueue;
+    private $rewardQueue;
+    private $giftQueue;
     private $authQueue;
+    private $activityQueue;
 
     public function __construct()
     {
@@ -28,18 +31,24 @@ class RabbitMQConnection
         $this->requestQueue = 'topic-requests';
         $this->authQueue = 'topic-auths';
         $this->activityQueue = 'topic-activities';
-
+        $this->rewardQueue = 'topic-reward';
+        $this->giftQueue = 'topic-gift';
         $this->channel->exchange_declare('exchange', 'direct', false, true, false);
 
         $this->channel->queue_declare($this->employeeQueue, false, true, false, false);
         $this->channel->queue_declare($this->requestQueue, false, true, false, false);
         $this->channel->queue_declare($this->authQueue, false, true, false, false);
         $this->channel->queue_declare($this->activityQueue, false, true, false, false);
+        $this->channel->queue_declare($this->rewardQueue, false, true, false, false);
+        $this->channel->queue_declare($this->giftQueue, false, true, false, false);
+
 
         $this->channel->queue_bind($this->employeeQueue, 'exchange', 'employee_queue');
         $this->channel->queue_bind($this->requestQueue, 'exchange', 'request_queue');
         $this->channel->queue_bind($this->authQueue, 'exchange', 'auth_queue');
         $this->channel->queue_bind($this->activityQueue, 'exchange', 'activity_queue');
+        $this->channel->queue_bind($this->rewardQueue, 'exchange', 'reward_queue');
+        $this->channel->queue_bind($this->giftQueue, 'exchange', 'gift_queue');
     }
     public function sendToEmployeeQueue($messageBody)
     {
@@ -59,6 +68,16 @@ class RabbitMQConnection
     {
         return $this->send($messageBody, 'exchange', 'activity_queue');
     }
+    public function sendToRewardQueue($messageBody)
+    {
+        return $this->send($messageBody, 'exchange', 'gift_queue');
+    }
+    public function sendToGiftQueue($messageBody)
+    {
+        return $this->send($messageBody, 'exchange', 'gift_queue');
+    }
+
+
 
 
     private function send($messageBody, $exchange, $routingKey)

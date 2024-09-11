@@ -18,7 +18,7 @@ $(document).ready(function () {
     const hasBrand = brand !== null;
 
     $.ajax({
-        url: `http://localhost:5000/employee/${userID}`,
+        url: `http://localhost:8000/api/reward/employee/${userID}`,
         method: "GET",
         dataType: "json",
         success: function (data) {
@@ -31,7 +31,7 @@ $(document).ready(function () {
         $(".o_pager_value").text(page);
         if (hasType) {
             if (type == "category") {
-                var url = `http://localhost:5000/category/list?page=${page}`;
+                var url = `http://localhost:8000/api/gift/category/list?page=${page}`;
                 if (hasQ) {
                     url += `&q=${q}`;
                 }
@@ -103,7 +103,7 @@ $(document).ready(function () {
             } else if (type == "brand") {
                 if (hasId) {
                     $.ajax({
-                        url: `http://localhost:5000/brand/${id}`,
+                        url: `http://localhost:8000/api/gift/brand/${id}`,
                         method: "GET",
                         dataType: "json",
                         success: function (data) {
@@ -150,7 +150,7 @@ $(document).ready(function () {
                         },
                     });
                 } else {
-                    var url = `http://localhost:5000/brand/list?page=${page}`;
+                    var url = `http://localhost:8000/api/gift/brand/list?page=${page}`;
                     if (hasQ) {
                         url += `&q=${q}`;
                     }
@@ -223,7 +223,7 @@ $(document).ready(function () {
             } else if (type == "gift") {
                 if (hasId) {
                     $.ajax({
-                        url: `http://localhost:5000/gift/${id}`,
+                        url: `http://localhost:8000/gift/${id}`,
                         method: "GET",
                         dataType: "json",
                         success: function (data) {
@@ -308,7 +308,7 @@ $(document).ready(function () {
                         },
                     });
                 } else {
-                    var url = `http://localhost:5000/gift/list?page=${page}`;
+                    var url = `http://localhost:8000/gift/list?page=${page}`;
                     if (hasQ) {
                         url += `&q=${q}`;
                     }
@@ -385,7 +385,7 @@ $(document).ready(function () {
                 if (hasId) {
                     const gift_id = urlParams.get("gift_id");
                     $.ajax({
-                        url: `http://localhost:5000/gift/${gift_id}/${id}`,
+                        url: `http://localhost:8000/gift/${gift_id}/${id}`,
                         method: "GET",
                         dataType: "json",
                         success: function (data) {
@@ -449,7 +449,7 @@ $(document).ready(function () {
                 }
             } else if (type == "manager") {
                 if (hasId) {
-                    var url = `http://localhost:5000/employee/${userID}/gift/${id}`;
+                    var url = `http://localhost:8000/api/reward/employee/${userID}/gift/${id}`;
                     $.ajax({
                         url: url,
                         method: "GET",
@@ -470,7 +470,7 @@ $(document).ready(function () {
                         error: function () {},
                     });
                 } else {
-                    var url = `http://localhost:5000/employee/${userID}/gift?page=${2}`;
+                    var url = `http://localhost:8000/api/reward/employee/${userID}/gift?page=${2}`;
                     if (hasQ) {
                         url += `&q=${q}`;
                     }
@@ -589,7 +589,7 @@ $(document).ready(function () {
     $("#action_confirm").click(function () {
         const gift_id = urlParams.get("gift_id");
         $.ajax({
-            url: `http://localhost:5000/gift/${gift_id}/${id}`,
+            url: `http://localhost:8000/gift/${gift_id}/${id}`,
             method: "POST",
             dataType: "json",
             data: JSON.stringify({
