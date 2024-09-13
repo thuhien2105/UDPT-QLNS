@@ -130,8 +130,42 @@ public class EmployeeService {
             throw new IllegalArgumentException("Employee with ID " + employee.getEmployeeId() + " does not exist.");
         }
 
-        return employeeRepository.save(employee);
+        Employee existingEmployee = employeeRepository.findById(employee.getEmployeeId())
+                .orElseThrow(() -> new IllegalArgumentException("Employee with ID " + employee.getEmployeeId() + " does not exist."));
+
+        if (employee.getAddress() != null) {
+            existingEmployee.setAddress(employee.getAddress());
+        }
+        if (employee.getBankAccount() != null) {
+            existingEmployee.setBankAccount(employee.getBankAccount());
+        }
+        if (employee.getDob() != null) {
+            existingEmployee.setDob(employee.getDob());
+        }
+        if (employee.getEmail() != null) {
+            existingEmployee.setEmail(employee.getEmail());
+        }
+        if (employee.getIdentityCard() != null) {
+            existingEmployee.setIdentityCard(employee.getIdentityCard());
+        }
+
+        if (employee.getPhoneNumber() != null) {
+            existingEmployee.setPhoneNumber(employee.getPhoneNumber());
+        }
+        if (employee.getPosition() != null) {
+            existingEmployee.setPosition(employee.getPosition());
+        }
+        if (employee.getRole() != null) {
+            existingEmployee.setRole(employee.getRole());
+        }
+        if (employee.getTaxCode() != null) {
+            existingEmployee.setTaxCode(employee.getTaxCode());
+        }
+
+
+        return employeeRepository.save(existingEmployee);
     }
+
 
     public boolean deleteEmployee(String id) {
         if (employeeRepository.existsById(id)) {
