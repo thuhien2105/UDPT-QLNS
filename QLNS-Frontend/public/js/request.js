@@ -109,9 +109,7 @@ $(document).ready(function () {
                                     ${request.status ? request.status : ""}
                                 </td>
                                <td>
-            <button class="btn btn-primary btn-update" data-id="${
-                request.id
-            }">Update</button>
+            
             <button class="btn btn-danger btn-delete" data-id="${
                 request.id
             }">Delete</button>

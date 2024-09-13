@@ -90,12 +90,15 @@ $(document).ready(function () {
                             ${request.status ? request.status : ""}
                         </td>
                         <td class="o_data_cell cursor-pointer o_field_cell o_list_char" tabindex="-1" name="actions">
-                            <button class="btn btn-success approve-btn me-2" data-id="${
-                                request.id
-                            }">Approve</button>
-                            <button class="btn btn-danger reject-btn" data-id="${
-                                request.id
-                            }">Reject</button>
+                            ${
+                                request.status !== "REJECTED" &&
+                                request.status !== "APPROVED"
+                                    ? `
+                                <button class="btn btn-success approve-btn me-2" data-id="${request.id}">Approve</button>
+                                <button class="btn btn-danger reject-btn" data-id="${request.id}">Reject</button>
+                            `
+                                    : ""
+                            }
                         </td>
                     </tr>
                 `;
