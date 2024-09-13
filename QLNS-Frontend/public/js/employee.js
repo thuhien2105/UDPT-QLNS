@@ -28,8 +28,7 @@ $(document).ready(function () {
                     },
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
-                        $("#employee-id").val(data.employee.id || "");
+                        $("#employee-id").val(data.employee.employee_id || "");
                         $("#name_0").val(data.employee.name || "");
                         $("#title_0").text(data.employee.name || "");
                         $("#dob_0").val(data.employee.dob || "");
