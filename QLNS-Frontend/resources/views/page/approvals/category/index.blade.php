@@ -44,29 +44,7 @@
                     <span class="d-none d-xl-block me-auto"></span>
                 </div>
 
-                <div
-                    class="o_control_panel_actions d-empty-none d-flex align-items-center justify-content-start justify-content-lg-around order-2 order-lg-1 w-100 w-lg-auto">
-                    <div class="o_cp_searchview d-flex input-group" role="search">
-                        <div class="o_searchview form-control d-print-contents d-flex align-items-center py-1"
-                            role="search" aria-autocomplete="list">
-                            <i class="o_searchview_icon d-print-none fa fa-search me-2" role="img"
-                                aria-label="Search..." title="Search..."></i>
-                            <div class="o_searchview_input_container d-flex flex-grow-1 flex-wrap gap-1">
-                                <input type="text"
-                                    class="o_searchview_input o_input d-print-none flex-grow-1 w-auto border-0"
-                                    placeholder="Search..." role="searchbox" data-hotkey="Q" />
-                            </div>
-                        </div>
-                        <div class="o-dropdown dropdown o-dropdown--no-caret">
-                            <button type="button"
-                                class="dropdown-toggle o_searchview_dropdown_toggler d-print-none btn btn-outline-secondary o-no-caret rounded-start-0 h-100"
-                                tabindex="0" aria-expanded="false">
-                                <i class="fa fa-caret-down" aria-hidden="true" data-hotkey="shift+q"
-                                    title="Toggle Search Panel"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
                 <div
                     class="o_control_panel_navigation d-flex flex-wrap flex-md-nowrap justify-content-end gap-3 gap-lg-1 gap-xl-3 order-1 order-lg-2 flex-grow-1">
                     <div class="o_cp_pager text-nowrap " role="search">
