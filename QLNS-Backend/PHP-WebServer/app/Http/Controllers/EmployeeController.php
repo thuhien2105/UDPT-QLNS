@@ -78,10 +78,10 @@ class EmployeeController extends Controller
             'address' => 'nullable|string|max:255',
             'email' => 'required|string|max:255',
             'position' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
-            'tax_code' => 'required|string|max:20',
-            'bank_account' => 'required|string|max:20',
-            'identity_card' => 'required|string|max:20',
+            'phoneNumber' => 'required|string|max:20',
+            'taxCode' => 'required|string|max:20',
+            'bankAccount' => 'required|string|max:20',
+            'identityCard' => 'required|string|max:20',
             'role' => 'required|string|in:employee,manager'
         ]);
         $message = json_encode(['action' => 'create', 'employee' => $validatedData]);
@@ -97,15 +97,15 @@ class EmployeeController extends Controller
         $user = $request->attributes->get('payload');
 
         $validatedData = $request->validate([
-            'employee_id' => 'required|string',
+            'employeeId' => 'required|string',
             'dob' => 'nullable|date',
             'address' => 'nullable|string|max:255',
             'email' => 'required|string|max:255',
             'position' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
-            'tax_code' => 'required|string|max:20',
-            'bank_account' => 'required|string|max:20',
-            'identity_card' => 'required|string|max:20',
+            'phoneNumber' => 'required|string|max:20',
+            'taxCode' => 'required|string|max:20',
+            'bankAccount' => 'required|string|max:20',
+            'identityCard' => 'required|string|max:20',
             'role' => 'required|string|in:employee,manager'
         ]);
 

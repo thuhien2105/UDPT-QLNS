@@ -1,15 +1,18 @@
 package com.example.demo.employee;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class Employee implements Serializable {
 
-    @Id
+	@Id
     @Column(name = "employee_id")
-    private String employee_id;
+    private String employeeId;
 
     @Column(name = "name")
     private String name;
@@ -26,37 +29,45 @@ public class Employee {
     @Column(name = "address")
     private String address;
 
+    @JsonProperty("phone_number")
     @Column(name = "phone_number")
     private String phone_number;
 
+    @JsonProperty("email")
     @Column(name = "email")
     private String email;
 
+    @JsonProperty("position")
     @Column(name = "position")
     private String position;
 
+    @JsonProperty("tax_code")
     @Column(name = "tax_code")
     private String tax_code;
 
+    @JsonProperty("bank_account")
     @Column(name = "bank_account")
     private String bank_account;
 
+    @JsonProperty("identity_card")
     @Column(name = "identity_card")
     private String identity_card;
 
     @Column(name = "created_at")
-    private Timestamp created_at;
+    private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
 
+    // Getters and Setters
+
     public String getEmployeeId() {
-        return employee_id;
+        return employeeId;
     }
 
-    public void setEmployeeId(String employee_id) {
-        this.employee_id = employee_id;
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getName() {
@@ -100,11 +111,11 @@ public class Employee {
     }
 
     public String getPhoneNumber() {
-        return phone_number;
+        return phoneNumber;
     }
 
-    public void setPhoneNumber(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -124,35 +135,35 @@ public class Employee {
     }
 
     public String getTaxCode() {
-        return tax_code;
+        return taxCode;
     }
 
-    public void setTaxCode(String tax_code) {
-        this.tax_code = tax_code;
+    public void setTaxCode(String taxCode) {
+        this.taxCode = taxCode;
     }
 
     public String getBankAccount() {
-        return bank_account;
+        return bankAccount;
     }
 
-    public void setBankAccount(String bank_account) {
-        this.bank_account = bank_account;
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public String getIdentityCard() {
-        return identity_card;
+        return identityCard;
     }
 
-    public void setIdentityCard(String identity_card) {
-        this.identity_card = identity_card;
+    public void setIdentityCard(String identityCard) {
+        this.identityCard = identityCard;
     }
 
-    public Timestamp getCreatedAt() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreatedAt(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Role getRole() {
@@ -164,7 +175,7 @@ public class Employee {
     }
 
     public enum Role {
-        employee,
-        manager
+        EMPLOYEE,
+        MANAGER
     }
 }
