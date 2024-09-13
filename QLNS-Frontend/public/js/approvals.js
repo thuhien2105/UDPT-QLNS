@@ -232,8 +232,16 @@ $(document).ready(function () {
             reason: $("#reason").val(),
         };
 
-        createRequest(requestData);
+        if (validateDates(requestData.start_time, requestData.end_time)) {
+            createRequest(requestData);
+        } else {
+            alert("Start date must be earlier than end date.");
+        }
     });
+
+    function validateDates(startDate, endDate) {
+        return new Date(startDate) < new Date(endDate);
+    }
 
     function createRequest(data) {
         $.ajax({
@@ -265,6 +273,10 @@ $(document).ready(function () {
         return dateTimeString.replace(" ", "T");
     }
 
+    function validateDates(startDate, endDate) {
+        return new Date(startDate) < new Date(endDate);
+    }
+
     $("#submit-request").click(function () {
         const requestData = {
             request_type:
@@ -276,6 +288,10 @@ $(document).ready(function () {
             reason: $("#reason").val(),
         };
 
-        createRequest(requestData);
+        if (validateDates(requestData.start_time, requestData.end_time)) {
+            createRequest(requestData);
+        } else {
+            alert("Start date must be earlier than end date.");
+        }
     });
 });
