@@ -21,7 +21,12 @@ $(document).ready(function () {
         url: `http://localhost:8000/api/reward/employee/${userID}`,
         method: "GET",
         dataType: "json",
-        success: function (data) {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+        success: function (response) {
+            const data = response.response
             $("#point_0").text(` - ${data.point} Points`);
         },
         error: function () {},
@@ -39,9 +44,13 @@ $(document).ready(function () {
                     url: url,
                     method: "GET",
                     dataType: "json",
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
                     success: function (response) {
-                        const data = response.items;
-                        max_page = response.total_page;
+                        const data = response.response.items;
+                        max_page = response.response.total_page;
                         $(".o_pager_limit").text(max_page);
                         let rowsHtml = "";
                         for (let i = 0; i < data.length; i++) {
@@ -106,7 +115,12 @@ $(document).ready(function () {
                         url: `http://localhost:8000/api/gift/brand/${id}`,
                         method: "GET",
                         dataType: "json",
-                        success: function (data) {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                        success: function (response) {
+                            const data = response.response
                             $("#name_0").val(data.title);
                             $("#title_0").text(data.title);
                             $("#description_0").val(data.mota);
@@ -158,9 +172,13 @@ $(document).ready(function () {
                         url: url,
                         method: "GET",
                         dataType: "json",
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
                         success: function (response) {
-                            const data = response.items;
-                            max_page = response.total_page;
+                            const data = response.response.items;
+                            max_page = response.response.total_page;
                             $(".o_pager_limit").text(max_page);
                             let rowsHtml = "";
                             for (let i = 0; i < data.length; i++) {
@@ -223,10 +241,15 @@ $(document).ready(function () {
             } else if (type == "gift") {
                 if (hasId) {
                     $.ajax({
-                        url: `http://localhost:8000/gift/${id}`,
+                        url: `http://localhost:8000/api/gift/${id}`,
                         method: "GET",
                         dataType: "json",
-                        success: function (data) {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                        success: function (response) {
+                            const data = response.response
                             $("#name_0").val(data.name);
                             $("#title_0").text(data.name);
                             $("#link_0").text(data.brand.title);
@@ -308,7 +331,7 @@ $(document).ready(function () {
                         },
                     });
                 } else {
-                    var url = `http://localhost:8000/gift/list?page=${page}`;
+                    var url = `http://localhost:8000/api/gift/list?page=${page}`;
                     if (hasQ) {
                         url += `&q=${q}`;
                     }
@@ -322,9 +345,13 @@ $(document).ready(function () {
                         url: url,
                         method: "GET",
                         dataType: "json",
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
                         success: function (response) {
-                            const data = response.items;
-                            max_page = response.total_page;
+                            const data = response.response.items;
+                            max_page = response.response.total_page;
                             $(".o_pager_limit").text(max_page);
                             let rowsHtml = "";
                             for (let i = 0; i < data.length; i++) {
@@ -385,10 +412,15 @@ $(document).ready(function () {
                 if (hasId) {
                     const gift_id = urlParams.get("gift_id");
                     $.ajax({
-                        url: `http://localhost:8000/gift/${gift_id}/${id}`,
+                        url: `http://localhost:8000/api/gift/${gift_id}/${id}`,
                         method: "GET",
                         dataType: "json",
-                        success: function (data) {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                        success: function (response) {
+                            const data = response.response
                             $("#name_0").val(data.title);
                             $("#title_0").text(data.title);
                             $("#link_0").val(data.images);
@@ -454,7 +486,12 @@ $(document).ready(function () {
                         url: url,
                         method: "GET",
                         dataType: "json",
-                        success: function (data) {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                        success: function (response) {
+                            const data = response.response
                             $("#name_0").val(data.gift_name);
                             $("#title_0").text(data.gift_name);
                             $("#image_1920").attr("src", data.gift_image);
@@ -478,9 +515,13 @@ $(document).ready(function () {
                         url: url,
                         method: "GET",
                         dataType: "json",
+                    headers: {
+                        Authorization: "Bearer " + token,
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
                         success: function (response) {
-                            const data = response.items;
-                            max_page = response.total_page;
+                            const data = response.response.items;
+                            max_page = response.response.total_page;
                             $(".o_pager_limit").text(max_page);
                             let rowsHtml = "";
                             for (let i = 0; i < data.length; i++) {
@@ -589,10 +630,14 @@ $(document).ready(function () {
     $("#action_confirm").click(function () {
         const gift_id = urlParams.get("gift_id");
         $.ajax({
-            url: `http://localhost:8000/gift/${gift_id}/${id}`,
+            url: `http://localhost:8000/api/gift/${gift_id}/${id}`,
             method: "POST",
             dataType: "json",
-            data: JSON.stringify({
+            headers: {
+                Authorization: "Bearer " + token,
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            data: ({
                 employee_id: userID,
                 id,
             }),
