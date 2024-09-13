@@ -204,23 +204,17 @@ public class EmployeeController {
         System.out.println("Employee map: " + employeeMap);
 
         try {
-            // Convert employeeMap to Employee
             Employee employee = fromJson(employeeMap, Employee.class);
             System.out.println("Employee before save: " + employee);
 
-            // Set a new ID for the employee
-            employee.setEmployeeId(UUID.randomUUID().toString());
-
-            // Create and save the employee
+            employee.setEmployeeId(null);
             Employee createdEmployee = employeeService.createEmployee(employee);
             System.out.println("Created employee after save: " + createdEmployee);
 
-            // Return response
             return objectMapper.createObjectNode()
                     .put("status", "Employee created")
                     .set("employee", toJson(createdEmployee));
         } catch (Exception e) {
-            // Handle errors
             return objectMapper.createObjectNode()
                     .put("status", "Error creating employee")
                     .put("error", e.getMessage());

@@ -1,18 +1,15 @@
 package com.example.demo.employee;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "employees")
-public class Employee implements Serializable {
+public class Employee {
 
-	@Id
+    @Id
     @Column(name = "employee_id")
-    private String employeeId;
+    private String employee_id;
 
     @Column(name = "name")
     private String name;
@@ -29,45 +26,37 @@ public class Employee implements Serializable {
     @Column(name = "address")
     private String address;
 
-    @JsonProperty("phone_number")
     @Column(name = "phone_number")
     private String phone_number;
 
-    @JsonProperty("email")
     @Column(name = "email")
     private String email;
 
-    @JsonProperty("position")
     @Column(name = "position")
     private String position;
 
-    @JsonProperty("tax_code")
     @Column(name = "tax_code")
     private String tax_code;
 
-    @JsonProperty("bank_account")
     @Column(name = "bank_account")
     private String bank_account;
 
-    @JsonProperty("identity_card")
     @Column(name = "identity_card")
     private String identity_card;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Timestamp created_at;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
 
-    // Getters and Setters
-
     public String getEmployeeId() {
-        return employeeId;
+        return employee_id;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployeeId(String employee_id) {
+        this.employee_id = employee_id;
     }
 
     public String getName() {
@@ -111,11 +100,11 @@ public class Employee implements Serializable {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String phone_number) {
+        this.phone_number = phone_number;
     }
 
     public String getEmail() {
@@ -135,35 +124,35 @@ public class Employee implements Serializable {
     }
 
     public String getTaxCode() {
-        return taxCode;
+        return tax_code;
     }
 
-    public void setTaxCode(String taxCode) {
-        this.taxCode = taxCode;
+    public void setTaxCode(String tax_code) {
+        this.tax_code = tax_code;
     }
 
     public String getBankAccount() {
-        return bankAccount;
+        return bank_account;
     }
 
-    public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
+    public void setBankAccount(String bank_account) {
+        this.bank_account = bank_account;
     }
 
     public String getIdentityCard() {
-        return identityCard;
+        return identity_card;
     }
 
-    public void setIdentityCard(String identityCard) {
-        this.identityCard = identityCard;
+    public void setIdentityCard(String identity_card) {
+        this.identity_card = identity_card;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public Timestamp getCreatedAt() {
+        return created_at;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedAt(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
     public Role getRole() {
@@ -175,7 +164,7 @@ public class Employee implements Serializable {
     }
 
     public enum Role {
-        EMPLOYEE,
-        MANAGER
+        employee,
+        manager
     }
 }
