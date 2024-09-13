@@ -57,7 +57,7 @@
                                         <h1 class="d-flex flex-row align-items-center">
                                             <div name="name" class="o_field_widget o_required_modifier o_field_char"
                                                 style="font-size: min(4vw, 2.6rem);"><input class="o_input" id="name_0"
-                                                    type="text" autocomplete="off" placeholder="Employee's Name"></div>
+                                                    type="text" autocomplete="off" placeholder="Gift's Name"></div>
                                         </h1>
                                     </div>
                                     <div class="o_employee_avatar m-0 p-0" style="width:auto">

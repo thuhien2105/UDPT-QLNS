@@ -112,7 +112,7 @@
                                 data-tooltip-template="web.FieldTooltip"
                                 data-tooltip-info='{"viewMode":"list","resModel":"approval.request","debug":true,"field":{"name":"name","type":"char","widget":null,"context":"{}","invisible":null,"column_invisible":null,"readonly":null,"required":null,"changeDefault":false}}'
                                 style="width: 256px">
-                                <div class="d-flex">Employee's Name</span>
+                                <div class="d-flex">Request's Name</span>
                                 </div>
                                 <span
                                     class="o_resize position-absolute top-0 end-0 bottom-0 ps-1 bg-black-25 opacity-0 opacity-50-hover z-index-1"></span>
