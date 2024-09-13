@@ -101,6 +101,7 @@ class EmployeeController extends Controller
             'dob' => 'nullable|date',
             'address' => 'nullable|string|max:255',
             'email' => 'required|string|max:255',
+            'name'=> 'required|string|max:255',
             'position' => 'required|string|max:255',
             'phoneNumber' => 'required|string|max:20',
             'taxCode' => 'required|string|max:20',
@@ -117,8 +118,6 @@ class EmployeeController extends Controller
             foreach ($keys as $key) {
                 Cache::forget($key);
             }
-
-
             return response()->json($response);
         }
 
