@@ -77,7 +77,7 @@
                 <div class="o_form_renderer o_form_editable d-flex flex-column o_form_saved">
                     <form id="edit-employee" action="/employees/edit" method="PUT">
                         @csrf
-                        <input type="hidden" name="id" id="employee-id" value="">
+                        <input type="hidden" name="employee_id" id="employee-id" value="">
                         <div class="o_form_sheet_bg">
                             <div
                                 class="o_form_statusbar position-relative d-flex justify-content-between mb-0 mb-md-2 pb-2 pb-md-0">

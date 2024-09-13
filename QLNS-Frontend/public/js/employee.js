@@ -27,8 +27,7 @@ $(document).ready(function () {
                     },
                     dataType: "json",
                     success: function (data) {
-                        console.log(data)
-                        $("#employee-id").val(data.employee.id || "");
+                        $("#employee-id").val(data.employee.employee_id || "");
                         $("#name_0").val(data.employee.name || "");
                         $("#title_0").text(data.employee.name || "");
                         $("#dob_0").val(data.employee.dob || "");
@@ -222,7 +221,7 @@ $(document).ready(function () {
                 "X-CSRF-TOKEN": csrfToken,
             },
             success: function (response) {
-                // window.location.href = "/employees?type=employee";
+                window.location.href = "/employees?type=employee";
             },
             error: function (xhr) {
                 console.error("Request failed:", xhr.responseText);
@@ -297,6 +296,7 @@ $(document).ready(function () {
                 "X-CSRF-TOKEN": csrfToken,
             },
             success: function (response) {
+                console.log(response)
                 if (response.status) alert("Cập nhật thành công !!!");
             },
             error: function (xhr) {
