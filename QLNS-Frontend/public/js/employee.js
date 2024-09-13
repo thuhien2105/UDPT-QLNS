@@ -7,15 +7,16 @@ $(document).ready(function () {
     function minutesToHHMM(minutes) {
         const hours = Math.floor(minutes / 60);
         const mins = minutes % 60;
-        return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+        return `${String(hours).padStart(
+            2,
+            "0"
+        )}:${String(mins).padStart(2, "0")}`;
     }
     var page = 1;
     var max_page = 1;
 
-
-
     function load() {
-        $('.o_pager_value').text(page)
+        $(".o_pager_value").text(page);
         if (id != null) {
             if (type == "employee")
                 $.ajax({
@@ -27,17 +28,24 @@ $(document).ready(function () {
                     },
                     dataType: "json",
                     success: function (data) {
-                        $("#employee-id").val(data.employee.employee_id || "");
+                        console.log(data);
+                        $("#employee-id").val(data.employee.id || "");
                         $("#name_0").val(data.employee.name || "");
                         $("#title_0").text(data.employee.name || "");
                         $("#dob_0").val(data.employee.dob || "");
                         $("#address_0").val(data.employee.address || "");
-                        $("#phone_number_0").val(data.employee.phone_number || "");
+                        $("#phone_number_0").val(
+                            data.employee.phone_number || ""
+                        );
                         $("#email_0").val(data.employee.email || "");
                         $("#position_0").val(data.employee.position || "");
                         $("#tax_code_0").val(data.employee.tax_code || "");
-                        $("#bank_account_0").val(data.employee.bank_account || "");
-                        $("#identity_card_0").val(data.employee.identity_card || "");
+                        $("#bank_account_0").val(
+                            data.employee.bank_account || ""
+                        );
+                        $("#identity_card_0").val(
+                            data.employee.identity_card || ""
+                        );
                         $("#role_0").val(data.employee.role || "");
                     },
                     error: function () {
@@ -73,22 +81,47 @@ $(document).ready(function () {
 
                             let is_exists = false;
 
-                            for (let index = 0; index < group_date.length; index++) {
-                                if (group_date[index].key === `${year}/${month}/${day}`) {
+                            for (
+                                let index = 0;
+                                index < group_date.length;
+                                index++
+                            ) {
+                                if (
+                                    group_date[index].key ===
+                                    `${year}/${month}/${day}`
+                                ) {
                                     is_exists = true;
 
                                     if (request_type === "CHECK_IN") {
-                                        group_date[index] = { ...group_date[index], start_date: request_date };
+                                        group_date[index] = {
+                                            ...group_date[index],
+                                            start_date: request_date,
+                                        };
                                     } else if (request_type === "CHECK_OUT") {
-                                        group_date[index] = { ...group_date[index], end_date: request_date };
+                                        group_date[index] = {
+                                            ...group_date[index],
+                                            end_date: request_date,
+                                        };
                                     }
 
-                                    if (group_date[index].start_date && group_date[index].end_date) {
-                                        const startDate = new Date(group_date[index].start_date);
-                                        const endDate = new Date(group_date[index].end_date);
+                                    if (
+                                        group_date[index].start_date &&
+                                        group_date[index].end_date
+                                    ) {
+                                        const startDate = new Date(
+                                            group_date[index].start_date
+                                        );
+                                        const endDate = new Date(
+                                            group_date[index].end_date
+                                        );
                                         const diffTime = endDate - startDate;
-                                        const diffMinutes = Math.floor(diffTime / (1000 * 60));
-                                        group_date[index] = { ...group_date[index], time: diffMinutes };
+                                        const diffMinutes = Math.floor(
+                                            diffTime / (1000 * 60)
+                                        );
+                                        group_date[index] = {
+                                            ...group_date[index],
+                                            time: diffMinutes,
+                                        };
                                     }
                                     break;
                                 }
@@ -97,8 +130,14 @@ $(document).ready(function () {
                                 group_date.push({
                                     key: `${year}/${month}/${day}`,
                                     time: 0,
-                                    start_date: request_type === "CHECK_IN" ? request_date : "",
-                                    end_date: request_type === "CHECK_OUT" ? request_date : "",
+                                    start_date:
+                                        request_type === "CHECK_IN"
+                                            ? request_date
+                                            : "",
+                                    end_date:
+                                        request_type === "CHECK_OUT"
+                                            ? request_date
+                                            : "",
                                 });
                             }
                         }
@@ -108,17 +147,44 @@ $(document).ready(function () {
                             rowsHtml += `
                             <tr>
                                 <td class="o_data_cell cursor-pointer o_field_cell o_list_activity_cell" data-tooltip-delay="1000" tabindex="-1" name="start_date" data-tooltip="
-                                ${element.start_date ? new Date(element.start_date).toLocaleString() : ""}">
-                                ${element.start_date ? new Date(element.start_date).toLocaleString() : ""}
+                                ${
+                                    element.start_date
+                                        ? new Date(
+                                              element.start_date
+                                          ).toLocaleString()
+                                        : ""
+                                }">
+                                ${
+                                    element.start_date
+                                        ? new Date(
+                                              element.start_date
+                                          ).toLocaleString()
+                                        : ""
+                                }
                                 </td>
                                 <td class="o_data_cell cursor-pointer o_field_cell o_list_activity_cell" data-tooltip-delay="1000" tabindex="-1" name="end_date" data-tooltip="${
-                                    element.end_date? new Date(element.end_date).toLocaleString(): ""}">
-                                    ${element.end_date? new Date(element.end_date).toLocaleString(): ""}
+                                    element.end_date
+                                        ? new Date(
+                                              element.end_date
+                                          ).toLocaleString()
+                                        : ""
+                                }">
+                                    ${
+                                        element.end_date
+                                            ? new Date(
+                                                  element.end_date
+                                              ).toLocaleString()
+                                            : ""
+                                    }
                                 </td>
                                 <td class="o_data_cell cursor-pointer o_field_cell o_list_many2one o_required_modifier" data-tooltip-delay="1000" tabindex="-1" name="type" data-tooltip="${
                                     element.time
                                 }">
-                                    ${element.time ? minutesToHHMM(element.time): "00:00"}
+                                    ${
+                                        element.time
+                                            ? minutesToHHMM(element.time)
+                                            : "00:00"
+                                    }
                                 </td>
                             </tr>
                         `;
@@ -150,7 +216,9 @@ $(document).ready(function () {
                         "X-CSRF-TOKEN": csrfToken,
                     },
                     success: function (data) {
-                        const employees = Array.isArray(data.employees) ? data.employees : [data.employees];
+                        const employees = Array.isArray(data.employees)
+                            ? data.employees
+                            : [data.employees];
                         let rowsHtml = "";
                         max_page = data.totalPages;
                         $(".o_pager_limit").text(max_page);
@@ -196,17 +264,17 @@ $(document).ready(function () {
                 });
         }
     }
-    load()
+    load();
     $(".o_pager_previous").click(function () {
         if (page > 1) {
             page -= 1;
-            load()
+            load();
         }
     });
     $(".o_pager_next").click(function () {
         if (page < max_page) {
             page += 1;
-            load()
+            load();
         }
     });
     $("#create-employee").on("submit", function (event) {
@@ -221,7 +289,7 @@ $(document).ready(function () {
                 "X-CSRF-TOKEN": csrfToken,
             },
             success: function (response) {
-                window.location.href = "/employees?type=employee";
+                // window.location.href = "/employees?type=employee";
             },
             error: function (xhr) {
                 console.error("Request failed:", xhr.responseText);
@@ -296,7 +364,6 @@ $(document).ready(function () {
                 "X-CSRF-TOKEN": csrfToken,
             },
             success: function (response) {
-                console.log(response)
                 if (response.status) alert("Cập nhật thành công !!!");
             },
             error: function (xhr) {
