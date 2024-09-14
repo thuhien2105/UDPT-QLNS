@@ -29,12 +29,14 @@ class EmployeeController extends Controller
         $cachedResponse = Cache::get($cacheKey);
 
         if ($cachedResponse) {
-            return response()->json($cachedResponse);
+            // Xóa cache hiện tại trước khi lưu trữ lại cache mới
+            Cache::forget($cacheKey);
         }
 
         $message = json_encode(['action' => 'get_all', 'keyword' => $keyword, 'page' => $page]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
+        // Lưu trữ lại cache mới
         Cache::put($cacheKey, $response, now()->addMinutes(30));
 
         return response()->json($response);
@@ -50,12 +52,14 @@ class EmployeeController extends Controller
             $cachedResponse = Cache::get($cacheKey);
 
             if ($cachedResponse) {
-                return response()->json($cachedResponse);
+                // Xóa cache hiện tại trước khi lưu trữ lại cache mới
+                Cache::forget($cacheKey);
             }
 
             $message = json_encode(['action' => 'get', 'employee_id' => $employee_id]);
             $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
+            // Lưu trữ lại cache mới
             Cache::put($cacheKey, $response, now()->addMinutes(30));
 
             return response()->json($response);
@@ -109,14 +113,16 @@ class EmployeeController extends Controller
             'role' => 'required|string|in:employee,manager'
         ]);
 
-        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $validatedData['employee_id'])) {
+        if ($user['role'] === 'manager' || ($user['role'] === 'employee' && $user['sub'] == $validatedData['employeeId'])) {
             $message = json_encode(['action' => 'update', 'employee' => $validatedData]);
             $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
+            // Xóa cache liên quan đến nhân viên
             $keys = Cache::getRedis()->keys('employees:*');
             foreach ($keys as $key) {
                 Cache::forget($key);
             }
+
             return response()->json($response);
         }
 
@@ -134,11 +140,11 @@ class EmployeeController extends Controller
         $message = json_encode(['action' => 'delete', 'employee_id' => $employee_id]);
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
+        // Xóa cache liên quan đến nhân viên
         $keys = Cache::getRedis()->keys('employees:*');
         foreach ($keys as $key) {
             Cache::forget($key);
         }
-
 
         return response()->json($response);
     }
@@ -161,6 +167,7 @@ class EmployeeController extends Controller
 
         $response = $this->rabbitMQService->sendToEmployeeQueue($message);
 
+        // Xóa cache liên quan đến nhân viên
         Cache::forget("employee:{$employee_id}");
 
         return response()->json($response);
