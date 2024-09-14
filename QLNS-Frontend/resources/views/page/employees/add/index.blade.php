@@ -117,7 +117,7 @@
                                                 <div class="o_cell o_wrap_input flex-grow-1 flex-sm-grow-0 text-break" style="width: 100%;">
                                                     <div class="o_field_widget o_required_modifier o_field_char">
                                                         <input
-                                                            class="o_input" id="phone_number_0" name="phone_number" type="text"
+                                                            class="o_input" id="phone_number_0" name="phoneNumber" type="text"
                                                             autocomplete="off" placeholder="e.g. Brussels"
                                                         >
                                                     </div>
@@ -163,7 +163,7 @@
                                                 style="width: 100%;">
                                                 <div name="phone_number"
                                                     class="o_field_widget o_required_modifier o_field_char">
-                                                    <input class="o_input" id="tax_code_0" type="text" autocomplete="off"name='tax_code'
+                                                    <input class="o_input" id="tax_code_0" type="text" autocomplete="off"name='taxCode'
                                                         placeholder="e.g. Brussels">
                                                 </div>
                                             </div>
@@ -178,7 +178,7 @@
                                                 style="width: 100%;">
                                                 <div name="phone_number"
                                                     class="o_field_widget o_required_modifier o_field_char">
-                                                    <input class="o_input" id="bank_account_0" type="text" autocomplete="off"name='bank_account'
+                                                    <input class="o_input" id="bank_account_0" type="text" autocomplete="off"name='bankAccount'
                                                         placeholder="e.g. Brussels">
                                                 </div>
                                             </div>
@@ -193,7 +193,7 @@
                                                 style="width: 100%;">
                                                 <div name="phone_number"
                                                     class="o_field_widget o_required_modifier o_field_char">
-                                                    <input class="o_input" id="identity_card_0" type="text" autocomplete="off"name='identity_card'
+                                                    <input class="o_input" id="identity_card_0" type="text" autocomplete="off"name='identityCard'
                                                         placeholder="e.g. Brussels">
                                                 </div>
                                             </div>

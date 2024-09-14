@@ -280,7 +280,7 @@ $(document).ready(function () {
         event.preventDefault();
         var formData = $(this).serialize();
         $.ajax({
-            url: "/employees/add",
+            url: "http://127.0.0.1:8000/api/employees",
             method: "POST",
             data: formData,
             headers: {
@@ -288,7 +288,9 @@ $(document).ready(function () {
                 "X-CSRF-TOKEN": csrfToken,
             },
             success: function (response) {
-                // window.location.href = "/employees?type=employee";
+                console.log(response)
+                // if(response.status)
+                //     window.location.href = "/employees?type=employee";
             },
             error: function (xhr) {
                 console.error("Request failed:", xhr.responseText);

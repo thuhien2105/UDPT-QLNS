@@ -10,69 +10,69 @@ use Illuminate\Support\Facades\Http;
 class EmployeeController extends Controller
 {
     use Notification;
-    public function index()
-    {
-        $employees = Employee::all();
-        return response()->json($employees);
-    }
+    // public function index()
+    // {
+    //     $employees = Employee::all();
+    //     return response()->json($employees);
+    // }
 
-    public function show($id)
-    {
-        $employee = Employee::find($id);
+    // public function show($id)
+    // {
+    //     $employee = Employee::find($id);
 
-        if (!$employee) {
-            return response()->json(['message' => 'Employee not found'], 404);
-        }
+    //     if (!$employee) {
+    //         return response()->json(['message' => 'Employee not found'], 404);
+    //     }
 
-        return response()->json($employee);
-    }
+    //     return response()->json($employee);
+    // }
 
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'dob' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:255',
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'dob' => 'required|string|max:255',
+    //         'address' => 'required|string|max:255',
+    //         'phone_number' => 'required|string|max:255',
+    //     ]);
 
-        $employee = Employee::create($validatedData);
+    //     $employee = Employee::create($validatedData);
 
-        return response()->json($employee, 201);
-    }
+    //     return response()->json($employee, 201);
+    // }
 
-    public function update(Request $request, $id)
-    {
-        $employee = Employee::find($id);
+    // public function update(Request $request, $id)
+    // {
+    //     $employee = Employee::find($id);
 
-        if (!$employee) {
-            return response()->json(['message' => 'Employee not found'], 404);
-        }
+    //     if (!$employee) {
+    //         return response()->json(['message' => 'Employee not found'], 404);
+    //     }
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'dob' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:255',
-        ]);
+    //     $validatedData = $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'dob' => 'required|string|max:255',
+    //         'address' => 'required|string|max:255',
+    //         'phone_number' => 'required|string|max:255',
+    //     ]);
 
-        $employee->update($validatedData);
+    //     $employee->update($validatedData);
 
-        return response()->json($employee);
-    }
+    //     return response()->json($employee);
+    // }
 
-    public function destroy($id)
-    {
-        $employee = Employee::find($id);
+    // public function destroy($id)
+    // {
+    //     $employee = Employee::find($id);
 
-        if (!$employee) {
-            return response()->json(['message' => 'Employee not found'], 404);
-        }
+    //     if (!$employee) {
+    //         return response()->json(['message' => 'Employee not found'], 404);
+    //     }
 
-        $employee->delete();
+    //     $employee->delete();
 
-        return response()->json(['message' => 'Employee deleted successfully']);
-    }
+    //     return response()->json(['message' => 'Employee deleted successfully']);
+    // }
 
     public function getFormPage()
     {
