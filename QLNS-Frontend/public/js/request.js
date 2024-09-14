@@ -108,14 +108,17 @@ $(document).ready(function () {
                                 <td class="o_data_cell cursor-pointer o_field_cell o_list_char" tabindex="-1" name="status">
                                     ${request.status ? request.status : ""}
                                 </td>
+                                
                                <td>
-            <button class="btn btn-primary btn-update" data-id="${
-                request.id
-            }">Update</button>
-            <button class="btn btn-danger btn-delete" data-id="${
-                request.id
-            }">Delete</button>
-        </td>
+                                ${
+                                    request.status !== "APPROVED" &&
+                                    request.status !== "REJECTED"
+                                        ? `
+                                    <button class="btn btn-danger btn-delete" data-id="${request.id}">Delete</button>
+                                `
+                                        : ""
+                                }
+                                </td>
                             </tr>
                         `;
 

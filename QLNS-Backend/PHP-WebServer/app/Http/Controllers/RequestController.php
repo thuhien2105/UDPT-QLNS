@@ -28,7 +28,8 @@ class RequestController extends Controller
         $cachedResponse = Cache::get($cacheKey);
 
         if ($cachedResponse) {
-            return response()->json($cachedResponse);
+            // Xóa cache hiện tại trước khi lưu trữ lại cache mới
+            Cache::forget($cacheKey);
         }
 
         $message = json_encode([
@@ -39,6 +40,7 @@ class RequestController extends Controller
         ]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
 
+        // Lưu trữ lại cache mới
         Cache::put($cacheKey, $response, now()->addMinutes(30));
 
         return response()->json($response);
@@ -56,7 +58,8 @@ class RequestController extends Controller
         $cachedResponse = Cache::get($cacheKey);
 
         if ($cachedResponse) {
-            return response()->json($cachedResponse);
+            // Xóa cache hiện tại trước khi lưu trữ lại cache mới
+            Cache::forget($cacheKey);
         }
 
         $message = json_encode([
@@ -68,6 +71,7 @@ class RequestController extends Controller
 
         $response = $this->rabbitMQService->sendToRequestQueue($message);
 
+        // Lưu trữ lại cache mới
         Cache::put($cacheKey, $response, now()->addMinutes(30));
 
         return response()->json($response);
@@ -85,7 +89,8 @@ class RequestController extends Controller
         $cachedResponse = Cache::get($cacheKey);
 
         if ($cachedResponse) {
-            return response()->json($cachedResponse);
+            // Xóa cache hiện tại trước khi lưu trữ lại cache mới
+            Cache::forget($cacheKey);
         }
 
         $message = json_encode([
@@ -97,6 +102,7 @@ class RequestController extends Controller
         ]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
 
+        // Lưu trữ lại cache mới
         Cache::put($cacheKey, $response, now()->addMinutes(30));
 
         return response()->json($response);
@@ -114,7 +120,8 @@ class RequestController extends Controller
         $cachedResponse = Cache::get($cacheKey);
 
         if ($cachedResponse) {
-            return response()->json($cachedResponse);
+            // Xóa cache hiện tại trước khi lưu trữ lại cache mới
+            Cache::forget($cacheKey);
         }
 
         $message = json_encode([
@@ -126,6 +133,7 @@ class RequestController extends Controller
         ]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
 
+        // Lưu trữ lại cache mới
         Cache::put($cacheKey, $response, now()->addMinutes(30));
 
         return response()->json($response);
@@ -139,12 +147,14 @@ class RequestController extends Controller
         $cachedResponse = Cache::get($cacheKey);
 
         if ($cachedResponse) {
-            return response()->json($cachedResponse);
+            // Xóa cache hiện tại trước khi lưu trữ lại cache mới
+            Cache::forget($cacheKey);
         }
 
         $message = json_encode(['action' => 'get_by_id', 'id' => $id]);
         $response = $this->rabbitMQService->sendToRequestQueue($message);
 
+        // Lưu trữ lại cache mới
         Cache::put($cacheKey, $response, now()->addMinutes(30));
 
         return response()->json($response);
@@ -179,14 +189,19 @@ class RequestController extends Controller
             $errorMessage = isset($responseData['message']) ? $responseData['message'] : 'Unknown error occurred';
             return response()->json(['error' => $errorMessage], 400);
         }
+
+        // Xóa cache liên quan đến requests
         $keys = Cache::getRedis()->keys('requests:*');
         foreach ($keys as $key) {
             Cache::forget($key);
         }
+
+        // Xóa cache liên quan đến time_sheets
         $keys = Cache::getRedis()->keys('time_sheets:*');
         foreach ($keys as $key) {
             Cache::forget($key);
         }
+
         return response()->json($responseData, 201);
     }
 
